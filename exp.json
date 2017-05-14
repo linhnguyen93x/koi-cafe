@@ -1,0 +1,29 @@
+{
+  "name": "koi-app",
+  "description": "An empty new project",
+  "slug": "koi-app",
+  "privacy": "public",
+  "sdkVersion": "16.0.0",
+  "version": "1.0.0",
+  "orientation": "portrait",
+  "primaryColor": "#cccccc",
+  "icon": "./assets/icons/app.png",
+  "loading": {
+    "icon": "./assets/icons/loading.png",
+    "hideExponentText": false
+  },
+  "packagerOpts": {
+    "assetExts": ["ttf", "mp4"]
+  },
+  "ios": {
+    "supportsTablet": true,
+    "bundleIdentifier": "com.koi.rn",
+  },
+   "android": {
+     "package": "com.koi.rn",
+   },
+  "androidStatusBar": {
+    "barStyle": "light-content",
+    "backgroundColor": '#1976D2'
+  }
+}
