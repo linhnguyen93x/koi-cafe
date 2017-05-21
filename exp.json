@@ -1,16 +1,16 @@
 {
   "name": "koi-app",
-  "description": "An empty new project",
+  "description": "Koi cafe!",
   "slug": "koi-app",
   "privacy": "public",
-  "sdkVersion": "16.0.0",
+  "sdkVersion": "17.0.0",
   "version": "1.0.0",
   "orientation": "portrait",
-  "primaryColor": "#cccccc",
+  "primaryColor": "#5e461a",
   "icon": "./assets/icons/app.png",
   "loading": {
-    "icon": "./assets/icons/loading.png",
-    "hideExponentText": false
+    "icon": "./assets/icons/koi_logo.png",
+    "hideExponentText": true
   },
   "packagerOpts": {
     "assetExts": ["ttf", "mp4"]
@@ -24,6 +24,6 @@
    },
   "androidStatusBar": {
     "barStyle": "light-content",
-    "backgroundColor": '#1976D2'
+    "backgroundColor": "#5e461a"
   }
 }

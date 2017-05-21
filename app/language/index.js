@@ -71,7 +71,13 @@ language.translations = {
     logout: "Đăng xuất",
     send: "Gửi",
     username: "Tên đăng nhập",
-    password: "Mật khẩu"
+    password: "Mật khẩu",
+    choose: "Chọn",
+    choose_a_month: "Chọn 1 tháng",
+    all: "Tất cả",
+    cat_promotions: "Nhóm chương trình",
+    choose_a_cat: "Chọn 1 nhóm",
+    forget_password: "Quên mật khẩu"
   },
   'vi-VN': {
   	loyalty: 'Khách hàng thân thiết',
@@ -119,7 +125,8 @@ language.translations = {
     choose_a_month: "Chọn 1 tháng",
     all: "Tất cả",
     cat_promotions: "Nhóm chương trình",
-    choose_a_cat: "Chọn 1 nhóm"
+    choose_a_cat: "Chọn 1 nhóm",
+    forget_password: "Quên mật khẩu"
   },
   'en': {
    loyalty: 'Khách hàng thân thiết',
@@ -162,7 +169,13 @@ language.translations = {
     logout: "Đăng xuất",
     send: "Gửi",
     username: "Tên đăng nhập",
-    password: "Mật khẩu"
+    password: "Mật khẩu",
+    choose: "Chọn",
+    choose_a_month: "Chọn 1 tháng",
+    all: "Tất cả",
+    cat_promotions: "Nhóm chương trình",
+    choose_a_cat: "Chọn 1 nhóm",
+    forget_password: "Quên mật khẩu"
   }
 
 }

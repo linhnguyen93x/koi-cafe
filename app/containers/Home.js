@@ -41,7 +41,7 @@ class Home extends Component {
 
 	render() {
 		return <View>
-			<Text style={{ marginTop: 50 }}>{this.state.token}</Text>
+			<Text>{this.state.token}</Text>
 		</View>
 	}
 }

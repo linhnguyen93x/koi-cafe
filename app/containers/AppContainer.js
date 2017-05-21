@@ -7,6 +7,7 @@ import { Router, Scene, Reducer, Actions } from 'react-native-router-flux'
 import * as Constants from './Constant'
 import { FontAwesome as Icon }  from '@expo/vector-icons'
 import { Colors } from '../style'
+import { Color, globalStyle } from '../style'
 
 const {
 	ActivityIndicator,
@@ -16,6 +17,7 @@ const {
 	Image,
 	View,
 	Text,
+    Platform
 } = ReactNative
 
 const RouterWithRedux = connect()(Router);
@@ -49,7 +51,13 @@ class AppContainer extends Component {
 				drawerImage={require('../../assets/icons/menu_burger_white.png')}  >
 				<Scene key="drawer" component={Constants.NavigationDrawer} open={true}>
 					<Scene key="root">
-						<Scene key="home" component={Constants.Home} initial={true} title="Home" />
+                        <Scene key="login" 
+                            component={Constants.Login} 
+                            initial={true} title="Login" 
+                            onRight={null} 
+                            renderRightButton={ () => { return <View></View> } }
+                            navigationBarStyle={styles.navBarLogin}  />
+						<Scene key="home" sceneStyle={globalStyle.headerHeight}  component={Constants.Home} title="Home" />
 					</Scene>
 				</Scene>
 			</RouterWithRedux>
@@ -58,8 +66,12 @@ class AppContainer extends Component {
 
 const styles = StyleSheet.create({
 	navBar: {
-		backgroundColor: Colors.colorPrimary
+		backgroundColor: Colors.colorPrimary,
 	},
+    navBarLogin: {
+        backgroundColor: 'transparent',
+        borderBottomColor: 'transparent'
+    },
 	navBarTitle: {
 		color: '#FFFFFF',
 	},

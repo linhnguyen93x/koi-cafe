@@ -7,7 +7,9 @@ export default Colors = {
 	light_grey: '#DDDDDD',
 	fcv_color: '#00AEEF',
 	colorPrimary: '#2196F3',
-	colorPrimaryDark: '#1976D2',
+	colorPrimaryDark: '#5e461a',
 	status_bar: '#3B6299',
-	primaryGreen: '#99FFCC'
+	primaryGreen: '#99FFCC',
+	koi_container: '#2b2a2a',
+	button_text_color: '#593550'
 }

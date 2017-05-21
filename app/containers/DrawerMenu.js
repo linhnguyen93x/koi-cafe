@@ -36,6 +36,7 @@ const DrawerMenu = (props, context) => {
   }
 
   function logout() {
+    Actions.login({ type: "reset" }); // Delete with real data
     // props.logout().then(() => {
     //   clearData();
     // });
