@@ -19,6 +19,9 @@ const globalStyle = StyleSheet.create({
 	},
 	loginPaddingImage: {
 		marginTop: Platform.OS === 'ios'? 80 : 70
+	},
+	mainMarginTop: {
+		marginTop: Platform.OS === 'ios'? 64 : 54
 	}
 });
 

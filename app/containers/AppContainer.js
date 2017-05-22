@@ -41,7 +41,7 @@ class AppContainer extends Component {
 				{...this.props}
 				animationStyle={animationStyle}
 				duration={0.5}
-				navigationBarStyle={styles.navBar}
+				navigationBarStyle={styles.navBarLogin}
 				titleStyle={styles.navBarTitle}
 				barButtonTextStyle={styles.barButtonTextStyle}
 				barButtonIconStyle={styles.barButtonIconStyle}
@@ -56,8 +56,8 @@ class AppContainer extends Component {
                             initial={true} title="Login" 
                             onRight={null} 
                             renderRightButton={ () => { return <View></View> } }
-                            navigationBarStyle={styles.navBarLogin}  />
-						<Scene key="home" sceneStyle={globalStyle.headerHeight}  component={Constants.Home} title="Home" />
+                            />
+						<Scene key="home" component={Constants.Home} title="Home" />
 					</Scene>
 				</Scene>
 			</RouterWithRedux>
