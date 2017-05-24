@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableNativeFeedback } from 'react-native'
 import registerForPushNotificationsAsync from '../utils/PushNotificationUtils';
 import Expo, {
-  Notifications,
+	Notifications,
 } from 'expo';
 import { Colors, globalStyle } from '../style'
+import { FontAwesome as Icon } from '@expo/vector-icons'
+import * as language from '../language'
+
 
 var _notificationSubscription;
 
@@ -26,7 +29,7 @@ class Home extends Component {
 				token: item
 			})
 		});
-		
+
 
 		// Handle notifications that are received or selected while the app
 		// is open. If the app was closed and then opened by tapping the
@@ -41,16 +44,49 @@ class Home extends Component {
 	};
 
 	render() {
-		return <Image style={[styles.imgContainer, globalStyle.container]}
+		return <Image style={[styles.imgContainer, globalStyle.container, globalStyle.mainPaddingTop]}
 			source={require('../../assets/backgrounds/main_bg.png')}
 			resizeMode={Image.resizeMode.cover} >
-			<View style={[globalStyle.mainMarginTop]}>
-				<Text>{this.state.token}</Text>
-			</View>
+			<TouchableNativeFeedback
+				onPress={this._onPressButton}
+				background={TouchableNativeFeedback.SelectableBackground()}>
+				<View style={styles.bgItem}>
+					<Image
+						style={styles.icon}
+						source={require('../../assets/icons/update_ip.png')}
+						resizeMode="cover" />
+					<Text style={styles.menuText}>{language.get('update_ip')}</Text>
+					<Icon style={styles.arrow} name="chevron-right" size={25} color="white" />
+				</View>
+			</TouchableNativeFeedback>
+			<TouchableNativeFeedback
+				onPress={this._onPressButton}
+				background={TouchableNativeFeedback.SelectableBackground()}>
+				<View style={styles.bgItem}>
+					<Image
+						style={styles.icon}
+						source={require('../../assets/icons/view_list.png')}
+						resizeMode="cover" />
+					<Text style={styles.menuText}>{language.get('view_list_employee')}</Text>
+					<Icon style={styles.arrow} name="chevron-right" size={25} color="white" />
+				</View>
+			</TouchableNativeFeedback>
+			<TouchableNativeFeedback
+				onPress={this._onPressButton}
+				background={TouchableNativeFeedback.SelectableBackground()}>
+				<View style={styles.bgItem}>
+					<Image
+						style={styles.icon}
+						source={require('../../assets/icons/request_leave.png')}
+						resizeMode="cover" />
+					<Text style={styles.menuText}>{language.get('request_off')}</Text>
+					<Icon style={styles.arrow} name="chevron-right" size={25} color="white" />
+				</View>
+			</TouchableNativeFeedback>
 
-			<View style={styles.container} />
-		</Image> 
-		
+
+		</Image>
+
 	}
 }
 
@@ -63,7 +99,7 @@ const styles = StyleSheet.create({
 		width: undefined,
 		height: undefined,
 		backgroundColor: 'transparent',
-		justifyContent: 'flex-start',
+		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	contentSection: {
@@ -84,10 +120,29 @@ const styles = StyleSheet.create({
 	title: {
 		color: 'white',
 		textAlign: 'center',
-
 		paddingBottom: 8,
 		fontSize: 20,
 		fontWeight: 'bold'
+	},
+	bgItem: {
+		flexDirection: 'row',
+		backgroundColor: Colors.colorPrimaryDark,
+		alignSelf: 'stretch',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		padding: 16,
+		marginVertical: 2
+	}, icon: {
+		width: 40,
+		height: 40,
+	},
+	menuText: {
+		flex: 1,
+		color: 'white',
+		marginHorizontal: 8
+	},
+	arrow: {
+		marginTop: 4
 	}
 });
 

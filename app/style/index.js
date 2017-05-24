@@ -22,6 +22,9 @@ const globalStyle = StyleSheet.create({
 	},
 	mainMarginTop: {
 		marginTop: Platform.OS === 'ios'? 64 : 54
+	},
+	mainPaddingTop: {
+		paddingTop: Platform.OS === 'ios'? 64 : 54
 	}
 });
 
