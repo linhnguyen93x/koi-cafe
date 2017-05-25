@@ -13,17 +13,25 @@
     "hideExponentText": true
   },
   "packagerOpts": {
-    "assetExts": ["ttf", "mp4"]
+    "assetExts": [
+      "ttf",
+      "mp4"
+    ]
   },
   "ios": {
     "supportsTablet": true,
-    "bundleIdentifier": "com.koi.rn",
+    "bundleIdentifier": "com.koi.rn"
   },
-   "android": {
-     "package": "com.koi.rn",
-   },
+  "android": {
+    "package": "com.koi.rn"
+  },
   "androidStatusBar": {
     "barStyle": "light-content",
     "backgroundColor": "#5e461a"
+  },
+  "isDetached": true,
+  "detach": {
+    "scheme": "exp723a140dee9349f1ac642821ad75c2b4",
+    "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v1.16.0-sdk17.0.0-ba8961fb-8d54-4046-b669-0e1c781279d1.tar.gz"
   }
 }
