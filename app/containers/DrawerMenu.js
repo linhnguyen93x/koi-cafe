@@ -22,13 +22,20 @@ const DrawerMenu = (props, context) => {
 
   async function clearData() {
     try {
+      // clear app key for user
+      let keys = ["id_token", "user"];
+
+      AsyncStorage.multiRemove(keys, (err) => {
+        // keys k1 & k2 removed, if they existed
+        // do most stuff after removal (if you want)
+      });
+
       await AsyncStorage.clear();
       Actions.login({ type: "reset" });
     } catch (error) {
       console.log('AsyncStorage error: ' + error.message);
     }
   }
-
   function openChooseOutlet() {
 
     // drawer.close(); 
@@ -36,10 +43,9 @@ const DrawerMenu = (props, context) => {
   }
 
   function logout() {
-    Actions.login({ type: "reset" }); // Delete with real data
-    // props.logout().then(() => {
-    //   clearData();
-    // });
+      props.logout().then(() => {
+        clearData();
+      });
 
   }
 
@@ -83,29 +89,9 @@ const DrawerMenu = (props, context) => {
 
           <Text style={styles.ttNav}>Chức năng chính</Text>
           <View style={styles.lineNav}>
-            <Button style={styles.btn} onPress={() => { drawer.close(); Actions.userProfile({ type: 'reset' }); }}>
+            <Button style={styles.btn} onPress={() => { drawer.close(); }}>
               <Icon style={styles.navIcon} name="user" size={18} color="white" />
               <Text style={styles.navText}>Trang cá nhân</Text>
-            </Button>
-          </View>
-          <View style={styles.lineNav}>
-            <Button style={styles.btn} onPress={() => { drawer.close(); Actions.outlets({ type: 'reset' }); }}>
-              <Icon style={styles.navIcon} name="list" size={18} color="white" />
-              <Text style={styles.navText}>Danh sách cửa hàng</Text>
-            </Button>
-          </View>
-          
-          <View style={styles.lineNav}>
-            <Button style={styles.btn} onPress={() => { drawer.close(); Actions.programCatList({ type: 'reset' }); }}>
-              <Icon style={styles.navIcon} name="list-ol" size={18} color="white" />
-              <Text style={styles.navText}>Danh sách CTKM</Text>
-            </Button>
-          </View>
-          
-          <View style={styles.lineNav}>
-            <Button style={styles.btn} onPress={() => { drawer.close(); Actions.programList({ type: 'reset', title: 'Samplings' }); }}>
-              <Icon style={styles.navIcon} name="list-alt" size={18} color="white" />
-              <Text style={styles.navText}>Danh sách chương trình Sampling</Text>
             </Button>
           </View>
 

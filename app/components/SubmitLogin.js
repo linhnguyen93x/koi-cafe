@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
 import * as language from '../language'
 import { Colors, globalStyle } from '../style'
+import Api from '../libs/api'
 
 // All Component react for render view
 const {
@@ -34,59 +35,44 @@ class SubmitLogin extends Component {
 	}
 
 	async saveItem(item, selectedValue) {
-    	// try {
-     //  		await AsyncStorage.setItem(item, selectedValue);
-    	// } catch (error) {
-     //  		console.error('AsyncStorage error: ' + error.message);
-    	// }
+    	try {
+      		await AsyncStorage.setItem(item, selectedValue);
+    	} catch (error) {
+      		console.error('AsyncStorage error: ' + error.message);
+    	}
  	}
 
 	userLogin() {
-		Actions.home({type: "reset"});
-		// console.log(this.state.username, this.state.password);
+		if (!this.state.username || !this.state.password) {
+			Alert.alert('Đăng nhập thất bại!', 'Vui lòng nhập đầy đủ thông tin');
+			return;
+		}
 
-		// if (!this.state.username || !this.state.password) {
-		// 	Alert.alert('Đăng nhập thất bại!', 'Vui lòng nhập đầy đủ thông tin');
-		// 	return;
-		// }
-
-		// // Call Api...
-		// this.setState({buttonText: "Đang kết nối..."})
-		// this.props.login(this.state.username, this.state.password).then( () => {
-		// 	if (!this.props.loginFail) {
-		// 			Storage.saveItem('id_token', this.props.info.jwt).then( () => {
-		// 				Api.setToken(this.props.info.jwt);
-		// 				mapApi.setToken(this.props.info.jwt);
-		// 				Actions.outlets({type: "reset"});
-		// 				// if (this.props.info.gpsTracking == 1) {
+		// Call Api... actions/login.js
+		this.setState({buttonText: "Đang kết nối..."})
+		this.props.login(this.state.username, this.state.password).then( () => {
+			if (!this.props.loginFail) {
+					AsyncStorage.setItem('id_token', this.props.info.token_type + " " + this.props.info.access_token).then( () => {
+						Api.setToken(this.props.info.token_type + " " + this.props.info.access_token);
+						Actions.home({type: "reset"});
+						// if (this.props.info.gpsTracking == 1) {
 							
-		// 				// } else {
-		// 				// 	Actions.GPSregister({type: "reset"});
-		// 				// }
+						// } else {
+						// 	Actions.GPSregister({type: "reset"});
+						// }
 						
-		// 			} );
-		// 			Storage.saveItem('user', JSON.stringify(this.props.info));
-		// 			this._registerFCM();
-		// 			// Alert.alert('Login Success!', 'Click the button to get a Chuck Norris quote!');
+					} );
+					AsyncStorage.setItem('user', JSON.stringify(this.props.info));
+					// Alert.alert('Login Success!', 'Click the button to get a Chuck Norris quote!');
 					
-		// 	} else {
-		// 		this.setState({buttonText: "Đăng nhập"})
-		// 		Alert.alert('Đăng nhập thất bại!', 'Vui lòng đăng nhập lại');
-		// 	}
-		// } );
+			} else {
+				this.setState({buttonText: "Đăng nhập"})
+				Alert.alert('Đăng nhập thất bại!', 'Vui lòng đăng nhập lại');
+			}
+		} );
 		
 	}
 
-	async _registerFCM() {
-	  	// let fcmToken = await AsyncStorage.getItem('registeredFCM');
-	  	// 	if (fcmToken != null) {
-	  	// 		this.props.registerFCM(fcmToken).then( () => {
-	   //   			console.log('Register success');
-	   //   		} );
-	  	// 	}
-	        	
-	     		
-  	}
 
 	render() {
 
@@ -177,7 +163,6 @@ function mapStateToProps(state) {
 	return {
 		info: state.info,
 		loginFail: state.loginFail,
-		fcmStatus: state.fcmStatus
 	}
 }
 

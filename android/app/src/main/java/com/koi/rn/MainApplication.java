@@ -3,6 +3,7 @@ package com.koi.rn;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactPackage;
+import com.koi.rn.nativemodule.NetworkPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,8 @@ public class MainApplication extends MultiDexApplication {
         // TODO: add cool native modules
 
         // Needed for `react-native link`
-        // new MainReactPackage()
+//         new MainReactPackage(),
+            new NetworkPackage()
     );
   }
 }

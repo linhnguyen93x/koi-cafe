@@ -25,6 +25,11 @@ const globalStyle = StyleSheet.create({
 	},
 	mainPaddingTop: {
 		paddingTop: Platform.OS === 'ios'? 64 : 54
+	},
+	divider: {
+		borderWidth: 0.5,
+		borderColor: '#DDDDDD',
+		alignSelf: 'stretch'
 	}
 });
 

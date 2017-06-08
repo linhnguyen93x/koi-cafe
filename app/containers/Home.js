@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet, TouchableNativeFeedback } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableNativeFeedback, NativeModules  } from 'react-native'
+import { Actions } from 'react-native-router-flux'
 import registerForPushNotificationsAsync from '../utils/PushNotificationUtils';
 import Expo, {
 	Notifications,
@@ -8,6 +9,7 @@ import { Colors, globalStyle } from '../style'
 import { FontAwesome as Icon } from '@expo/vector-icons'
 import * as language from '../language'
 
+const NetworkInfo = NativeModules.NetworkInfo;
 
 var _notificationSubscription;
 
@@ -22,6 +24,14 @@ class Home extends Component {
 	}
 
 	componentWillMount() {
+		NetworkInfo.getIPAddress( (err) => {
+			console.log(err);
+		}, 
+		(ip) => {
+			Actions.refresh({title: ip});
+			console.log(ip);
+		});
+
 		registerForPushNotificationsAsync();
 
 		let newToken = Notifications.getExponentPushTokenAsync().then(item => {
@@ -60,7 +70,7 @@ class Home extends Component {
 				</View>
 			</TouchableNativeFeedback>
 			<TouchableNativeFeedback
-				onPress={this._onPressButton}
+				onPress={() => Actions.employeeList()}
 				background={TouchableNativeFeedback.SelectableBackground()}>
 				<View style={styles.bgItem}>
 					<Image

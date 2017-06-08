@@ -7,7 +7,7 @@ const {
   AsyncStorage,
 } = ReactNative
 
-const baseUrl = 'http://eshopper.fcv-etools.com';
+const baseUrl = 'http://123.31.26.53:8066';
 
 
 class Api {
@@ -18,7 +18,6 @@ class Api {
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'appVersion': '1.0',
       'Authorization': this.token,
     }
   }
@@ -35,6 +34,10 @@ class Api {
     return this.xhr(route, params, 'POST');
   }
 
+  static postRaw(route, params) {
+    return this.xhr(route, params, 'POST', true);
+  }
+
   static delete(route, params) {
     return this.xhr(route, params, 'DELETE');
   }
@@ -47,10 +50,12 @@ class Api {
     return baseUrl;
   }
 
-  static xhr(route, params, verb) {
+  static xhr(route, params, verb, raw) {
     const host = baseUrl;
     const url = `${host}${route}`;
-    let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null);
+    let options = Object.assign({ method: verb }, (params && !raw) ?
+       { body: JSON.stringify(params) } : raw ?
+        { body: params } : null);
     options.headers = Api.headers();
     return fetch(url, options).then(resp => {
       let json = resp.json();
