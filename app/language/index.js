@@ -81,7 +81,10 @@ language.translations = {
     update_ip: 'Cập nhật các IP được phép check in/out',
     view_list_employee: "Xem danh sách nhân viên",
     view_list_employee: "Xem danh sách nhân viên",
-    request_off: 'Yêu cầu xin nghỉ'
+    request_off: 'Yêu cầu xin nghỉ',
+    info: "Thông tin",
+    total_work_hour: "Tổng số giờ công",
+    detail_salary: "Chi tiết bảng lương",
   },
   'en': {
    loyalty: 'Khách hàng thân thiết',
@@ -133,7 +136,11 @@ language.translations = {
     forget_password: "Quên mật khẩu",
     update_ip: 'Cập nhật các IP được phép check in/out',
     view_list_employee: "Xem danh sách nhân viên",
-    request_off: 'Yêu cầu xin nghỉ'
+    request_off: 'Yêu cầu xin nghỉ',
+    info: "Thông tin",
+    total_work_hour: "Tổng số giờ công",
+    detail_salary: "Chi tiết bảng lương",
+    
   }
 
 }

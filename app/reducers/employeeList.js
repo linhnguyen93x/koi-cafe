@@ -11,23 +11,26 @@ const initialState = Map({
 
 export const employeeList = createReducer(initialState, {
 	[types.SET_CHANGE_LOADING](state, action) {
-		return state.withMutations( (ctx) => {
+		return state.withMutations((ctx) => {
 			ctx.set('isLoading', true);
-		} );
+		});
 	},
 	[types.SET_EMPLOYEE_LIST](state, action) {
-		if (action.result.isError) {
-			return null;
+		let returnList = List([]);
+
+		if (!action.result.isError) {
+			let oldList = state.get('data');
+			let newList = List(fromJS(action.result.data.DuLieu));
+			returnList = oldList.concat(newList);
 		}
 
-		let oldList = state.get('data');
-		let newList = List(fromJS(action.result.data.DuLieu));
-		let returnList = oldList.concat(newList);
-
-		return state.withMutations( (ctx) => {
+		return state.withMutations((ctx) => {
 			ctx.set('data', returnList)
 				.set('isEnd', true)
 				.set('isLoading', false);
-		} );
+		});
+	},
+	[types.RESET_EMPLOYEE_LIST](state, action) {
+		return initialState;
 	}
 });

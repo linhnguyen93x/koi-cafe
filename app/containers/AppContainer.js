@@ -74,7 +74,7 @@ class AppContainer extends Component {
     }
 
     render() {
-         if (!this.state.isLoaded) {
+        if (!this.state.isLoaded) {
             return (
                 <ActivityIndicator />
             )
@@ -103,6 +103,7 @@ class AppContainer extends Component {
                     />
                     <Scene key="home" component={Constants.Home} title="Home" initial={this.state.hasToken} />
                     <Scene key="employeeList" component={Constants.EmployeeList} title="Danh sách nhân viên" />
+                    <Scene key="employeeMenu" component={Constants.EmployeeMenu} title="Danh sách nhân viên" />
                 </Scene>
             </Scene>
         </RouterWithRedux>

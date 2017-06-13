@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import ReactNative from 'react-native'
 import Expo, {
 
 } from 'expo';
+import { Actions } from 'react-native-router-flux'
 import { Colors, globalStyle } from '../../style'
 import * as language from '../../language'
 import { FontAwesome as Icon } from '@expo/vector-icons'
@@ -15,7 +16,7 @@ const {
 	TouchableOpacity
 } = ReactNative
 
-class EmployeeItem extends Component {
+class EmployeeItem extends PureComponent {
 	constructor(props) {
 		super(props);
 	}
@@ -29,7 +30,7 @@ class EmployeeItem extends Component {
 				<Text style={ styles.name }>{ this.props.item.get('HoTen') }</Text>
 				<TouchableOpacity
 					activeOpacity={.5}
-					onPress={ () => {} }>
+					onPress={ () => { Actions.employeeMenu({ title: this.props.item.get('HoTen'), item: this.props.item }) } }>
 						<View style={ styles.button }>
 							<Text style={ styles.text }>Chi tiết</Text>
 						</View>
@@ -42,7 +43,7 @@ class EmployeeItem extends Component {
 // Css for each view
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		height: 60,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

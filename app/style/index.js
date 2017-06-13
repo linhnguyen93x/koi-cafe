@@ -30,7 +30,14 @@ const globalStyle = StyleSheet.create({
 		borderWidth: 0.5,
 		borderColor: '#DDDDDD',
 		alignSelf: 'stretch'
-	}
+	},
+	imgContainer: {
+		flex: 1,
+		width: undefined,
+		height: undefined,
+		backgroundColor: 'transparent',
+		
+	},
 });
 
 export {

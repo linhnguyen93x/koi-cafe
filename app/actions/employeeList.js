@@ -45,3 +45,16 @@ export function setChangeLoading() {
         type: types.SET_CHANGE_LOADING
     }
 }
+
+
+export function resetEmployeeList() {
+	return (dispatch, getState) => {
+		return new Promise((resolve, reject) => {
+			resolve();
+		}).then(() => {
+			dispatch({
+				type: types.RESET_EMPLOYEE_LIST
+			});
+		});
+	};
+}

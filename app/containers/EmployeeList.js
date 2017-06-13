@@ -72,7 +72,7 @@ class EmployeeList extends Component {
 	}
 
 	componentWillUnmount() {
-		// this.props.resetNumberList();
+		this.props.resetEmployeeList();
 	}
 
 
@@ -81,9 +81,6 @@ class EmployeeList extends Component {
 			source={require('../../assets/backgrounds/main_bg.png')}
 			resizeMode={Image.resizeMode.cover} >
 			{/*FlatList */}
-			{this.props.employeeList == null ||
-				this.props.employeeList.get("data").count == 0
-				? <NoData /> :
 				<FlatList
 					keyExtractor={this._keyExtractor}
 					style={[styles.list]}
@@ -91,12 +88,17 @@ class EmployeeList extends Component {
 					renderItem={this.renderListItem}
 					onEndReached={(info) => this._loadMore(info)}
 					initialNumToRender={10}
+					getItemLayout={(data, index) => ({
+	                  length: 60,
+	                  offset: 61 * index,
+	                  index
+	                })}
 					ItemSeparatorComponent={SeperatorComponent}
-					ListFooterComponent={this.props.employeeList.get("isLoading")
+					ListFooterComponent={!this.props.employeeList.get("isEnd")
 						? FooterComponent
 						: null}
 				/>
-			}
+			
 		</Image>
 
 	}
