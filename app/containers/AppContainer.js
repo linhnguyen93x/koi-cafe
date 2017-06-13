@@ -46,7 +46,7 @@ class AppContainer extends Component {
     }
 
     componentWillMount() {
-        this.getSetting();
+      	this.getSetting();
     }
 
     async getSetting() {

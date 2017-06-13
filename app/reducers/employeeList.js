@@ -19,7 +19,8 @@ export const employeeList = createReducer(initialState, {
 		let returnList = List([]);
 
 		if (!action.result.isError) {
-			let oldList = state.get('data');
+			// let oldList = state.get('data');
+			let oldList = List([]);
 			let newList = List(fromJS(action.result.data.DuLieu));
 			returnList = oldList.concat(newList);
 		}
