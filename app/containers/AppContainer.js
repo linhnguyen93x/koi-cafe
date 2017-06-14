@@ -104,6 +104,7 @@ class AppContainer extends Component {
                     <Scene key="home" component={Constants.Home} title="Home" initial={this.state.hasToken} />
                     <Scene key="employeeList" component={Constants.EmployeeList} title="Danh sách nhân viên" />
                     <Scene key="employeeMenu" component={Constants.EmployeeMenu} title="Danh sách nhân viên" />
+										<Scene key="checkInOut" component={Constants.CheckInOut} title="Check In/Check out" />
                 </Scene>
             </Scene>
         </RouterWithRedux>

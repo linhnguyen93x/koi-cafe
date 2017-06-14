@@ -107,7 +107,7 @@ class Home extends Component {
       this.state.user.ChucVu.toUpperCase().trim() ===
       AppConstants.ROLE_NHAN_VIEN
     ) {
-			functionByRole = [
+      functionByRole = [
         {
           key: 0,
           text: language.get("checkIn_checkOut"),
@@ -120,7 +120,7 @@ class Home extends Component {
           image: require("../../assets/icons/view_list.png"),
           type: "employeeInfo"
         }
-			]
+      ];
     }
     return functionByRole;
   };
@@ -130,6 +130,9 @@ class Home extends Component {
       case "listEmployee":
         Actions.employeeList();
 
+        break;
+      case "checkInOut":
+        Actions.checkInOut();
         break;
       default:
     }
