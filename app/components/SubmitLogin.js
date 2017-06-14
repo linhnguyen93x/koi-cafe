@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import * as language from "../language";
 import { Colors, globalStyle } from "../style";
 import Api from "../libs/api";
+import KoiApi from "../libs/koiApi";
 
 // All Component react for render view
 const {
@@ -57,23 +58,25 @@ class SubmitLogin extends Component {
           Api.setToken(
             this.props.info.token_type + " " + this.props.info.access_token
           );
+          KoiApi.setToken(
+            this.props.info.token_type + " " + this.props.info.access_token
+          );
 
           this.props.fetchEmployeeList().then(() => {
             if (
               this.props.employeeList.get("data") != null &&
               this.props.employeeList.get("data").count() > 0
             ) {
-              let userLogin = this.props.employeeList.get("data").first().toJS();
-							AsyncStorage.setItem("user", JSON.stringify(userLogin));
-							Actions.home({ type: "reset" });
+              let userLogin = this.props.employeeList
+                .get("data")
+                .first()
+                .toJS();
+              AsyncStorage.setItem("user", JSON.stringify(userLogin));
+              Actions.home({ type: "reset" });
             } else {
-							Actions.logout();
-						}
-
-
+              Actions.logout();
+            }
           });
-
-
         });
 
         // Alert.alert('Login Success!', 'Click the button to get a Chuck Norris quote!');

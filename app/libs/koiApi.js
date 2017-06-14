@@ -7,17 +7,15 @@ const {
   AsyncStorage,
 } = ReactNative
 
-const baseUrl = 'http://123.31.26.53:8066';
+const baseUrl = 'http://checkin.koithe.vn';
 
 
-class Api {
+class KoiApi {
   token = null;
-
 
   static headers() {
     return {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': this.token,
     }
   }
@@ -56,7 +54,7 @@ class Api {
     let options = Object.assign({ method: verb }, (params && !raw) ?
        { body: JSON.stringify(params) } : raw ?
         { body: params } : null);
-    options.headers = Api.headers();
+    options.headers = KoiApi.headers();
     return fetch(url, options).then(resp => {
       let json = resp.json();
       if (resp.ok) {
@@ -67,4 +65,4 @@ class Api {
   }
 }
 
-export default Api
+export default KoiApi

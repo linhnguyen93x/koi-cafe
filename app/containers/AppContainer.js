@@ -9,6 +9,7 @@ import { FontAwesome as Icon } from '@expo/vector-icons'
 import { Colors } from '../style'
 import { Color, globalStyle } from '../style'
 import Api from '../libs/api'
+import KoiApi from '../libs/koiApi'
 
 const {
 	ActivityIndicator,
@@ -56,6 +57,7 @@ class AppContainer extends Component {
         if (tokenId != null && user != null && user.length > 0) {
             user = JSON.parse(user);
             Api.setToken(tokenId);
+						KoiApi.setToken(tokenId);
 
             this.setState({
                 ...this.state,
@@ -104,6 +106,7 @@ class AppContainer extends Component {
                     <Scene key="home" component={Constants.Home} title="Home" initial={this.state.hasToken} />
                     <Scene key="employeeList" component={Constants.EmployeeList} title="Danh sách nhân viên" />
                     <Scene key="employeeMenu" component={Constants.EmployeeMenu} title="Danh sách nhân viên" />
+										<Scene key="personalInfo" component={Constants.PersonalInfo} title="Trang cá nhân" />
 										<Scene key="checkInOut" component={Constants.CheckInOut} title="Check In/Check out" />
                 </Scene>
             </Scene>

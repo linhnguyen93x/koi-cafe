@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../style";
@@ -25,6 +26,13 @@ class CheckInOut extends Component {
         width: null
       }
     };
+  }
+
+  async componentWillMount() {
+    let user = JSON.parse(await AsyncStorage.getItem('user'));
+    
+    /* actions/checkInOut */
+    this.props.getUserOutlet(user.MaCuaHang);
   }
 
   onLayout(event) {

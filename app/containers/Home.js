@@ -9,6 +9,7 @@ import {
   AsyncStorage,
   TouchableOpacity
 } from "react-native";
+import Immutable, { Map, fromJS } from 'immutable'
 import { Actions } from "react-native-router-flux";
 import registerForPushNotificationsAsync from "../utils/PushNotificationUtils";
 import Expo, { Notifications, AppLoading } from "expo";
@@ -133,6 +134,12 @@ class Home extends Component {
         break;
       case "checkInOut":
         Actions.checkInOut();
+        break;
+      case "employeeInfo":
+        Actions.employeeMenu({
+          title: this.state.user.HoTen,
+          item: Map(this.state.user)
+        });
         break;
       default:
     }
