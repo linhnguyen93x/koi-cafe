@@ -58,9 +58,9 @@ class SubmitLogin extends Component {
           Api.setToken(
             this.props.info.token_type + " " + this.props.info.access_token
           );
-          KoiApi.setToken(
-            this.props.info.token_type + " " + this.props.info.access_token
-          );
+          // KoiApi.setToken(
+          //   this.props.info.token_type + " " + this.props.info.access_token
+          // );
 
           this.props.fetchEmployeeList().then(() => {
             if (

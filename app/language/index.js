@@ -1,7 +1,6 @@
 import language from 'ex-react-native-i18n'
 
 language.fallbacks = true
-let languageCode = language.locale.substr(0,2);
 
 language.translations = {
 
@@ -85,3 +84,8 @@ export const get = (key) => {
 export const getLocale = () => {
   return language.locale;
 };
+
+export const setLocale = (item) => {
+    let languageCode = item.substr(0,2);
+    language.locale = languageCode;
+}

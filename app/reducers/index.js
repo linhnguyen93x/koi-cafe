@@ -4,11 +4,13 @@ import * as NavigationReducer from './navigation'
 import * as routes from './routes'
 import * as EmployeeListReducer from './employeeList'
 import * as LoginReducer from './login'
+import * as CheckInOutReducer from './checkInOut'
 
 const appReducer = combineReducers(Object.assign(
 	routes,
 	EmployeeListReducer,
-	LoginReducer
+	LoginReducer,
+	CheckInOutReducer
 ));
 
 const rootReducer = (state, action) => {

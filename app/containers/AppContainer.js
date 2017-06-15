@@ -57,7 +57,7 @@ class AppContainer extends Component {
         if (tokenId != null && user != null && user.length > 0) {
             user = JSON.parse(user);
             Api.setToken(tokenId);
-						KoiApi.setToken(tokenId);
+						// KoiApi.setToken(tokenId);
 
             this.setState({
                 ...this.state,

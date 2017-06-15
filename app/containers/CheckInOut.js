@@ -10,11 +10,15 @@ import {
   AsyncStorage
 } from "react-native";
 import { Actions } from "react-native-router-flux";
+import { connect } from "react-redux";
 import { Colors, globalStyle } from "../style";
 import { FontAwesome as Icon } from "@expo/vector-icons";
 import * as language from "../language";
+import moment from "moment";
+import vimoment from "moment/locale/vi";
 
 const { width, height } = Dimensions.get("window");
+const deviceLocale = language.getLocale();
 
 class CheckInOut extends Component {
   constructor(props) {
@@ -24,15 +28,23 @@ class CheckInOut extends Component {
       heightMenu: {
         height: null,
         width: null
-      }
+      },
+      time: moment().format("h:mm")
     };
+
+    this._interval = null;
   }
 
   async componentWillMount() {
-    let user = JSON.parse(await AsyncStorage.getItem('user'));
-    
+    moment.updateLocale("vi", vimoment);
+    let user = JSON.parse(await AsyncStorage.getItem("user"));
+
     /* actions/checkInOut */
-    this.props.getUserOutlet(user.MaCuaHang);
+    this.props.getUserOutlet(user.MaCuaHang).then(() => {
+      if (!this.props.employeeOutletInfo.get("isError")) {
+        this.props.getIpOutlet(this.props.employeeOutletInfo.get("data"));
+      }
+    });
   }
 
   onLayout(event) {
@@ -46,11 +58,19 @@ class CheckInOut extends Component {
     this.setState({ heightMenu: newLayout });
   }
 
+  componentDidMount() {
+    this._interval = setInterval(
+      () => this.setState({ ...this.state, time: moment().format("h:mm") }),
+      10000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._interval);
+  }
+
   render() {
-    const borderRadius = this.state.heightMenu.width <=
-      this.state.heightMenu.height
-      ? this.state.heightMenu.width / 2
-      : this.state.heightMenu.height / 2;
+    const borderRadius = this.state.heightMenu.width / 2;
     const checkLayout = {
       borderRadius: borderRadius
     };
@@ -67,43 +87,54 @@ class CheckInOut extends Component {
       >
         {/*Logo Section*/}
         <View style={[styles.contentSection]}>
-          <Image
-            source={{
-              uri:
-                "https://s-media-cache-ak0.pinimg.com/236x/2e/56/a1/2e56a1d72c817e63bb74f6cb1b7636eb.jpg"
-            }}
-            style={styles.logo}
-          />
-          <Text style={styles.name}>Đồng hồ</Text>
-          <Text style={styles.role}>Thông tin</Text>
+          <Text style={styles.name}>{this.state.time}</Text>
+          <Text style={styles.role}>
+            {this.props.employeeOutletInfo.get("data") != null
+              ? moment(new Date()).format("ll") +
+                  ", " +
+                  this.props.employeeOutletInfo.get("data").tencuahang
+              : ""}
+          </Text>
         </View>
         <View
-          style={[styles.menuContainer, checkLayout]}
+          style={[styles.menuContainer]}
           onLayout={event => {
             this.onLayout(event);
           }}
         >
-
           <View
             style={{
-              backgroundColor: Colors.colorPrimaryDark,
-              width: this.state.heightMenu.width - 36,
-              height: this.state.heightMenu.height - 36,
-              borderRadius: borderRadius,
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderColor: Colors.colorPrimaryDark,
+              borderRadius: borderRadius,
+              padding: 16
             }}
           >
-            <Text
+            <View
               style={{
-                color: "white",
-                textAlign: "center",
-                fontSize: 20,
-                fontWeight: 'bold'
+                backgroundColor: Colors.colorPrimaryDark,
+                width: this.state.heightMenu.width - 36,
+                height: this.state.heightMenu.width - 36,
+                borderRadius: borderRadius,
+                justifyContent: "center",
+                alignItems: "center"
               }}
             >
-              CHECK IN
-            </Text>
+              <Text
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  fontSize: 32,
+                  fontWeight: "bold"
+                }}
+              >
+                CHECK{"\n"}IN
+              </Text>
+            </View>
+
           </View>
 
         </View>
@@ -119,6 +150,7 @@ const styles = StyleSheet.create({
   },
   contentSection: {
     alignItems: "center",
+    justifyContent: "space-around",
     backgroundColor: "transparent"
   },
   logo: {
@@ -128,23 +160,20 @@ const styles = StyleSheet.create({
     resizeMode: "contain"
   },
   name: {
+    backgroundColor: "transparent",
     color: "white",
-    fontSize: 14,
-    fontWeight: "bold",
-    paddingVertical: 6
+    fontSize: 96,
+    fontWeight: "bold"
   },
   role: {
     color: "white",
-    fontSize: 12
+    fontSize: 16
   },
   menuContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    margin: 48,
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: Colors.colorPrimaryDark
+    margin: 48
   },
   menu: {
     justifyContent: "space-around",
@@ -155,4 +184,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CheckInOut;
+function mapStateToProps(state) {
+  return {
+    employeeOutletIps: state.employeeOutletIps,
+    employeeOutletInfo: state.employeeOutletInfo
+  };
+}
+
+export default connect(mapStateToProps)(CheckInOut);
