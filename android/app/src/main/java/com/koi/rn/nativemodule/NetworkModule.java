@@ -40,6 +40,7 @@ public class NetworkModule extends ReactContextBaseJavaModule {
                         boolean isIPv4 = sAddr.indexOf(':') < 0;
 
                         if (isIPv4) {
+
                             successCallback.invoke(sAddr);
                             return;
                         } else {
@@ -51,5 +52,35 @@ public class NetworkModule extends ReactContextBaseJavaModule {
         } catch (Exception e) {
             errorCallback.invoke(e.getMessage());
         }
+    }
+
+    @ReactMethod
+    public void getMACAddress(Callback errorCallback, Callback successCallback) {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    errorCallback.invoke("MAC not found");
+                    return;
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:",b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+
+                successCallback.invoke(res1.toString());
+                return;
+            }
+        } catch (Exception ex) {
+        }
+        errorCallback.invoke("MAC not found");
     }
 }
