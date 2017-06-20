@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Expo from 'expo'
 import ReactNative from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'

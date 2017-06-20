@@ -53,7 +53,7 @@ class CheckInOut extends Component {
   async componentWillMount() {
     moment.updateLocale("vi", vimoment);
     let user = JSON.parse(await AsyncStorage.getItem("user"));
-    this.setState({user});
+    this.setState({ user });
 
     /* actions/checkInOut */
     this.props.getUserOutlet(user.MaCuaHang).then(() => {
@@ -61,6 +61,9 @@ class CheckInOut extends Component {
         this.props.getIpOutlet(this.props.employeeOutletInfo.get("data"));
       }
     });
+
+    /* actions/checkInOut */
+    this.props.getCheckStatus(moment(new Date()).format("YYYY-MM-DD"));
 
     // Get Location
     this._getLocationAsync();
@@ -166,7 +169,6 @@ class CheckInOut extends Component {
             ...this.state,
             isChecking: false
           });
-          this.state.fadeValue.stopAnimation();
           if (!this.props.employeeOutletIps.get("isError")) {
             let ipContains = this.props.employeeOutletIps
               .get("data")
@@ -176,14 +178,26 @@ class CheckInOut extends Component {
 
             if (ipContains.count() > 0) {
               if (this.state.location != null) {
+                const submitLocation = this.state.location.coords.latitude +
+                  "," +
+                  this.state.location.coords.longitude;
                 console.log(this.state.user.MaNV);
                 console.log(Constants.deviceName);
                 console.log(this.state.macAddress);
                 console.log(
                   this.state.location.coords.latitude +
-                    ", " +
+                    "," +
                     this.state.location.coords.longitude
                 );
+                console.log(this.props.checkStatus.get("isCheckin"));
+                this.props.submitCheckInOut(
+                  this.state.user.MaNV,
+                  this.props.checkStatus.get("isCheckin") == 0 ? 1 : 2,
+                  this.state.macAddress,
+                  Constants.deviceName,
+                  submitLocation
+                );
+                this.state.fadeValue.stopAnimation();
               } else {
                 Alert.alert(
                   "Thông báo",
@@ -197,7 +211,22 @@ class CheckInOut extends Component {
                   ],
                   { cancelable: true }
                 );
+                this.state.fadeValue.stopAnimation();
               }
+            } else {
+              Alert.alert(
+                "Thông báo",
+                "IP của bạn chưa được cấp quyền Check. Vui lòng liên hệ quản trị viên!",
+                [
+                  {
+                    text: "Xác nhận",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                  }
+                ],
+                { cancelable: false }
+              );
+              this.state.fadeValue.stopAnimation();
             }
           } else {
             Alert.alert(
@@ -244,7 +273,10 @@ class CheckInOut extends Component {
       outputRange: [Colors.colorPrimaryDark, "rgba(51,156,177, 1)"]
     });
 
-    if (this.state.user == null) {
+    if (
+      this.state.user == null &&
+      this.props.checkStatus.get("isCheckin") != null
+    ) {
       return <ActivityIndicator />;
     }
 
@@ -311,7 +343,10 @@ class CheckInOut extends Component {
                     fontWeight: "bold"
                   }}
                 >
-                  CHECK{"\n"}IN
+                  {this.props.checkStatus.get("isCheckin") == 0
+                    ? "CHECK\nIN"
+                    : "CHECK\nOUT"}
+
                 </Text>
               </Animated.View>
             </TouchableOpacity>
@@ -368,7 +403,8 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     employeeOutletIps: state.employeeOutletIps,
-    employeeOutletInfo: state.employeeOutletInfo
+    employeeOutletInfo: state.employeeOutletInfo,
+    checkStatus: state.checkStatus
   };
 }
 
