@@ -42,8 +42,32 @@ export const employeeOutletIps = createReducer(ipState, {
 export const checkStatus = createReducer(statusState, {
   [types.SET_CHECK_STATUS](state, action) {
     return state.withMutations(ctx => {
+      ctx.set(
+        "isCheckin",
+        action.status == null ? 0 : action.status.InOutletMode
+      );
+    });
+  },
+  [types.CHECK_SERVER_RESPONSE](state, action) {
+    return state.withMutations(ctx => {
+      ctx.set(
+        "isCheckin",
+        action.result.hasOwnProperty("error")
+          ? action.InOutletMode
+          : action.InOutletMode != 2
+            ? parseInt(action.InOutletMode) + 1
+            : action.InOutletMode
+      );
+    });
+  }
+});
+
+export const checkResponseStatus = createReducer(initialState, {
+  [types.CHECK_SERVER_RESPONSE](state, action) {
+    return state.withMutations(ctx => {
       ctx
-        .set("isCheckin", action.status == null ? 0 : action.status.InOutletMode);
+        .set("data", action.result != null ? action.result : null)
+        .set("isError", action.result.hasOwnProperty("error") ? true : false);
     });
   }
 });

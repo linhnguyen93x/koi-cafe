@@ -109,6 +109,7 @@ class AppContainer extends Component {
                     <Scene key="employeeMenu" component={Constants.EmployeeMenu} title="Danh sách nhân viên" />
 										<Scene key="personalInfo" component={Constants.PersonalInfo} title="Trang cá nhân" />
 										<Scene key="checkInOut" component={Constants.CheckInOut} title="Check In/Check out" />
+										<Scene key="detailSalary" component={Constants.DetailSalary} title="Chi tiết bảng lương" />
                 </Scene>
             </Scene>
         </RouterWithRedux>

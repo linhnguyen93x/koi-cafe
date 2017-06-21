@@ -178,7 +178,8 @@ class CheckInOut extends Component {
 
             if (ipContains.count() > 0) {
               if (this.state.location != null) {
-                const submitLocation = this.state.location.coords.latitude +
+                const submitLocation =
+                  this.state.location.coords.latitude +
                   "," +
                   this.state.location.coords.longitude;
                 console.log(this.state.user.MaNV);
@@ -196,7 +197,35 @@ class CheckInOut extends Component {
                   this.state.macAddress,
                   Constants.deviceName,
                   submitLocation
-                );
+                ).then(() => {
+                  if (this.props.checkResponseStatus.get("isError")) {
+                    Alert.alert(
+                      "Thông báo",
+                      this.props.checkResponseStatus.get("data").error,
+                      [
+                        {
+                          text: "Xác nhận",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel"
+                        }
+                      ],
+                      { cancelable: true }
+                    );
+                  } else {
+                    Alert.alert(
+                      "Thông báo",
+                      "Thành công",
+                      [
+                        {
+                          text: "Xác nhận",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel"
+                        }
+                      ],
+                      { cancelable: true }
+                    );
+                  }
+                });
                 this.state.fadeValue.stopAnimation();
               } else {
                 Alert.alert(
@@ -343,9 +372,11 @@ class CheckInOut extends Component {
                     fontWeight: "bold"
                   }}
                 >
-                  {this.props.checkStatus.get("isCheckin") == 0
-                    ? "CHECK\nIN"
-                    : "CHECK\nOUT"}
+                  {this.props.checkStatus.get("isCheckin") == null
+                    ? ""
+                    : this.props.checkStatus.get("isCheckin") == 0
+                      ? "CHECK\nIN"
+                      : "CHECK\nOUT"}
 
                 </Text>
               </Animated.View>
@@ -404,7 +435,8 @@ function mapStateToProps(state) {
   return {
     employeeOutletIps: state.employeeOutletIps,
     employeeOutletInfo: state.employeeOutletInfo,
-    checkStatus: state.checkStatus
+    checkStatus: state.checkStatus,
+    checkResponseStatus: state.checkResponseStatus
   };
 }
 

@@ -5,12 +5,14 @@ import * as routes from './routes'
 import * as EmployeeListReducer from './employeeList'
 import * as LoginReducer from './login'
 import * as CheckInOutReducer from './checkInOut'
+import * as DetailSalaryReducer from './detailSalary'
 
 const appReducer = combineReducers(Object.assign(
 	routes,
 	EmployeeListReducer,
 	LoginReducer,
-	CheckInOutReducer
+	CheckInOutReducer,
+	DetailSalaryReducer
 ));
 
 const rootReducer = (state, action) => {

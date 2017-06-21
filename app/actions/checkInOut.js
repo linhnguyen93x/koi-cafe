@@ -85,25 +85,35 @@ export function getCheckStatus(date) {
   };
 }
 
-export function submitCheckInOut(UserId, InOutletMode, MacAdress, OS, Location) {
+export function submitCheckInOut(UserId, InOutMode, MacAddress, OS, Location) {
   return (dispatch, getState) => {
-    const params = [
-      `UserID=${UserId}`,
-      `InOutletMode=${InOutletMode}`,
-      `MacAdress=${MacAdress}`,
-      `OS=${OS}`,
-      `Location=${Location}`
-    ].join('&');
+    const params = {
+      UserID: UserId,
+      InOutMode,
+      MacAddress,
+      OS,
+      Location
+    }
 
-    return KoiApi.postRaw(`/api/postcheckinout`, params)
+    return KoiApi.postJson(`/api/postcheckinout`, params)
     .then(resp => {
-      console.log(resp);
-      if (resp.hasOwnProperty('error')) {
-        console.log(resp.error);
-      }
+      dispatch({
+        type: types.CHECK_SERVER_RESPONSE,
+        result: params,
+        InOutMode
+      })
+      // console.log(resp);
+      // if (resp.hasOwnProperty('error')) {
+      //   console.log(resp.error);
+      // }
     })
     .catch(ex => {
       console.log(ex);
+      dispatch({
+        type: types.CHECK_SERVER_RESPONSE,
+        result: null,
+        InOutMode
+      })
     });
   }
 }

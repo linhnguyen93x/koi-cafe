@@ -99,7 +99,12 @@ class EmployeeMenu extends Component {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5} onPress={() => {}}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              Actions.detailSalary({item: this.props.item});
+            }}
+          >
             <View style={[styles.menu, this.state.heightMenu]}>
               <Image
                 style={icon}
