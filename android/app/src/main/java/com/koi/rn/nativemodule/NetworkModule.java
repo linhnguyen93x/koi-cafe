@@ -5,8 +5,13 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.NetworkInterface;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,9 +30,10 @@ public class NetworkModule extends ReactContextBaseJavaModule {
         return "NetworkInfo";
     }
 
+
     // https://stackoverflow.com/questions/6064510/how-to-get-ip-address-of-the-device-from-code
     @ReactMethod
-    public void getIPAddress(Callback errorCallback, Callback successCallback) {
+    public void getIPAddress(final Callback errorCallback, final Callback successCallback) throws IOException {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
 

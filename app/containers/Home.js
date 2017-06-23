@@ -9,7 +9,7 @@ import {
   AsyncStorage,
   TouchableOpacity
 } from "react-native";
-import Immutable, { Map, fromJS } from 'immutable'
+import Immutable, { Map, fromJS } from "immutable";
 import { Actions } from "react-native-router-flux";
 import registerForPushNotificationsAsync from "../utils/PushNotificationUtils";
 import Expo, { Notifications, AppLoading } from "expo";
@@ -36,15 +36,15 @@ class Home extends Component {
   componentWillMount() {
     this._getUser();
 
-    NetworkInfo.getIPAddress(
-      err => {
-        console.log(err);
-      },
-      ip => {
-        Actions.refresh({ title: ip });
-        console.log(ip);
-      }
-    );
+    // NetworkInfo.getIPAddress(
+    //   err => {
+    //     console.log(err);
+    //   },
+    //   ip => {
+    //     Actions.refresh({ title: ip });
+    //     console.log(ip);
+    //   }
+    // );
 
     // registerForPushNotificationsAsync();
     //
@@ -64,6 +64,25 @@ class Home extends Component {
     // );
   }
 
+  componentDidMount() {
+    fetch("https://ifcfg.me/ip")
+      .then(resp => {
+        return resp.text();
+      })
+      .then(textResponse => {
+        let ip = textResponse;
+
+        if (ip != null) {
+          Actions.refresh({ title: ip });
+        }
+      })
+      .catch(ex => {
+        console.log(ex);
+      });
+  }
+
+  async getExternalIp() {}
+
   _getUser = async () => {
     let user = JSON.parse(await AsyncStorage.getItem("user"));
 
@@ -78,51 +97,26 @@ class Home extends Component {
   };
 
   _bindViewRole = () => {
-    let functionByRole = [];
-
-    if (
-      this.state.user.ChucVu.toUpperCase().trim() ===
-      AppConstants.ROLE_CAN_BO_TIEM
-    ) {
-      functionByRole = [
-        {
-          key: 0,
-          text: language.get("update_ip"),
-          image: require("../../assets/icons/update_ip.png"),
-          type: "updateIp"
-        },
-        {
-          key: 1,
-          text: language.get("view_list_employee"),
-          image: require("../../assets/icons/view_list.png"),
-          type: "listEmployee"
-        },
-        {
-          key: 2,
-          text: language.get("request_off"),
-          image: require("../../assets/icons/request_leave.png"),
-          type: "request_off"
-        }
-      ];
-    } else if (
-      this.state.user.ChucVu.toUpperCase().trim() ===
-      AppConstants.ROLE_NHAN_VIEN
-    ) {
-      functionByRole = [
-        {
-          key: 0,
-          text: language.get("checkIn_checkOut"),
-          image: require("../../assets/icons/update_ip.png"),
-          type: "checkInOut"
-        },
-        {
-          key: 1,
-          text: language.get("employee_info"),
-          image: require("../../assets/icons/view_list.png"),
-          type: "employeeInfo"
-        }
-      ];
-    }
+    let functionByRole = [
+      {
+        key: 0,
+        text: language.get("checkIn_checkOut"),
+        image: require("../../assets/icons/update_ip.png"),
+        type: "checkInOut"
+      },
+      {
+        key: 1,
+        text: language.get("view_list_employee"),
+        image: require("../../assets/icons/view_list.png"),
+        type: "listEmployee"
+      },
+      {
+        key: 2,
+        text: language.get("employee_info"),
+        image: require("../../assets/icons/view_list.png"),
+        type: "employeeInfo"
+      }
+    ];
     return functionByRole;
   };
 

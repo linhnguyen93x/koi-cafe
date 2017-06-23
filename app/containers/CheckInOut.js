@@ -145,8 +145,136 @@ class CheckInOut extends Component {
       //   duration: 100
       // }).start();
       /* Get IP address */
-      NetworkInfo.getIPAddress(
-        err => {
+      fetch("https://ifcfg.me/ip") //http://ipecho.net/plain
+        .then(resp => {
+          return resp.text();
+        })
+        .then(textResponse => {
+          let ip = textResponse;
+
+          if (ip != null) {
+            Actions.refresh({ title: ip });
+            this.setState({
+              ...this.state,
+              isChecking: false
+            });
+            if (!this.props.employeeOutletIps.get("isError")) {
+              let ipContains = this.props.employeeOutletIps
+                .get("data")
+                .filter(item => {
+                  return item.get("ip").trim() == ip.trim();
+                });
+
+              if (ipContains.count() > 0) {
+                if (this.state.location != null) {
+                  const submitLocation =
+                    this.state.location.coords.latitude +
+                    "," +
+                    this.state.location.coords.longitude;
+                  console.log(this.state.user.MaNV);
+                  console.log(Constants.deviceName);
+                  console.log(this.state.macAddress);
+                  console.log(
+                    this.state.location.coords.latitude +
+                      "," +
+                      this.state.location.coords.longitude
+                  );
+                  console.log(this.props.checkStatus.get("isCheckin"));
+                  this.props
+                    .submitCheckInOut(
+                      this.state.user.MaNV,
+                      this.props.checkStatus.get("isCheckin") == null ||
+                        this.props.checkStatus.get("isCheckin") == 0 ||
+                        this.props.checkStatus.get("isCheckin") == 1
+                        ? 1
+                        : 2,
+                      this.state.macAddress,
+                      Constants.deviceName,
+                      submitLocation
+                    )
+                    .then(() => {
+                      if (this.props.checkResponseStatus.get("isError")) {
+                        Alert.alert(
+                          "Thông báo",
+                          this.props.checkResponseStatus.get("data").error,
+                          [
+                            {
+                              text: "Xác nhận",
+                              onPress: () => console.log("Cancel Pressed"),
+                              style: "cancel"
+                            }
+                          ],
+                          { cancelable: true }
+                        );
+                      } else {
+                        Alert.alert(
+                          "Check thành công",
+                          this.props.checkResponseStatus.get("data")
+                            .InOutMode == 1
+                            ? "Check in lúc " +
+                                this.props.checkResponseStatus.get("data").Time
+                            : "Check out lúc " +
+                                this.props.checkResponseStatus.get("data").Time,
+                          [
+                            {
+                              text: "Xác nhận",
+                              onPress: () => console.log("Cancel Pressed"),
+                              style: "cancel"
+                            }
+                          ],
+                          { cancelable: true }
+                        );
+                      }
+                    });
+                  this.state.fadeValue.stopAnimation();
+                } else {
+                  Alert.alert(
+                    "Thông báo",
+                    "Không thể lấy vị trí của bạn. Vui lòng thử lại!",
+                    [
+                      {
+                        text: "Xác nhận",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                      },
+                      { cancelable: true }
+                    ]
+                  );
+                  this.state.fadeValue.stopAnimation();
+                }
+              } else {
+                Alert.alert(
+                  "Thông báo",
+                  "IP của bạn chưa được cấp quyền Check. Vui lòng liên hệ quản trị viên!",
+                  [
+                    {
+                      text: "Xác nhận",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                    }
+                  ],
+                  { cancelable: false }
+                );
+                this.state.fadeValue.stopAnimation();
+              }
+            } else {
+              Alert.alert(
+                "Thông báo",
+                "IP check in không hợp lệ. Vui lòng liên hệ quản trị viên!",
+                [
+                  {
+                    text: "Xác nhận",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                  }
+                ],
+                { cancelable: false }
+              );
+            }
+          }
+        })
+        .catch(ex => {
+          console.log(ex);
           this.setState({
             ...this.state,
             isChecking: false
@@ -163,116 +291,7 @@ class CheckInOut extends Component {
             ],
             { cancelable: true }
           );
-        },
-        ip => {
-          this.setState({
-            ...this.state,
-            isChecking: false
-          });
-          if (!this.props.employeeOutletIps.get("isError")) {
-            let ipContains = this.props.employeeOutletIps
-              .get("data")
-              .filter(item => {
-                return item.get("ip") == ip;
-              });
-
-            if (ipContains.count() > 0) {
-              if (this.state.location != null) {
-                const submitLocation =
-                  this.state.location.coords.latitude +
-                  "," +
-                  this.state.location.coords.longitude;
-                console.log(this.state.user.MaNV);
-                console.log(Constants.deviceName);
-                console.log(this.state.macAddress);
-                console.log(
-                  this.state.location.coords.latitude +
-                    "," +
-                    this.state.location.coords.longitude
-                );
-                console.log(this.props.checkStatus.get("isCheckin"));
-                this.props.submitCheckInOut(
-                  this.state.user.MaNV,
-                  this.props.checkStatus.get("isCheckin") == 0 ? 1 : 2,
-                  this.state.macAddress,
-                  Constants.deviceName,
-                  submitLocation
-                ).then(() => {
-                  if (this.props.checkResponseStatus.get("isError")) {
-                    Alert.alert(
-                      "Thông báo",
-                      this.props.checkResponseStatus.get("data").error,
-                      [
-                        {
-                          text: "Xác nhận",
-                          onPress: () => console.log("Cancel Pressed"),
-                          style: "cancel"
-                        }
-                      ],
-                      { cancelable: true }
-                    );
-                  } else {
-                    Alert.alert(
-                      "Thông báo",
-                      "Thành công",
-                      [
-                        {
-                          text: "Xác nhận",
-                          onPress: () => console.log("Cancel Pressed"),
-                          style: "cancel"
-                        }
-                      ],
-                      { cancelable: true }
-                    );
-                  }
-                });
-                this.state.fadeValue.stopAnimation();
-              } else {
-                Alert.alert(
-                  "Thông báo",
-                  "Không thể lấy vị trí của bạn. Vui lòng thử lại!",
-                  [
-                    {
-                      text: "Xác nhận",
-                      onPress: () => console.log("Cancel Pressed"),
-                      style: "cancel"
-                    }
-                  ],
-                  { cancelable: true }
-                );
-                this.state.fadeValue.stopAnimation();
-              }
-            } else {
-              Alert.alert(
-                "Thông báo",
-                "IP của bạn chưa được cấp quyền Check. Vui lòng liên hệ quản trị viên!",
-                [
-                  {
-                    text: "Xác nhận",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                  }
-                ],
-                { cancelable: false }
-              );
-              this.state.fadeValue.stopAnimation();
-            }
-          } else {
-            Alert.alert(
-              "Thông báo",
-              "IP check in không hợp lệ. Vui lòng liên hệ quản trị viên!",
-              [
-                {
-                  text: "Xác nhận",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                }
-              ],
-              { cancelable: false }
-            );
-          }
-        }
-      );
+        });
     }
   };
 
@@ -374,7 +393,8 @@ class CheckInOut extends Component {
                 >
                   {this.props.checkStatus.get("isCheckin") == null
                     ? ""
-                    : this.props.checkStatus.get("isCheckin") == 0
+                    : this.props.checkStatus.get("isCheckin") == 0 ||
+                        this.props.checkStatus.get("isCheckin") == 1
                       ? "CHECK\nIN"
                       : "CHECK\nOUT"}
 

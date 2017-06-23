@@ -18,6 +18,7 @@ android {
                 'appAuthRedirectScheme': 'com.koi.rn'
         ]
     }
+    useLibrary 'org.apache.http.legacy'
     buildTypes {
         release {
             minifyEnabled false
@@ -53,6 +54,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:multidex:1.0.0'
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 
     compile('host.exp.exponent:expoview:17.0.0@aar') {
         exclude group: 'com.facebook.android', module: 'facebook-android-sdk'

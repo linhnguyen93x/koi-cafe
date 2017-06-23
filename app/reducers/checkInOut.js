@@ -41,23 +41,35 @@ export const employeeOutletIps = createReducer(ipState, {
 
 export const checkStatus = createReducer(statusState, {
   [types.SET_CHECK_STATUS](state, action) {
+    let checkOutStatus = 0;
+    if (action.status == null) {
+      checkOutStatus = 0;
+    } else {
+      checkOutStatus = parseInt(action.status.InOutMode) < 2
+        ? (parseInt(action.status.InOutMode) + 1)
+        : 1;
+    }
+
     return state.withMutations(ctx => {
-      ctx.set(
-        "isCheckin",
-        action.status == null ? 0 : action.status.InOutletMode
-      );
+      ctx.set("isCheckin", checkOutStatus);
     });
   },
   [types.CHECK_SERVER_RESPONSE](state, action) {
+    let checkOutStatus = 0;
+    if (action.result.hasOwnProperty("error")) {
+      if (action.result.error == "chua checkin") {
+        checkOutStatus = 1;
+      } else {
+        checkOutStatus = 2;
+      }
+    } else {
+      checkOutStatus = parseInt(action.InOutMode) < 2
+        ? parseInt(action.InOutMode) + 1
+        : 1;
+    }
+
     return state.withMutations(ctx => {
-      ctx.set(
-        "isCheckin",
-        action.result.hasOwnProperty("error")
-          ? action.InOutletMode
-          : action.InOutletMode != 2
-            ? parseInt(action.InOutletMode) + 1
-            : action.InOutletMode
-      );
+      ctx.set("isCheckin", checkOutStatus);
     });
   }
 });
@@ -67,7 +79,12 @@ export const checkResponseStatus = createReducer(initialState, {
     return state.withMutations(ctx => {
       ctx
         .set("data", action.result != null ? action.result : null)
-        .set("isError", action.result.hasOwnProperty("error") ? true : false);
+        .set(
+          "isError",
+          action.result == null || action.result.hasOwnProperty("error")
+            ? true
+            : false
+        );
     });
   }
 });

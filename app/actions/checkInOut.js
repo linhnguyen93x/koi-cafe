@@ -61,7 +61,7 @@ export function getIpOutlet(outletInfo) {
 
 export function getCheckStatus(date) {
   return (dispatch, getState) => {
-    return KoiApi.get(`/hrkoi/api/getchamcong?from=${date}&to=${date}`)
+    return KoiApi.get(`/api/getchamcong?from=${date}&to=${date}`)
     .then(resp => {
       if (resp != null) {
         dispatch({
@@ -85,6 +85,7 @@ export function getCheckStatus(date) {
   };
 }
 
+
 export function submitCheckInOut(UserId, InOutMode, MacAddress, OS, Location) {
   return (dispatch, getState) => {
     const params = {
@@ -99,7 +100,7 @@ export function submitCheckInOut(UserId, InOutMode, MacAddress, OS, Location) {
     .then(resp => {
       dispatch({
         type: types.CHECK_SERVER_RESPONSE,
-        result: params,
+        result: resp,
         InOutMode
       })
       // console.log(resp);

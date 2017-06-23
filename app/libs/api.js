@@ -7,7 +7,7 @@ const {
   AsyncStorage,
 } = ReactNative
 
-const baseUrl = 'http://123.31.26.53:8066';
+const baseUrl = 'http://171.244.21.172:8084';
 
 
 class Api {

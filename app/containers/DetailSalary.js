@@ -6,6 +6,7 @@ import { Colors, globalStyle } from "../style";
 import { FontAwesome as Icon } from "@expo/vector-icons";
 import * as language from "../language";
 import { EmployeeItem, NoData, FieldSet } from "../components";
+import moment from 'moment'
 
 const {
   View,
@@ -29,10 +30,14 @@ class DetailSalary extends Component {
   }
 
   componentWillMount() {
-    this.props.getPaySlip();
+    this.props.getPaySlip(moment(new Date()).subtract(1, 'months').format("YYYY-MM"));
   }
 
   render() {
+    if (this.props.detailSalaryInfo.get("data") == null) {
+      return <ActivityIndicator />;
+    }
+
     let data1 = [];
     let data2 = [];
     let data3 = [];
