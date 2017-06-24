@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../style";
-import { FontAwesome as Icon } from "@expo/vector-icons";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import * as language from "../language";
 
 const { width, height } = Dimensions.get("window");

@@ -3,7 +3,7 @@ import ReactNative from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { Colors, globalStyle } from "../style";
-import { FontAwesome as Icon } from "@expo/vector-icons";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import * as language from "../language";
 import { EmployeeItem, NoData, FieldSet } from "../components";
 import moment from 'moment'

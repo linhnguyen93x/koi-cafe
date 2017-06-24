@@ -1,4 +1,4 @@
-import language from 'ex-react-native-i18n'
+import language from 'react-native-i18n'
 
 language.fallbacks = true
 

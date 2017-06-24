@@ -1,12 +1,9 @@
 import React, { PureComponent } from 'react'
 import ReactNative from 'react-native'
-import Expo, {
-
-} from 'expo';
 import { Actions } from 'react-native-router-flux'
 import { Colors, globalStyle } from '../../style'
 import * as language from '../../language'
-import { FontAwesome as Icon } from '@expo/vector-icons'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const {
 	View,
@@ -24,7 +21,7 @@ class EmployeeItem extends PureComponent {
 	render() {
 		return <View style={styles.container}>
 				<Image
-					style={ styles.image } 
+					style={ styles.image }
 					source={{ uri: "https://s-media-cache-ak0.pinimg.com/236x/2e/56/a1/2e56a1d72c817e63bb74f6cb1b7636eb.jpg"}}
 					resizeMode="contain" />
 				<Text style={ styles.name }>{ this.props.item.get('HoTen') }</Text>
@@ -61,7 +58,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
 		paddingHorizontal: 16
-		
+
 	},
 	button: {
 		backgroundColor: Colors.colorPrimaryDark

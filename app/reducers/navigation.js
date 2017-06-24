@@ -1,3 +1,3 @@
-import { NavigationReducer } from '@expo/ex-navigation';
-
-export const navigation = NavigationReducer;
+// import { NavigationReducer } from '@expo/ex-navigation';
+//
+// export const navigation = NavigationReducer;

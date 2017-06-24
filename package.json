@@ -1,25 +1,35 @@
 {
-  "name": "koi-app",
-  "version": "0.0.0",
-  "description": "Hello Expo!",
-  "author": null,
-  "private": true,
-  "main": "main.js",
-  "dependencies": {
-    "@expo/ex-navigation": "~3.0.0",
-    "babel-preset-react-native-stage-0": "^1.0.1",
-    "ex-react-native-i18n": "0.0.3",
-    "expo": "17.0.0",
-    "moment": "^2.18.1",
-    "react": "16.0.0-alpha.6",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
-    "react-native-button": "^1.8.2",
-    "react-native-deprecated-custom-components": "^0.1.0",
-    "react-native-drawer": "^2.3.0",
-    "react-native-router-flux": "^3.39.1",
-    "react-redux": "^5.0.4",
-    "redux": "^3.6.0",
-    "redux-logger": "^3.0.1",
-    "redux-thunk": "^2.2.0"
-  }
+	"name": "Koi",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+		"immutable": "^3.8.1",
+		"moment": "^2.18.1",
+		"react": "16.0.0-alpha.12",
+		"react-native": "0.45.1",
+		"react-native-button": "^2.0.0",
+		"react-native-device-info": "^0.10.2",
+		"react-native-drawer": "^2.3.0",
+		"react-native-i18n": "^2.0.1",
+		"react-native-permissions": "^0.2.7",
+		"react-native-router-flux": "^3.40.1",
+		"react-native-vector-icons": "^4.2.0",
+		"react-redux": "^5.0.5",
+		"redux": "^3.7.0",
+		"redux-logger": "^3.0.6",
+		"redux-thunk": "^2.2.0"
+	},
+	"devDependencies": {
+		"babel-jest": "20.0.3",
+		"babel-preset-react-native": "2.0.0",
+		"jest": "20.0.4",
+		"react-test-renderer": "16.0.0-alpha.12"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
 }

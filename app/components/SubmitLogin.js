@@ -93,6 +93,7 @@ class SubmitLogin extends Component {
         <View style={styles.inputWrap}>
           <TextInput
             placeholder={language.get("username")}
+            placeholderTextColor="white"
             style={styles.input}
             underlineColorAndroid="white"
             returnKeyType="next"
@@ -105,6 +106,7 @@ class SubmitLogin extends Component {
         <View style={styles.inputWrap}>
           <TextInput
             placeholder={language.get("password")}
+            placeholderTextColor="white"
             secureTextEntry
             style={styles.input}
             underlineColorAndroid="white"

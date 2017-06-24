@@ -7,14 +7,13 @@ import {
   TouchableNativeFeedback,
   NativeModules,
   AsyncStorage,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import Immutable, { Map, fromJS } from "immutable";
 import { Actions } from "react-native-router-flux";
-import registerForPushNotificationsAsync from "../utils/PushNotificationUtils";
-import Expo, { Notifications, AppLoading } from "expo";
 import { Colors, globalStyle } from "../style";
-import { FontAwesome as Icon } from "@expo/vector-icons";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import * as language from "../language";
 import * as AppConstants from "../utils/AppConstans";
 
@@ -27,7 +26,6 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      notification: {},
       token: "",
       user: null
     };
@@ -35,33 +33,6 @@ class Home extends Component {
 
   componentWillMount() {
     this._getUser();
-
-    // NetworkInfo.getIPAddress(
-    //   err => {
-    //     console.log(err);
-    //   },
-    //   ip => {
-    //     Actions.refresh({ title: ip });
-    //     console.log(ip);
-    //   }
-    // );
-
-    // registerForPushNotificationsAsync();
-    //
-    // let newToken = Notifications.getExponentPushTokenAsync().then(item => {
-    //   this.setState({
-    //     token: item
-    //   });
-    // });
-    //
-    // // Handle notifications that are received or selected while the app
-    // // is open. If the app was closed and then opened by tapping the
-    // // notification (rather than just tapping the app icon to open it),
-    // // this function will fire on the next tick after the app starts
-    // // with the notification data.
-    // _notificationSubscription = Notifications.addListener(
-    //   this._handleNotification
-    // );
   }
 
   componentDidMount() {
@@ -90,10 +61,6 @@ class Home extends Component {
       ...this.state,
       user
     });
-  };
-
-  _handleNotification = notification => {
-    this.setState({ notification: notification });
   };
 
   _bindViewRole = () => {
@@ -141,7 +108,7 @@ class Home extends Component {
 
   render() {
     if (this.state.user == null) {
-      return <AppLoading />;
+      return <ActivityIndicator />;
     }
 
     let functionByRole = this._bindViewRole();

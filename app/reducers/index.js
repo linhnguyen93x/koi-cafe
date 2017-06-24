@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import * as types from '../actions/types'
-import * as NavigationReducer from './navigation'
 import * as routes from './routes'
 import * as EmployeeListReducer from './employeeList'
 import * as LoginReducer from './login'

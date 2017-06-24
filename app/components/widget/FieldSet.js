@@ -3,7 +3,7 @@ import ReactNative from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../../style";
 import * as language from "../../language";
-import { FontAwesome as Icon } from "@expo/vector-icons";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const {
   View,

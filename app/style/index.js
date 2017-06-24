@@ -1,13 +1,10 @@
 import Colors  from './colors'
 import ReactNative from 'react-native'
-import Expo from 'expo'
 
 const {
 	StyleSheet,
 	Platform
 } = ReactNative
-
-const statusBarHeight = Expo.Constants.statusBarHeight;
 
 const globalStyle = StyleSheet.create({
 	headerHeight: {
@@ -36,7 +33,7 @@ const globalStyle = StyleSheet.create({
 		width: undefined,
 		height: undefined,
 		backgroundColor: 'transparent',
-		
+
 	},
 });
 
@@ -44,4 +41,3 @@ export {
 	Colors,
 	globalStyle
 }
-

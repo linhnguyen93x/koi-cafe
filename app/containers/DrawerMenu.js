@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, AsyncStorage, ScrollView, Image } from "react-n
 import Button from 'react-native-button';
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux';
-import { FontAwesome as Icon }  from '@expo/vector-icons'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 const contextTypes = {
@@ -38,7 +38,7 @@ const DrawerMenu = (props, context) => {
   }
   function openChooseOutlet() {
 
-    // drawer.close(); 
+    // drawer.close();
     // Actions.detailOutletInfo({type: "reset"});
   }
 
@@ -70,7 +70,7 @@ const DrawerMenu = (props, context) => {
           style={styles.logoApp}
           resizeMode="contain" />
       </View>*/}
-      
+
 
       <ScrollView
         style={styles.menuContainer}
@@ -84,7 +84,7 @@ const DrawerMenu = (props, context) => {
             Bi Nguyen
           </Text>
         </View>
-     
+
         <View style={styles.wrapNav}>
 
           <Text style={styles.ttNav}>Chức năng chính</Text>
