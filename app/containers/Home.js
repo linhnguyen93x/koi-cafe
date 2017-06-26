@@ -73,16 +73,22 @@ class Home extends Component {
       },
       {
         key: 1,
+        text: language.get("work_sheet"),
+        image: require("../../assets/icons/update_ip.png"),
+        type: "workSheet"
+      },
+      {
+        key: 2,
         text: language.get("view_list_employee"),
         image: require("../../assets/icons/view_list.png"),
         type: "listEmployee"
       },
-      {
-        key: 2,
-        text: language.get("employee_info"),
-        image: require("../../assets/icons/view_list.png"),
-        type: "employeeInfo"
-      }
+      // {
+      //   key: 3,
+      //   text: language.get("employee_info"),
+      //   image: require("../../assets/icons/view_list.png"),
+      //   type: "employeeInfo"
+      // }
     ];
     return functionByRole;
   };
