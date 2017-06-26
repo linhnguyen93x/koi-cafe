@@ -115,14 +115,14 @@ class EmployeeMenu extends Component {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5} onPress={() => {}}>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.workSheet()}}>
             <View style={[styles.menu, this.state.heightMenu]}>
               <Image
                 style={icon}
                 source={require("../../assets/icons/request_leave.png")}
                 resizeMode="cover"
               />
-              <Text style={styles.role}>{language.get("detail_salary")}</Text>
+              <Text style={styles.role}>{language.get("work_sheet")}</Text>
             </View>
           </TouchableOpacity>
 

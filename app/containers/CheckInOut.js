@@ -162,7 +162,7 @@ class CheckInOut extends Component {
     //   duration: 100
     // }).start();
     /* Get IP address */
-    fetch("https://ifcfg.me/ip") //http://ipecho.net/plain
+    fetch("http://checkin.koithe.vn/api/ip") //http://ipecho.net/plain
       .then(resp => {
         return resp.text();
       })

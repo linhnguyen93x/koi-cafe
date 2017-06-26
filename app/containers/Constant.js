@@ -6,6 +6,7 @@ import EmployeeMenu from './EmployeeMenu'
 import CheckInOut from './CheckInOut'
 import PersonalInfo from './PersonalInfo'
 import DetailSalary from './DetailSalary'
+import WorkSheet from './WorkSheet'
 
 export {
 	Home,
@@ -15,5 +16,6 @@ export {
 	EmployeeMenu,
 	CheckInOut,
 	PersonalInfo,
-	DetailSalary
+	DetailSalary,
+	WorkSheet
 }

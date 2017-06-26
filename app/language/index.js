@@ -37,7 +37,10 @@ language.translations = {
     total_work_hour: "Tổng số giờ công",
     detail_salary: "Chi tiết bảng lương",
     checkIn_checkOut: "Check in/Check out",
-    employee_info: "Thông tin nhân viên"
+    employee_info: "Thông tin nhân viên",
+    work_sheet: "Ca làm việc",
+    choose: "Chọn",
+    choose_a_month: "Chọn 1 tháng",
   },
   'en': {
     user_profile: "Thông tin cá nhân",
@@ -72,7 +75,11 @@ language.translations = {
     total_work_hour: "Tổng số giờ công",
     detail_salary: "Chi tiết bảng lương",
     checkIn_checkOut: "Check in/Check out",
-    employee_info: "Thông tin nhân viên"
+    employee_info: "Thông tin nhân viên",
+    work_sheet: "Ca làm việc",
+    choose: "Chọn",
+    choose_a_month: "Chọn 1 tháng",
+
   }
 
 }
