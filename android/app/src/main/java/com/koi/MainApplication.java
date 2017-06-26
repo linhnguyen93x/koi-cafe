@@ -29,8 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-            new PickerViewPackage(),
-            new RNDeviceInfo(),
+                    new PickerViewPackage(),
+                    new RNDeviceInfo(),
                     new ReactNativePermissionsPackage(),
                     new VectorIconsPackage(),
                     new RNI18nPackage(),
