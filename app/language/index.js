@@ -40,6 +40,7 @@ language.translations = {
     work_sheet: "Ca làm việc",
     choose: "Chọn",
     choose_a_month: "Chọn 1 tháng",
+    result_checking: 'Kết quả đánh giá'
   },
   'en': {
     user_profile: "Thông tin cá nhân",
@@ -77,7 +78,7 @@ language.translations = {
     work_sheet: "Ca làm việc",
     choose: "Chọn",
     choose_a_month: "Chọn 1 tháng",
-
+    result_checking: 'Kết quả đánh giá'
   }
 
 }

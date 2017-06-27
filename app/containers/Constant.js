@@ -7,6 +7,8 @@ import CheckInOut from './CheckInOut'
 import PersonalInfo from './PersonalInfo'
 import DetailSalary from './DetailSalary'
 import WorkSheet from './WorkSheet'
+import HistoryCheckIn from './HistoryCheckIn'
+import ResultChecking from './ResultChecking'
 
 export {
 	Home,
@@ -17,5 +19,7 @@ export {
 	CheckInOut,
 	PersonalInfo,
 	DetailSalary,
-	WorkSheet
+	WorkSheet,
+	HistoryCheckIn,
+	ResultChecking
 }

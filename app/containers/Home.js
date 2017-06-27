@@ -108,6 +108,9 @@ class Home extends Component {
           item: Map(this.state.user)
         });
         break;
+      case "workSheet":
+        Actions.workSheet();
+        break;
       default:
     }
   };

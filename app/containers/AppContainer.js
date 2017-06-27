@@ -136,6 +136,16 @@ class AppContainer extends Component {
               component={Constants.WorkSheet}
               title="Ca làm việc"
             />
+            <Scene
+              key="historyCheckIn"
+              component={Constants.HistoryCheckIn}
+              title="Dữ liệu chấm công"
+            />
+            <Scene
+              key="resultChecking"
+              component={Constants.ResultChecking}
+              title="Kết quả kiểm tra"
+            />
           </Scene>
         </Scene>
       </RouterWithRedux>

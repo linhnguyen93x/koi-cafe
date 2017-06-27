@@ -38,7 +38,7 @@ const {
   TouchableWithoutFeedback
 } = ReactNative;
 
-class WorkSheet extends Component {
+class HistoryCheckIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,12 +56,15 @@ class WorkSheet extends Component {
     setTimeout(() => {
       for (
         let i = 1;
-        i < Object.keys(this.props.workSheetList.get("data")).length;
+        i < Object.keys(this.props.historyCheckInList.get("data")).length;
         i++
       ) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = this.timeToString(time);
         if (this.state.items[strTime]) {
+          // console.log(this.props.historyCheckInList.get("data")[strTime]);
+
+
           // for (let j = 0; j < this.state.items[strTime].length; j++) {
           //   this.state.items[strTime][j].name = "Item for " + strTime;
           // }
@@ -84,16 +87,14 @@ class WorkSheet extends Component {
   renderItem(item) {
     return (
       <View style={[styles.item, { height: item.height }]}>
-        <Text>{item.name}</Text>
-        <Text>Tu {item.Tu} - Den {item.Den}</Text>
+        <Text>Gio BT: {item.GioBT}</Text>
+        <Text>Gio TC: {item.GioTC}</Text>
       </View>
     );
   }
 
   renderEmptyDate() {
-    return (
-      <View style={styles.emptyDate}><Text>Chưa có dữ liệu</Text></View>
-    );
+    return <View style={styles.emptyDate}><Text>Chưa có dữ liệu</Text></View>;
   }
 
   rowHasChanged(r1, r2) {
@@ -129,24 +130,31 @@ class WorkSheet extends Component {
         isLoading: true
       });
       this.props
-        .getWorksheet(
+        .getHistoryCheckIn(
           [{ EmpATID: user.MaNV }],
           this.state.fromDate,
           this.state.toDate
         )
         .then(() => {
+          let newData = {};
+          // this.state.items[strTime] = [
+          //   this.props.historyCheckInList.get("data")[strTime]
+          // ];
+
+          for (let k in this.props.historyCheckInList.get("data")) {
+            newData[k] = [this.props.historyCheckInList.get("data")[k]]
+          }
+
           this.setState({
             isLoading: false,
-            items: this.props.workSheetList.get("data") != null
-              ? this.props.workSheetList.get("data")
-              : {}
+            items: newData
           });
         });
     }
   };
 
   componentWillUnmount() {
-    this.props.resetWorkSheet();
+    this.props.resetHistoryCheckIn();
   }
 
   render() {
@@ -247,12 +255,14 @@ class WorkSheet extends Component {
 
         {this.state.isLoading
           ? <ActivityIndicator />
-          : this.props.workSheetList.get("data") != null
+          : this.props.historyCheckInList.get("data") != null
             ? <Agenda
                 style={{ alignSelf: "stretch", backgroundColor: "transparent" }}
                 items={this.state.items}
                 loadItemsForMonth={this.loadItems.bind(this)}
-                selected={Object.keys(this.props.workSheetList.get("data"))[0]}
+                selected={
+                  Object.keys(this.props.historyCheckInList.get("data"))[0]
+                }
                 renderItem={this.renderItem.bind(this)}
                 renderEmptyDate={this.renderEmptyDate.bind(this)}
                 rowHasChanged={this.rowHasChanged.bind(this)}
@@ -307,8 +317,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    workSheetList: state.workSheetList
+    historyCheckInList: state.historyCheckInList
   };
 }
 
-export default connect(mapStateToProps)(WorkSheet);
+export default connect(mapStateToProps)(HistoryCheckIn);
