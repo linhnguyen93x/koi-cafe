@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactNative from "react-native";
+import ReactNative, { AsyncStorage } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { Colors, globalStyle } from "../style";
@@ -9,6 +9,7 @@ import { EmployeeItem, NoData, FieldSet } from "../components";
 import moment from "moment";
 import { Agenda } from "react-native-calendars";
 import Picker from "react-native-picker";
+import DatePicker from "react-native-datepicker";
 
 var currentYear = new Date().getFullYear();
 const pickerData = [
@@ -43,33 +44,32 @@ class WorkSheet extends Component {
     this.state = {
       search: "",
       isLoading: false,
-      items: {}
+      items: {},
+      fromDate: null,
+      toDate: null
     };
   }
 
-  componentWillMount() {
-    this.props.getPaySlip(
-      moment(new Date()).subtract(1, "months").format("YYYY-MM")
-    );
-  }
+  componentWillMount() {}
 
   loadItems(day) {
     setTimeout(() => {
-      for (let i = -15; i < 85; i++) {
+      for (
+        let i = 1;
+        i < Object.keys(this.props.workSheetList.get("data")).length;
+        i++
+      ) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = this.timeToString(time);
-        if (!this.state.items[strTime]) {
+        if (this.state.items[strTime]) {
+          // for (let j = 0; j < this.state.items[strTime].length; j++) {
+          //   this.state.items[strTime][j].name = "Item for " + strTime;
+          // }
+        } else {
           this.state.items[strTime] = [];
-          const numItems = Math.floor(Math.random() * 5);
-          for (let j = 0; j < numItems; j++) {
-            this.state.items[strTime].push({
-              name: "Item for " + strTime,
-              height: Math.max(50, Math.floor(Math.random() * 150))
-            });
-          }
         }
       }
-      console.log(this.state.items);
+
       const newItems = {};
       Object.keys(this.state.items).forEach(key => {
         newItems[key] = this.state.items[key];
@@ -85,13 +85,14 @@ class WorkSheet extends Component {
     return (
       <View style={[styles.item, { height: item.height }]}>
         <Text>{item.name}</Text>
+        <Text>Tu {item.Tu} - Den {item.Den}</Text>
       </View>
     );
   }
 
   renderEmptyDate() {
     return (
-      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+      <View style={styles.emptyDate}><Text>Chưa có dữ liệu</Text></View>
     );
   }
 
@@ -120,6 +121,34 @@ class WorkSheet extends Component {
     Picker.show();
   }
 
+  _searchData = async () => {
+    let user = JSON.parse(await AsyncStorage.getItem("user"));
+
+    if (user != null) {
+      this.setState({
+        isLoading: true
+      });
+      this.props
+        .getWorksheet(
+          [{ EmpATID: user.MaNV }],
+          this.state.fromDate,
+          this.state.toDate
+        )
+        .then(() => {
+          this.setState({
+            isLoading: false,
+            items: this.props.workSheetList.get("data") != null
+              ? this.props.workSheetList.get("data")
+              : {}
+          });
+        });
+    }
+  };
+
+  componentWillUnmount() {
+    this.props.resetWorkSheet();
+  }
+
   render() {
     return (
       <Image
@@ -131,41 +160,109 @@ class WorkSheet extends Component {
         source={require("../../assets/backgrounds/main_bg.png")}
         resizeMode={Image.resizeMode.cover}
       >
-        <View style={{ flexDirection: 'row', marginBottom: 4 }}>
+        <View style={{ flexDirection: "row", marginBottom: 4 }}>
           <View style={styles.picker_container}>
-            <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
-              <View style={styles.picker}>
-                <Text>{language.get("all")}</Text>
-                <Icon name="calendar" size={15} color="#036380" />
-              </View>
-            </TouchableWithoutFeedback>
+            <DatePicker
+              style={{ width: 200 }}
+              date={this.state.fromDate}
+              mode="date"
+              maxDate={moment(new Date()).format("YYYY-MM-DD")}
+              androidMode="spinner"
+              placeholder="Từ ngày"
+              format="YYYY-MM-DD"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: "absolute",
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36
+                },
+                dateText: {
+                  paddingRight: 6
+                }
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={date => {
+                this.setState({ fromDate: date });
+              }}
+            />
           </View>
           <View style={styles.picker_container}>
-            <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
-              <View style={styles.picker}>
-                <Text>{language.get("all")}</Text>
-                <Icon name="calendar" size={15} color="#036380" />
-              </View>
-            </TouchableWithoutFeedback>
+            <DatePicker
+              style={{ width: 200 }}
+              date={this.state.toDate}
+              mode="date"
+              androidMode="spinner"
+              placeholder="Đến ngày"
+              format="YYYY-MM-DD"
+              maxDate={moment(new Date()).format("YYYY-MM-DD")}
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: "absolute",
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36,
+                  paddingHorizontal: 8
+                },
+                dateText: {
+                  paddingRight: 6
+                }
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={date => {
+                this.setState({ toDate: date });
+              }}
+            />
           </View>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              this._searchData();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 8,
+                backgroundColor: "white",
+                marginTop: 8
+              }}
+            >
+              <Icon name="search" size={20} color="blue" />
+            </View>
+          </TouchableOpacity>
         </View>
 
-        {/*Calendar*/}
-        <Agenda
-          pastScrollRange={5}
-          futureScrollRange={6}
-          style={{ alignSelf: "stretch", backgroundColor: "transparent" }}
-          items={this.state.items}
-          loadItemsForMonth={this.loadItems.bind(this)}
-          selected={"2017-05-16"}
-          renderItem={this.renderItem.bind(this)}
-          renderEmptyDate={this.renderEmptyDate.bind(this)}
-          rowHasChanged={this.rowHasChanged.bind(this)}
-          hideKnob={true}
-          // monthFormat={'yyyy'}
-          //theme={{calendarBackground: 'red'}}
-          //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
-        />
+        {this.state.isLoading
+          ? <ActivityIndicator />
+          : this.props.workSheetList.get("data") != null
+            ? <Agenda
+                style={{ alignSelf: "stretch", backgroundColor: "transparent" }}
+                items={this.state.items}
+                loadItemsForMonth={this.loadItems.bind(this)}
+                selected={Object.keys(this.props.workSheetList.get("data"))[0]}
+                renderItem={this.renderItem.bind(this)}
+                renderEmptyDate={this.renderEmptyDate.bind(this)}
+                rowHasChanged={this.rowHasChanged.bind(this)}
+                hideKnob={false}
+
+                // monthFormat={'yyyy'}
+                //theme={{calendarBackground: 'red'}}
+                //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
+              />
+            : null}
 
       </Image>
     );
@@ -195,7 +292,7 @@ const styles = StyleSheet.create({
   picker_container: {
     flex: 1,
     backgroundColor: "white",
-    borderRadius: 8,
+
     marginTop: 8,
     marginHorizontal: 4
   },
@@ -210,7 +307,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    detailSalaryInfo: state.detailSalaryInfo
+    workSheetList: state.workSheetList
   };
 }
 

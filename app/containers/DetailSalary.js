@@ -29,6 +29,10 @@ class DetailSalary extends Component {
     };
   }
 
+  numberWithDot = x => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
   componentWillMount() {
     this.props.getPaySlip(moment(new Date()).subtract(1, 'months').format("YYYY-MM"));
   }
@@ -50,7 +54,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("LuongCoban")
-            ? this.props.detailSalaryInfo.get("data").LuongCoban
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").LuongCoban))
             : ""
         },
         {
@@ -58,7 +62,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("Luong1Ngay")
-            ? this.props.detailSalaryInfo.get("data").Luong1Ngay
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").Luong1Ngay))
             : ""
         },
         {
@@ -66,7 +70,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("Luong1Gio")
-            ? this.props.detailSalaryInfo.get("data").Luong1Gio
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").Luong1Gio))
             : ""
         },
         {
@@ -74,7 +78,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("LuongCoBanThucNhan")
-            ? this.props.detailSalaryInfo.get("data").LuongCoBanThucNhan
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").LuongCoBanThucNhan))
             : ""
         },
         {
@@ -82,7 +86,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("LuongTangCa")
-            ? this.props.detailSalaryInfo.get("data").LuongTangCa
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").LuongTangCa))
             : ""
         },
         {
@@ -90,7 +94,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("LuongNgayLe")
-            ? this.props.detailSalaryInfo.get("data").LuongNgayLe
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").LuongNgayLe))
             : ""
         }
       ];
@@ -100,7 +104,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("ChuyenCan")
-            ? this.props.detailSalaryInfo.get("data").ChuyenCan
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").ChuyenCan))
             : ""
         },
         { title: "Chức vụ", value: "0" },
@@ -109,7 +113,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("PhuCapKhac")
-            ? this.props.detailSalaryInfo.get("data").PhuCapKhac
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").PhuCapKhac))
             : ""
         },
         {
@@ -117,7 +121,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("TienNgonNgu")
-            ? this.props.detailSalaryInfo.get("data").TienNgonNgu
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").TienNgonNgu))
             : ""
         },
         {
@@ -125,7 +129,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("QuanLyTiem")
-            ? this.props.detailSalaryInfo.get("data").QuanLyTiem
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").QuanLyTiem))
             : ""
         },
         {
@@ -133,7 +137,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("TienCom")
-            ? this.props.detailSalaryInfo.get("data").TienCom
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").TienCom))
             : ""
         },
         {
@@ -141,7 +145,7 @@ class DetailSalary extends Component {
           value: this.props.detailSalaryInfo
             .get("data")
             .hasOwnProperty("TroCapCoDinh")
-            ? this.props.detailSalaryInfo.get("data").TroCapCoDinh
+            ? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").TroCapCoDinh))
             : ""
         }
       ];
@@ -151,7 +155,7 @@ class DetailSalary extends Component {
 					value: this.props.detailSalaryInfo
 						.get("data")
 						.hasOwnProperty("NgayNghi")
-						? this.props.detailSalaryInfo.get("data").NgayNghi
+						? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").NgayNghi))
 						: ""
 				},
 				{
@@ -159,7 +163,7 @@ class DetailSalary extends Component {
 					value: this.props.detailSalaryInfo
 						.get("data")
 						.hasOwnProperty("PhutDiTre")
-						? this.props.detailSalaryInfo.get("data").PhutDiTre
+						? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").PhutDiTre))
 						: ""
 				},
 				{
@@ -167,7 +171,7 @@ class DetailSalary extends Component {
 					value: this.props.detailSalaryInfo
 						.get("data")
 						.hasOwnProperty("SoLanQuenBamThe")
-						? this.props.detailSalaryInfo.get("data").SoLanQuenBamThe
+						? this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").SoLanQuenBamThe))
 						: ""
 				}
       ];
@@ -179,7 +183,7 @@ class DetailSalary extends Component {
       data5 = [
         {
           title: null,
-          value: this.props.detailSalaryInfo.get("data").LuongCoBanThucNhan
+          value: this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").LuongCoBanThucNhan))
         }
       ];
     }
