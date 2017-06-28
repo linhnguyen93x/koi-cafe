@@ -146,6 +146,11 @@ class AppContainer extends Component {
               component={Constants.ResultChecking}
               title="Kết quả kiểm tra"
             />
+             <Scene
+              key="userChecked"
+              component={Constants.UserChecked}
+              title="Lịch sử check in/out"
+            />
           </Scene>
         </Scene>
       </RouterWithRedux>

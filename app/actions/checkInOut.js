@@ -85,6 +85,32 @@ export function getCheckStatus(date) {
   };
 }
 
+export function getUserChecked(date) {
+  return (dispatch, getState) => {
+    return KoiApi.get(`/api/getchamcong?from=${date}&to=${date}`)
+    .then(resp => {
+      if (resp != null) {
+        dispatch({
+          type: types.SET_CHECK_STATUS_LIST,
+          status: resp
+        });
+      } else {
+        dispatch({
+          type: types.SET_CHECK_STATUS_LIST,
+          status: null
+        });
+      }
+    })
+    .catch(ex => {
+      console.log(ex);
+      dispatch({
+        type: types.SET_CHECK_STATUS_LIST,
+        status: null
+      });
+    });
+  };
+}
+
 
 export function submitCheckInOut(UserId, InOutMode, MacAddress, OS, Location) {
   return (dispatch, getState) => {
@@ -117,4 +143,16 @@ export function submitCheckInOut(UserId, InOutMode, MacAddress, OS, Location) {
       })
     });
   }
+}
+
+export function resetUserChecked() {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      resolve();
+    }).then(() => {
+      dispatch({
+        type: types.RESET_USER_CHECKED
+      });
+    });
+  };
 }

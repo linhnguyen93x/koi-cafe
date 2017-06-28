@@ -9,6 +9,7 @@ import DetailSalary from './DetailSalary'
 import WorkSheet from './WorkSheet'
 import HistoryCheckIn from './HistoryCheckIn'
 import ResultChecking from './ResultChecking'
+import UserChecked from './UserChecked'
 
 export {
 	Home,
@@ -21,5 +22,6 @@ export {
 	DetailSalary,
 	WorkSheet,
 	HistoryCheckIn,
-	ResultChecking
+	ResultChecking,
+	UserChecked
 }

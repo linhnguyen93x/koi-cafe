@@ -39,6 +39,22 @@ export const employeeOutletIps = createReducer(ipState, {
   }
 });
 
+export const userCheckedList = createReducer(ipState, {
+  [types.SET_CHECK_STATUS_LIST](state, action) {
+    return state.withMutations(ctx => {
+      ctx
+        .set(
+          "data",
+          action.status != null ? List(fromJS(action.status)) : List([])
+        )
+        .set("isError", action.status == null ? true : false);
+    });
+  },
+  [types.RESET_USER_CHECKED](state, action) {
+    return ipState;
+  }
+});
+
 export const checkStatus = createReducer(statusState, {
   [types.SET_CHECK_STATUS](state, action) {
     let checkOutStatus = 0;

@@ -79,6 +79,12 @@ class Home extends Component {
       },
       {
         key: 2,
+        text: language.get("detail_salary"),
+        image: require("../../assets/icons/update_ip.png"),
+        type: "detailSalary"
+      },
+      {
+        key: 3,
         text: language.get("view_list_employee"),
         image: require("../../assets/icons/view_list.png"),
         type: "listEmployee"
@@ -110,6 +116,10 @@ class Home extends Component {
         break;
       case "workSheet":
         Actions.workSheet();
+        break;
+      case "detailSalary": 
+        Actions.detailSalary();
+
         break;
       default:
     }

@@ -87,8 +87,8 @@ class HistoryCheckIn extends Component {
   renderItem(item) {
     return (
       <View style={[styles.item, { height: item.height }]}>
-        <Text>Gio BT: {item.GioBT}</Text>
-        <Text>Gio TC: {item.GioTC}</Text>
+        <Text>Giờ làm bình thường: {item.GioBT}</Text>
+        <Text>Giờ làm tăng ca: {item.GioTC}</Text>
       </View>
     );
   }
@@ -272,7 +272,7 @@ class HistoryCheckIn extends Component {
                 //theme={{calendarBackground: 'red'}}
                 //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
               />
-            : null}
+            : <Text style={ {color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text> }
 
       </Image>
     );

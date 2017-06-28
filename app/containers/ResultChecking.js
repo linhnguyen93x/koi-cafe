@@ -176,7 +176,7 @@ class ResultChecking extends Component {
                 </View>
 
               </View>
-            : null}
+            : <Text style={ {color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text>}
 
       </Image>
     );

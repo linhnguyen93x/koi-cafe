@@ -102,7 +102,7 @@ class EmployeeMenu extends Component {
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => {
-              Actions.detailSalary({item: this.props.item});
+              Actions.userChecked({item: this.props.item});
             }}
           >
             <View style={[styles.menu, this.state.heightMenu]}>
@@ -111,7 +111,7 @@ class EmployeeMenu extends Component {
                 source={require("../../assets/icons/update_ip.png")}
                 resizeMode="cover"
               />
-              <Text style={styles.role}>{language.get("detail_salary")}</Text>
+              <Text style={styles.role}>{language.get("history_check_in")}</Text>
             </View>
           </TouchableOpacity>
 
