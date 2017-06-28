@@ -13,6 +13,7 @@ import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../style";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as language from "../language";
+import moment from 'moment'
 
 const { width, height } = Dimensions.get("window");
 
@@ -77,7 +78,7 @@ class PersonalInfo extends Component {
               >
                 <Text style={{ color: "white" }}>Ngày sinh:</Text>
                 <Text style={{ color: "white" }}>
-                  {" "} {this.props.item.get("NgaySinh")}
+                  {" "} {moment(this.props.item.get("NgaySinh")).format('DD-MM-YYYY')}
                 </Text>
               </View>
               <View
@@ -89,7 +90,7 @@ class PersonalInfo extends Component {
               >
                 <Text style={{ color: "white" }}>Ngày vào làm:</Text>
                 <Text style={{ color: "white" }}>
-                  {" "} {this.props.item.get("NgayVaoLam")}
+                  {" "} {moment(this.props.item.get("NgayVaoLam")).format('DD-MM-YYYY')}
                 </Text>
               </View>
               <View
