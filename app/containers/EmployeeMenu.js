@@ -22,8 +22,13 @@ class EmployeeMenu extends Component {
     this.state = {
       heightMenu: {
         height: null
-      }
+      },
+      customerIcon: null
     };
+  }
+
+  componentWillMount() {
+    Icon.getImageSource('user-o', 30, 'white').then((source) => this.setState({ customerIcon: source }));
   }
 
   onLayout(event) {
@@ -57,7 +62,7 @@ class EmployeeMenu extends Component {
           <Image
             source={{
               uri:
-                "https://s-media-cache-ak0.pinimg.com/236x/2e/56/a1/2e56a1d72c817e63bb74f6cb1b7636eb.jpg"
+                "http://www.limestone.edu/sites/default/files/user.png"
             }}
             style={styles.logo}
           />
@@ -79,22 +84,15 @@ class EmployeeMenu extends Component {
             }}
           >
             <View style={[styles.menu, this.state.heightMenu]}>
-              <Image
-                style={icon}
-                source={require("../../assets/icons/request_off.png")}
-                resizeMode="cover"
-              />
+              <Icon name="user" size={this.state.heightMenu.height/2} color="white" />
               <Text style={styles.role}>{language.get("info")}</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.historyCheckIn()}}>
             <View style={[styles.menu, this.state.heightMenu]}>
-              <Image
-                style={icon}
-                source={require("../../assets/icons/view_list.png")}
-                resizeMode="cover"
-              />
+
+              <Icon name="clock-o" size={this.state.heightMenu.height/2} color="white" />
               <Text style={styles.role}>{language.get("total_work_hour")}</Text>
             </View>
           </TouchableOpacity>
@@ -106,22 +104,14 @@ class EmployeeMenu extends Component {
             }}
           >
             <View style={[styles.menu, this.state.heightMenu]}>
-              <Image
-                style={icon}
-                source={require("../../assets/icons/update_ip.png")}
-                resizeMode="cover"
-              />
+              <Icon name="calendar-check-o" size={this.state.heightMenu.height/2} color="white" />
               <Text style={styles.role}>{language.get("history_check_in")}</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.resultChecking()}}>
             <View style={[styles.menu, this.state.heightMenu]}>
-              <Image
-                style={icon}
-                source={require("../../assets/icons/request_leave.png")}
-                resizeMode="cover"
-              />
+              <Icon name="thumbs-o-up" size={this.state.heightMenu.height/2} color="white" />
               <Text style={styles.role}>{language.get("result_checking")}</Text>
             </View>
           </TouchableOpacity>

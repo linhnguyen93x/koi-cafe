@@ -27,12 +27,17 @@ class Home extends Component {
 
     this.state = {
       token: "",
-      user: null
+      user: null,
+      checkInOutIcon: null,
+      clockIcon: null,
+      moneyIcon: null,
+      listIcon: null
     };
   }
 
   componentWillMount() {
     this._getUser();
+    this._bindHomeIcon();
   }
 
   componentDidMount() {
@@ -52,6 +57,13 @@ class Home extends Component {
       });
   }
 
+  _bindHomeIcon = () => {
+    Icon.getImageSource('calendar-check-o', 15, 'white').then((source) => this.setState({ checkInOutIcon: source }));
+    Icon.getImageSource('clock-o', 15, 'white').then((source) => this.setState({ clockIcon: source }));
+    Icon.getImageSource('calculator', 15, 'white').then((source) => this.setState({ moneyIcon: source }));
+    Icon.getImageSource('list', 15, 'white').then((source) => this.setState({ listIcon: source }));
+  }
+
   async getExternalIp() {}
 
   _getUser = async () => {
@@ -68,25 +80,25 @@ class Home extends Component {
       {
         key: 0,
         text: language.get("checkIn_checkOut"),
-        image: require("../../assets/icons/update_ip.png"),
+        image: this.state.checkInOutIcon,
         type: "checkInOut"
       },
       {
         key: 1,
         text: language.get("work_sheet"),
-        image: require("../../assets/icons/update_ip.png"),
+        image: this.state.clockIcon,
         type: "workSheet"
       },
       {
         key: 2,
         text: language.get("detail_salary"),
-        image: require("../../assets/icons/update_ip.png"),
+        image: this.state.moneyIcon,
         type: "detailSalary"
       },
       {
         key: 3,
         text: language.get("view_list_employee"),
-        image: require("../../assets/icons/view_list.png"),
+        image: this.state.listIcon,
         type: "listEmployee"
       },
       // {
@@ -219,8 +231,8 @@ const styles = StyleSheet.create({
     marginVertical: 2
   },
   icon: {
-    width: 40,
-    height: 40
+    width: 20,
+    height: 20
   },
   menuText: {
     flex: 1,

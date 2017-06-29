@@ -77,11 +77,11 @@ const DrawerMenu = (props, context) => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.wrapNav}>
-          <Image source={require('../../assets/icons/app.png')}
+          <Image source={{ uri: "http://www.limestone.edu/sites/default/files/user.png"}}
             style={styles.image}
             resizeMode="cover" />
           <Text style={[styles.navText, { alignSelf: 'center', padding: 4, color: '#99FFCC', fontWeight: 'bold' }]}>
-            Koi
+           
           </Text>
         </View>
 
