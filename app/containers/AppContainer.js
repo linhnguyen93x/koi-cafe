@@ -96,6 +96,7 @@ class AppContainer extends Component {
               initial={!this.state.hasToken}
               title="Login"
               onRight={null}
+              hideNavBar={true} 
               renderRightButton={() => {
                 return <View />;
               }}

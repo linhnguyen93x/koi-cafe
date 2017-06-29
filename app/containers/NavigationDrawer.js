@@ -18,6 +18,15 @@ class NavigationDrawer extends React.Component {
     }
   }
 
+  componentWillMount() {
+    AsyncStorage.getItem('user').then(item => {
+      let userObj = JSON.parse(item);
+      this.setState({
+        user: userObj
+      })
+    })
+  }
+
   render() {
     const state = this.props.navigationState;
     const children = state.children;

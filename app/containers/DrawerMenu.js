@@ -81,7 +81,7 @@ const DrawerMenu = (props, context) => {
             style={styles.image}
             resizeMode="cover" />
           <Text style={[styles.navText, { alignSelf: 'center', padding: 4, color: '#99FFCC', fontWeight: 'bold' }]}>
-           
+             { props.user.HoTen }
           </Text>
         </View>
 

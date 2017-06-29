@@ -117,11 +117,6 @@ class SubmitLogin extends Component {
             onChangeText={password => this.setState({ password })}
           />
         </View>
-        <TouchableOpacity activeOpacity={0.5} onPress={() => {}}>
-          <Text style={styles.forgetPassword}>
-            {language.get("forget_password")}
-          </Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           activeOpacity={0.5}
@@ -158,7 +153,8 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "white",
     paddingVertical: 15,
-    marginVertical: 24,
+    marginBottom: 24,
+    marginTop: 44,
     marginHorizontal: 40,
     alignItems: "center",
     justifyContent: "center",
