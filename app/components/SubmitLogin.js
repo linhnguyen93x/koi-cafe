@@ -31,7 +31,7 @@ class SubmitLogin extends Component {
     };
   }
 
-  componenDidMount() {}
+  componenDidMount() { }
 
   async saveItem(item, selectedValue) {
     try {
@@ -57,27 +57,15 @@ class SubmitLogin extends Component {
         ).then(() => {
           Api.setToken(
             this.props.info.token_type + " " + this.props.info.access_token
-          );
-          // KoiApi.setToken(
-          //   this.props.info.token_type + " " + this.props.info.access_token
-          // );
-
-          this.props.fetchEmployeeList().then(() => {
-            if (
-              this.props.employeeList.get("data") != null &&
-              this.props.employeeList.get("data").count() > 0
-            ) {
-              let userLogin = this.props.employeeList
-                .get("data")
-                .first()
-                .toJS();
-              AsyncStorage.setItem("user", JSON.stringify(userLogin));
-              Actions.home({ type: "reset" });
-            } else {
-              Actions.logout();
-            }
+          ).then(() => {
+            Actions.home({ type: "reset" });
           });
+
         });
+
+        // KoiApi.setToken(
+        //   this.props.info.token_type + " " + this.props.info.access_token
+        // );
 
         // Alert.alert('Login Success!', 'Click the button to get a Chuck Norris quote!');
       } else {
@@ -174,7 +162,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    employeeList: state.employeeList,
+
     info: state.info,
     loginFail: state.loginFail
   };

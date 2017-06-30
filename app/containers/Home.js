@@ -11,6 +11,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import Immutable, { Map, fromJS } from "immutable";
+import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../style";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -36,7 +37,24 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this._getUser();
+    this.props.fetchEmployeeList().then(() => {
+      if (
+        this.props.employeeList.get("data") != null &&
+        this.props.employeeList.get("data").count() > 0
+      ) {
+        let userLogin = this.props.employeeList
+          .get("data")
+          .first()
+          .toJS();
+        AsyncStorage.setItem("user", JSON.stringify(userLogin)).then(() => {
+          this._getUser();
+        }).catch(ex => {
+          Actions.logout();
+        });
+      } else {
+        Actions.logout();
+      }
+    });
     this._bindHomeIcon();
   }
 
@@ -64,7 +82,7 @@ class Home extends Component {
     Icon.getImageSource('list', 15, 'white').then((source) => this.setState({ listIcon: source }));
   }
 
-  async getExternalIp() {}
+  async getExternalIp() { }
 
   _getUser = async () => {
     let user = JSON.parse(await AsyncStorage.getItem("user"));
@@ -129,7 +147,7 @@ class Home extends Component {
       case "workSheet":
         Actions.workSheet();
         break;
-      case "detailSalary": 
+      case "detailSalary":
         Actions.detailSalary();
 
         break;
@@ -244,4 +262,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+    
+
+function mapStateToProps(state) {
+  return {
+
+     employeeList: state.employeeList,
+  };
+}
+
+export default connect(mapStateToProps)(Home);

@@ -41,7 +41,14 @@ class Api {
   }
 
   static setToken(loginToken) {
-    this.token = loginToken;
+    return new Promise((resolve, reject) => {
+      resolve(this.token);
+
+
+    }).then(() => {
+      this.token = loginToken;
+    });
+
   }
 
   static getBaseUrl() {
