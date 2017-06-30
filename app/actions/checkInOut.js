@@ -59,14 +59,18 @@ export function getIpOutlet(outletInfo) {
   };
 }
 
-export function getCheckStatus(date) {
+export function getCheckStatus(maNV, date) {
   return (dispatch, getState) => {
     return KoiApi.get(`/api/getchamcong?from=${date}&to=${date}`)
     .then(resp => {
-      if (resp != null) {
+      if (resp != null && resp.length > 0) {
+        let userIp = resp.filter(el => {
+            return maNV == el.UserID;
+          });
+      
         dispatch({
           type: types.SET_CHECK_STATUS,
-          status: resp[0]
+          status: resp.length > 0 ? resp[0] : null
         });
       } else {
         dispatch({
@@ -85,14 +89,17 @@ export function getCheckStatus(date) {
   };
 }
 
-export function getUserChecked(date) {
+export function getUserChecked(maNV, date) {
   return (dispatch, getState) => {
     return KoiApi.get(`/api/getchamcong?from=${date}&to=${date}`)
     .then(resp => {
-      if (resp != null) {
+      if (resp != null && resp.length > 0) {
+        let userIp = resp.filter(el => {
+            return maNV == el.UserID;
+          });
         dispatch({
           type: types.SET_CHECK_STATUS_LIST,
-          status: resp
+          status: userIp.length > 0 ? userIp : null
         });
       } else {
         dispatch({

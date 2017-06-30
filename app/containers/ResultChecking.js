@@ -52,15 +52,15 @@ class ResultChecking extends Component {
 
   componentWillMount() {}
 
-  _searchData = async () => {
-    let user = JSON.parse(await AsyncStorage.getItem("user"));
+  _searchData = () => {
+    let user = this.props.item;
 
     if (user != null) {
       this.setState({
         isLoading: true
       });
       this.props
-        .getResultChecking([{ EmpATID: user.MaNV }], this.state.fromDate)
+        .getResultChecking([{ EmpATID: user.get('MaNV') }], this.state.fromDate)
         .then(() => {
           this.setState({
             isLoading: false,

@@ -60,11 +60,21 @@ class CheckInOut extends Component {
     this.props.getUserOutlet(user.MaCuaHang).then(() => {
       if (!this.props.employeeOutletInfo.get("isError")) {
         this.props.getIpOutlet(this.props.employeeOutletInfo.get("data"));
+      } else {
+        // Works on both iOS and Android
+        Alert.alert(
+          'Thông báo',
+          'Không thể lấy thông tin cửa hàng. Vui lòng liên hệ quản trị viên!',
+          [
+            { text: 'OK', onPress: () => Actions.pop() },
+          ],
+          { cancelable: false }
+        )
       }
     });
 
     /* actions/checkInOut */
-    this.props.getCheckStatus(moment(new Date()).format("YYYY-MM-DD"));
+    this.props.getCheckStatus(this.state.user.MaNV, moment(new Date()).format("YYYY-MM-DD"));
 
     // Get Location
     this._getLocationAsync();
@@ -188,28 +198,28 @@ class CheckInOut extends Component {
                   this.state.location.coords.latitude +
                   "," +
                   this.state.location.coords.longitude;
-                console.log(this.state.user.MaNV);
-                console.log(
-                  DeviceInfo.getBrand() + " " + DeviceInfo.getModel()
-                );
-                console.log(this.state.macAddress);
-                console.log(
-                  this.state.location.coords.latitude +
-                    "," +
-                    this.state.location.coords.longitude
-                );
-                console.log(this.props.checkStatus.get("isCheckin"));
+                // console.log(this.state.user.MaNV);
+                // console.log(
+                //   DeviceInfo.getBrand() + " " + DeviceInfo.getModel()
+                // );
+                // console.log(this.state.macAddress);
+                // console.log(
+                //   this.state.location.coords.latitude +
+                //     "," +
+                //     this.state.location.coords.longitude
+                // );
+                // console.log(this.props.checkStatus.get("isCheckin"));
                 this.props
                   .submitCheckInOut(
-                    this.state.user.MaNV,
-                    this.props.checkStatus.get("isCheckin") == null ||
-                      this.props.checkStatus.get("isCheckin") == 0 ||
-                      this.props.checkStatus.get("isCheckin") == 1
-                      ? 1
-                      : 2,
-                    this.state.macAddress,
-                    DeviceInfo.getBrand() + " " + DeviceInfo.getModel(),
-                    submitLocation
+                  this.state.user.MaNV,
+                  this.props.checkStatus.get("isCheckin") == null ||
+                    this.props.checkStatus.get("isCheckin") == 0 ||
+                    this.props.checkStatus.get("isCheckin") == 1
+                    ? 1
+                    : 2,
+                  this.state.macAddress,
+                  DeviceInfo.getBrand() + " " + DeviceInfo.getModel(),
+                  submitLocation
                   )
                   .then(() => {
                     if (this.props.checkResponseStatus.get("isError")) {
@@ -231,9 +241,9 @@ class CheckInOut extends Component {
                         this.props.checkResponseStatus.get("data").InOutMode ==
                           1
                           ? "Check in lúc " +
-                              this.props.checkResponseStatus.get("data").Time
+                          this.props.checkResponseStatus.get("data").Time
                           : "Check out lúc " +
-                              this.props.checkResponseStatus.get("data").Time,
+                          this.props.checkResponseStatus.get("data").Time,
                         [
                           {
                             text: "Xác nhận",
@@ -369,8 +379,8 @@ class CheckInOut extends Component {
           <Text style={styles.role}>
             {this.props.employeeOutletInfo.get("data") != null
               ? moment(new Date()).format("ll") +
-                  ", " +
-                  this.props.employeeOutletInfo.get("data").tencuahang
+              ", " +
+              this.props.employeeOutletInfo.get("data").tencuahang
               : ""}
           </Text>
         </View>
@@ -419,7 +429,7 @@ class CheckInOut extends Component {
                   {this.props.checkStatus.get("isCheckin") == null
                     ? ""
                     : this.props.checkStatus.get("isCheckin") == 0 ||
-                        this.props.checkStatus.get("isCheckin") == 1
+                      this.props.checkStatus.get("isCheckin") == 1
                       ? "CHECK\nIN"
                       : "CHECK\nOUT"}
 

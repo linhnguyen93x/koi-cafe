@@ -89,7 +89,7 @@ class EmployeeMenu extends Component {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.historyCheckIn()}}>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.historyCheckIn({ item: this.props.item })}}>
             <View style={[styles.menu, this.state.heightMenu]}>
 
               <Icon name="clock-o" size={this.state.heightMenu.height/2} color="white" />
@@ -109,7 +109,7 @@ class EmployeeMenu extends Component {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.resultChecking()}}>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.resultChecking({ item: this.props.item })}}>
             <View style={[styles.menu, this.state.heightMenu]}>
               <Icon name="thumbs-o-up" size={this.state.heightMenu.height/2} color="white" />
               <Text style={styles.role}>{language.get("result_checking")}</Text>

@@ -53,7 +53,7 @@ class UserChecked extends Component {
   componentWillMount() {}
 
   _searchData = async () => {
-    let user = JSON.parse(await AsyncStorage.getItem("user"));
+    let user = this.props.item;
 
     if (user != null) {
       this.setState({
@@ -61,7 +61,7 @@ class UserChecked extends Component {
       });
       // actions/checkInOut.js
       this.props
-        .getUserChecked(this.state.fromDate)
+        .getUserChecked(user.get('MaNV'), this.state.fromDate)
         .then(() => {
           this.setState({
             isLoading: false,

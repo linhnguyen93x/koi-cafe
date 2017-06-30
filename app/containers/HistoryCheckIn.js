@@ -122,8 +122,8 @@ class HistoryCheckIn extends Component {
     Picker.show();
   }
 
-  _searchData = async () => {
-    let user = JSON.parse(await AsyncStorage.getItem("user"));
+  _searchData = () => {
+    let user = this.props.item;
 
     if (user != null) {
       this.setState({
@@ -131,7 +131,7 @@ class HistoryCheckIn extends Component {
       });
       this.props
         .getHistoryCheckIn(
-          [{ EmpATID: user.MaNV }],
+          [{ EmpATID: user.get('MaNV') }],
           this.state.fromDate,
           this.state.toDate
         )
