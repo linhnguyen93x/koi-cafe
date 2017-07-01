@@ -42,7 +42,7 @@ class Api {
 
   static setToken(loginToken) {
     return new Promise((resolve, reject) => {
-      resolve(this.token);
+      resolve(loginToken);
 
 
     }).then(() => {
