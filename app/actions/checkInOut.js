@@ -59,14 +59,18 @@ export function getIpOutlet(outletInfo) {
   };
 }
 
-export function getCheckStatus(date) {
+export function getCheckStatus(maNV, date) {
   return (dispatch, getState) => {
     return KoiApi.get(`/api/getchamcong?from=${date}&to=${date}`)
     .then(resp => {
-      if (resp != null) {
+      if (resp != null && resp.length > 0) {
+        let userIp = resp.filter(el => {
+            return maNV == el.UserID;
+          });
+      
         dispatch({
           type: types.SET_CHECK_STATUS,
-          status: resp[0]
+          status: resp.length > 0 ? resp[0] : null
         });
       } else {
         dispatch({
@@ -79,6 +83,35 @@ export function getCheckStatus(date) {
       console.log(ex);
       dispatch({
         type: types.SET_CHECK_STATUS,
+        status: null
+      });
+    });
+  };
+}
+
+export function getUserChecked(maNV, date) {
+  return (dispatch, getState) => {
+    return KoiApi.get(`/api/getchamcong?from=${date}&to=${date}`)
+    .then(resp => {
+      if (resp != null && resp.length > 0) {
+        let userIp = resp.filter(el => {
+            return maNV == el.UserID;
+          });
+        dispatch({
+          type: types.SET_CHECK_STATUS_LIST,
+          status: userIp.length > 0 ? userIp : null
+        });
+      } else {
+        dispatch({
+          type: types.SET_CHECK_STATUS_LIST,
+          status: null
+        });
+      }
+    })
+    .catch(ex => {
+      console.log(ex);
+      dispatch({
+        type: types.SET_CHECK_STATUS_LIST,
         status: null
       });
     });
@@ -117,4 +150,16 @@ export function submitCheckInOut(UserId, InOutMode, MacAddress, OS, Location) {
       })
     });
   }
+}
+
+export function resetUserChecked() {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      resolve();
+    }).then(() => {
+      dispatch({
+        type: types.RESET_USER_CHECKED
+      });
+    });
+  };
 }

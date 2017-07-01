@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as language from "../language";
 import { EmployeeItem, NoData, FieldSet } from "../components";
 import moment from 'moment'
+import Picker from 'react-native-picker'
 
 const {
   View,
@@ -16,16 +17,23 @@ const {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
   ScrollView
 } = ReactNative;
+
+const currentYear = new Date().getFullYear();
+const pickerData = [
+  ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+  [currentYear, currentYear - 1, currentYear - 2, currentYear - 3, currentYear - 4, currentYear - 5, currentYear - 6, currentYear - 7]
+];
 
 class DetailSalary extends Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
-      isLoading: false
+      isLoading: false,
+      month: moment(new Date()).subtract(1, 'months').format("YYYY-MM")
     };
   }
 
@@ -34,13 +42,45 @@ class DetailSalary extends Component {
   }
 
   componentWillMount() {
-    this.props.getPaySlip(moment(new Date()).subtract(1, 'months').format("YYYY-MM"));
+    this._getPaySlip(this.state.month);
+  }
+
+  _getPaySlip = month => {
+    this.setState({
+      isLoading: true
+    })
+    this.props.getPaySlip(month).then(() => {
+      this.setState({
+        isLoading: false
+      })
+    });
+  }
+
+  _openDropDown() {
+    Picker.init({
+      pickerData: pickerData,
+      pickerConfirmBtnText: language.get('choose'),
+      pickerCancelBtnText: language.get('cancel'),
+      pickerTitleText: language.get('choose_a_month'),
+      selectedValue: [this.state.month.split('-')[1], this.state.month.split('-')[0]],
+      onPickerConfirm: data => {
+        this.setState({
+          month: data[1] + "-" + data[0]
+        }, () => {
+          this._getPaySlip(this.state.month);
+        });
+      },
+      onPickerCancel: data => {
+
+      },
+      onPickerSelect: data => {
+
+      }
+    });
+    Picker.show();
   }
 
   render() {
-    if (this.props.detailSalaryInfo.get("data") == null) {
-      return <ActivityIndicator />;
-    }
 
     let data1 = [];
     let data2 = [];
@@ -186,6 +226,7 @@ class DetailSalary extends Component {
           value: this.numberWithDot(parseInt(this.props.detailSalaryInfo.get("data").LuongCoBanThucNhan))
         }
       ];
+
     }
 
     return (
@@ -201,20 +242,35 @@ class DetailSalary extends Component {
         <Image
           source={{
             uri:
-              "https://s-media-cache-ak0.pinimg.com/236x/2e/56/a1/2e56a1d72c817e63bb74f6cb1b7636eb.jpg"
+            "https://s-media-cache-ak0.pinimg.com/236x/2e/56/a1/2e56a1d72c817e63bb74f6cb1b7636eb.jpg"
           }}
           style={styles.logo}
         />
-        <ScrollView>
-          <FieldSet label="Chi tiết bảng lương" data={data1} />
-          <FieldSet label="Các khoản trợ cấp" data={data2} />
-          <FieldSet label="Các khoản bị trừ tiền" data={data3} />
-          {/* <FieldSet label="Phúc lợi" data={data4} /> */}
-          <FieldSet label="Tổng số lương thực nhận" data={data5} size="large" />
-        </ScrollView>
+        <View style={styles.picker_container}>
+          <TouchableWithoutFeedback
+            onPress={() => this._openDropDown()}>
+            <View style={styles.picker}>
+              <Text>{this.state.month.split('-').reverse().join('-')}</Text>
+              <Icon name="calendar" size={15} color="#036380" />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        {this.state.isLoading ? <ActivityIndicator /> :
+          this.props.detailSalaryInfo.get("data") != null ? <ScrollView>
+            <FieldSet label="Chi tiết bảng lương" data={data1} />
+            <FieldSet label="Các khoản trợ cấp" data={data2} />
+            <FieldSet label="Các khoản bị trừ tiền" data={data3} />
+            {/* <FieldSet label="Phúc lợi" data={data4} /> */}
+            <FieldSet label="Tổng số lương thực nhận" data={data5} size="large" />
+          </ScrollView> : <NoData />}
+
 
       </Image>
     );
+
+
+
+
   }
 }
 
@@ -232,7 +288,24 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     resizeMode: "contain",
     marginBottom: 8
-  }
+  },
+  picker_container: {
+    height: 40,
+    alignSelf: 'stretch',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    marginVertical: 4,
+    marginHorizontal: 48
+  },
+  picker: {
+    flexDirection: 'row',
+    height: 40,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+
+
+  },
 });
 
 function mapStateToProps(state) {

@@ -3,12 +3,12 @@ package com.koi;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.beefe.picker.PickerViewPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.koi.nativemodule.NetworkPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -29,11 +29,11 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new ReactNativeI18n(),
                     new PickerViewPackage(),
                     new RNDeviceInfo(),
                     new ReactNativePermissionsPackage(),
                     new VectorIconsPackage(),
-                    new RNI18nPackage(),
                     new NetworkPackage()
             );
         }

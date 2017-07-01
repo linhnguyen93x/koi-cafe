@@ -53,14 +53,16 @@ class AppContainer extends Component {
 
     if (tokenId != null && user != null && user.length > 0) {
       user = JSON.parse(user);
-      Api.setToken(tokenId);
-      // KoiApi.setToken(tokenId);
-
-      this.setState({
+      Api.setToken(tokenId).then(item => {
+         this.setState({
         ...this.state,
         hasToken: tokenId !== null,
         isLoaded: true
       });
+      });
+      // KoiApi.setToken(tokenId);
+
+     
     } else {
       this.setState({
         ...this.state,
@@ -96,6 +98,7 @@ class AppContainer extends Component {
               initial={!this.state.hasToken}
               title="Login"
               onRight={null}
+              hideNavBar={true} 
               renderRightButton={() => {
                 return <View />;
               }}
@@ -145,6 +148,11 @@ class AppContainer extends Component {
               key="resultChecking"
               component={Constants.ResultChecking}
               title="Kết quả kiểm tra"
+            />
+             <Scene
+              key="userChecked"
+              component={Constants.UserChecked}
+              title="Lịch sử check in/out"
             />
           </Scene>
         </Scene>

@@ -11,6 +11,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import Immutable, { Map, fromJS } from "immutable";
+import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../style";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -27,12 +28,34 @@ class Home extends Component {
 
     this.state = {
       token: "",
-      user: null
+      user: null,
+      checkInOutIcon: null,
+      clockIcon: null,
+      moneyIcon: null,
+      listIcon: null
     };
   }
 
   componentWillMount() {
-    this._getUser();
+    this.props.fetchEmployeeList().then(() => {
+      if (
+        this.props.employeeList.get("data") != null &&
+        this.props.employeeList.get("data").count() > 0
+      ) {
+        let userLogin = this.props.employeeList
+          .get("data")
+          .first()
+          .toJS();
+        AsyncStorage.setItem("user", JSON.stringify(userLogin)).then(() => {
+          this._getUser();
+        }).catch(ex => {
+          Actions.logout();
+        });
+      } else {
+        Actions.logout();
+      }
+    });
+    this._bindHomeIcon();
   }
 
   componentDidMount() {
@@ -52,7 +75,14 @@ class Home extends Component {
       });
   }
 
-  async getExternalIp() {}
+  _bindHomeIcon = () => {
+    Icon.getImageSource('calendar-check-o', 15, 'white').then((source) => this.setState({ checkInOutIcon: source }));
+    Icon.getImageSource('clock-o', 15, 'white').then((source) => this.setState({ clockIcon: source }));
+    Icon.getImageSource('calculator', 15, 'white').then((source) => this.setState({ moneyIcon: source }));
+    Icon.getImageSource('list', 15, 'white').then((source) => this.setState({ listIcon: source }));
+  }
+
+  async getExternalIp() { }
 
   _getUser = async () => {
     let user = JSON.parse(await AsyncStorage.getItem("user"));
@@ -68,19 +98,25 @@ class Home extends Component {
       {
         key: 0,
         text: language.get("checkIn_checkOut"),
-        image: require("../../assets/icons/update_ip.png"),
+        image: this.state.checkInOutIcon,
         type: "checkInOut"
       },
       {
         key: 1,
         text: language.get("work_sheet"),
-        image: require("../../assets/icons/update_ip.png"),
+        image: this.state.clockIcon,
         type: "workSheet"
       },
       {
         key: 2,
+        text: language.get("detail_salary"),
+        image: this.state.moneyIcon,
+        type: "detailSalary"
+      },
+      {
+        key: 3,
         text: language.get("view_list_employee"),
-        image: require("../../assets/icons/view_list.png"),
+        image: this.state.listIcon,
         type: "listEmployee"
       },
       // {
@@ -110,6 +146,10 @@ class Home extends Component {
         break;
       case "workSheet":
         Actions.workSheet();
+        break;
+      case "detailSalary":
+        Actions.detailSalary();
+
         break;
       default:
     }
@@ -209,8 +249,8 @@ const styles = StyleSheet.create({
     marginVertical: 2
   },
   icon: {
-    width: 40,
-    height: 40
+    width: 20,
+    height: 20
   },
   menuText: {
     flex: 1,
@@ -222,4 +262,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+    
+
+function mapStateToProps(state) {
+  return {
+
+     employeeList: state.employeeList,
+  };
+}
+
+export default connect(mapStateToProps)(Home);

@@ -31,7 +31,7 @@ class SubmitLogin extends Component {
     };
   }
 
-  componenDidMount() {}
+  componenDidMount() { }
 
   async saveItem(item, selectedValue) {
     try {
@@ -57,27 +57,15 @@ class SubmitLogin extends Component {
         ).then(() => {
           Api.setToken(
             this.props.info.token_type + " " + this.props.info.access_token
-          );
-          // KoiApi.setToken(
-          //   this.props.info.token_type + " " + this.props.info.access_token
-          // );
-
-          this.props.fetchEmployeeList().then(() => {
-            if (
-              this.props.employeeList.get("data") != null &&
-              this.props.employeeList.get("data").count() > 0
-            ) {
-              let userLogin = this.props.employeeList
-                .get("data")
-                .first()
-                .toJS();
-              AsyncStorage.setItem("user", JSON.stringify(userLogin));
-              Actions.home({ type: "reset" });
-            } else {
-              Actions.logout();
-            }
+          ).then(() => {
+            Actions.home({ type: "reset" });
           });
+
         });
+
+        // KoiApi.setToken(
+        //   this.props.info.token_type + " " + this.props.info.access_token
+        // );
 
         // Alert.alert('Login Success!', 'Click the button to get a Chuck Norris quote!');
       } else {
@@ -117,11 +105,6 @@ class SubmitLogin extends Component {
             onChangeText={password => this.setState({ password })}
           />
         </View>
-        <TouchableOpacity activeOpacity={0.5} onPress={() => {}}>
-          <Text style={styles.forgetPassword}>
-            {language.get("forget_password")}
-          </Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           activeOpacity={0.5}
@@ -158,7 +141,8 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "white",
     paddingVertical: 15,
-    marginVertical: 24,
+    marginBottom: 24,
+    marginTop: 44,
     marginHorizontal: 40,
     alignItems: "center",
     justifyContent: "center",
@@ -178,7 +162,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    employeeList: state.employeeList,
+
     info: state.info,
     loginFail: state.loginFail
   };

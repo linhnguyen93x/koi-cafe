@@ -18,6 +18,25 @@ class NavigationDrawer extends React.Component {
     }
   }
 
+  componentWillMount() {
+    AsyncStorage.getItem('user').then(item => {
+      let userObj = JSON.parse(item);
+      this.setState({
+        user: userObj
+      })
+    })
+  }
+
+  _openDrawer = (state) => {
+    AsyncStorage.getItem('user').then(item => {
+      let userObj = JSON.parse(item);
+      this.setState({
+        user: userObj
+      })
+    })
+    Actions.refresh({ key: state.key, open: true })
+  }
+
   render() {
     const state = this.props.navigationState;
     const children = state.children;
@@ -26,7 +45,7 @@ class NavigationDrawer extends React.Component {
         ref="navigation"
         type="static"
         captureGestures={true}
-        onOpen={() => Actions.refresh({ key: state.key, open: true })}
+        onOpen={() => this._openDrawer(state)}
         onClose={() => Actions.refresh({ key: state.key, open: false })}
         content={<DrawerMenu 
           {...this.props}

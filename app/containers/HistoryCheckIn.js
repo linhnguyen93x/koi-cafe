@@ -87,8 +87,8 @@ class HistoryCheckIn extends Component {
   renderItem(item) {
     return (
       <View style={[styles.item, { height: item.height }]}>
-        <Text>Gio BT: {item.GioBT}</Text>
-        <Text>Gio TC: {item.GioTC}</Text>
+        <Text>Giờ làm bình thường: {item.GioBT}</Text>
+        <Text>Giờ làm tăng ca: {item.GioTC}</Text>
       </View>
     );
   }
@@ -122,8 +122,8 @@ class HistoryCheckIn extends Component {
     Picker.show();
   }
 
-  _searchData = async () => {
-    let user = JSON.parse(await AsyncStorage.getItem("user"));
+  _searchData = () => {
+    let user = this.props.item;
 
     if (user != null) {
       this.setState({
@@ -131,7 +131,7 @@ class HistoryCheckIn extends Component {
       });
       this.props
         .getHistoryCheckIn(
-          [{ EmpATID: user.MaNV }],
+          [{ EmpATID: user.get('MaNV') }],
           this.state.fromDate,
           this.state.toDate
         )
@@ -272,7 +272,7 @@ class HistoryCheckIn extends Component {
                 //theme={{calendarBackground: 'red'}}
                 //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
               />
-            : null}
+            : <Text style={ {color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text> }
 
       </Image>
     );

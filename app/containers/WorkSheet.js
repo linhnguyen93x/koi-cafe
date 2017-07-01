@@ -262,7 +262,7 @@ class WorkSheet extends Component {
                 //theme={{calendarBackground: 'red'}}
                 //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
               />
-            : null}
+            : <Text style={ {color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text>}
 
       </Image>
     );

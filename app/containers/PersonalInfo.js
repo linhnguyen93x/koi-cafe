@@ -10,6 +10,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Actions } from "react-native-router-flux";
+import { connect } from "react-redux";
 import { Colors, globalStyle } from "../style";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as language from "../language";
@@ -20,6 +21,11 @@ const { width, height } = Dimensions.get("window");
 class PersonalInfo extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    /* actions/checkInOut */
+    this.props.getUserOutlet(this.props.item.get('MaCuaHang'));
   }
 
   render() {
@@ -116,7 +122,7 @@ class PersonalInfo extends Component {
               >
                 <Text style={{ color: "white" }}>Cửa hàng:</Text>
                 <Text style={{ color: "white" }}>
-                  {" "} {this.props.item.get("CuaHang")}
+                  {" "} {this.props.employeeOutletInfo.get("data") != null ? this.props.employeeOutletInfo.get("data").tencuahang : ""}
                 </Text>
               </View>
               <View
@@ -173,4 +179,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PersonalInfo;
+
+function mapStateToProps(state) {
+  return {
+    employeeOutletInfo: state.employeeOutletInfo,
+  };
+}
+
+export default connect(mapStateToProps)(PersonalInfo);

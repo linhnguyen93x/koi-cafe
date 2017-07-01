@@ -22,12 +22,12 @@ class EmployeeItem extends PureComponent {
 		return <View style={styles.container}>
 				<Image
 					style={ styles.image }
-					source={{ uri: "https://s-media-cache-ak0.pinimg.com/236x/2e/56/a1/2e56a1d72c817e63bb74f6cb1b7636eb.jpg"}}
-					resizeMode="contain" />
+					source={{ uri: "http://www.limestone.edu/sites/default/files/user.png"}}
+					resizeMode="cover" />
 				<Text style={ styles.name }>{ this.props.item.get('HoTen') }</Text>
 				<TouchableOpacity
 					activeOpacity={.5}
-					onPress={ () => { Actions.employeeMenu({ title: this.props.item.get('HoTen'), item: this.props.item }) } }>
+					onPress={ () => { Actions.employeeMenu({ item: this.props.item }) } }>
 						<View style={ styles.button }>
 							<Text style={ styles.text }>Chi tiết</Text>
 						</View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 	image: {
 		width: 40,
 		height: 40,
-		borderRadius: 40
+		borderRadius: 20
 	},
 	name: {
 		flex: 1,

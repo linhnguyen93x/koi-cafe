@@ -25,13 +25,14 @@ const DrawerMenu = (props, context) => {
       // clear app key for user
       let keys = ["id_token", "user"];
 
-      AsyncStorage.multiRemove(keys, (err) => {
-        // keys k1 & k2 removed, if they existed
-        // do most stuff after removal (if you want)
-      });
+      // AsyncStorage.multiRemove(keys, (err) => {
+      //   if (!err) {
 
+      //   }
+      // });
       await AsyncStorage.clear();
       Actions.login({ type: "reset" });
+
     } catch (error) {
       console.log('AsyncStorage error: ' + error.message);
     }
@@ -43,9 +44,9 @@ const DrawerMenu = (props, context) => {
   }
 
   function logout() {
-      props.logout().then(() => {
-        clearData();
-      });
+    props.logout().then(() => {
+      clearData();
+    });
 
   }
 
@@ -65,7 +66,7 @@ const DrawerMenu = (props, context) => {
     <Image source={require('../../assets/backgrounds/blue_burst.png')}
       resizeMode="cover" style={[styles.container, props.sceneStyle, { width: null }]}>
 
-    {/*<View style={styles.imageContainer}>
+      {/*<View style={styles.imageContainer}>
         <Image source={require('../img/shopper_menu_icon.png')}
           style={styles.logoApp}
           resizeMode="contain" />
@@ -77,11 +78,11 @@ const DrawerMenu = (props, context) => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.wrapNav}>
-          <Image source={require('../../assets/icons/app.png')}
+          <Image source={{ uri: "http://www.limestone.edu/sites/default/files/user.png" }}
             style={styles.image}
             resizeMode="cover" />
           <Text style={[styles.navText, { alignSelf: 'center', padding: 4, color: '#99FFCC', fontWeight: 'bold' }]}>
-            Bi Nguyen
+            {props.user != null ? props.user.HoTen : ""}
           </Text>
         </View>
 

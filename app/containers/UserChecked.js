@@ -38,7 +38,7 @@ const {
   TouchableWithoutFeedback
 } = ReactNative;
 
-class ResultChecking extends Component {
+class UserChecked extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,20 +52,21 @@ class ResultChecking extends Component {
 
   componentWillMount() {}
 
-  _searchData = () => {
+  _searchData = async () => {
     let user = this.props.item;
 
     if (user != null) {
       this.setState({
         isLoading: true
       });
+      // actions/checkInOut.js
       this.props
-        .getResultChecking([{ EmpATID: user.get('MaNV') }], this.state.fromDate)
+        .getUserChecked(user.get('MaNV'), this.state.fromDate)
         .then(() => {
           this.setState({
             isLoading: false,
-            items: this.props.resultCheckingList.get("data") != null
-              ? this.props.resultCheckingList.get("data")
+            items: this.props.userCheckedList.get("data") != null
+              ? this.props.userCheckedList.get("data")
               : {}
           });
         });
@@ -73,7 +74,7 @@ class ResultChecking extends Component {
   };
 
   componentWillUnmount() {
-    this.props.resetResultChecking();
+    this.props.resetUserChecked();
   }
 
   render() {
@@ -143,40 +144,37 @@ class ResultChecking extends Component {
 
         {this.state.isLoading
           ? <ActivityIndicator />
-          : this.props.resultCheckingList.get("data") != null
-            ? <View style={{ marginVertical: 4, alignSelf: 'stretch' }}>
+          : this.props.userCheckedList.get("data").count() > 0
+            ? <ScrollView style={ { marginVertical: 4, alignSelf: 'stretch' } }>
+              { this.props.userCheckedList.get('data').toArray().map(item => {
+                return <View key={item.get('id')}>
                 <View style={styles.titleContainer}>
-                  <Text style={styles.title}>Kiểm tra</Text>
+                  <Text style={styles.title}>{ item.get('InOutMode') == 1 ? "Check In" : "Check Out" }</Text>
                 </View>
 
                 <View style={styles.container}>
                   <Text style={styles.textColor}>
-                    Tháng:{" "}
-                    {this.props.resultCheckingList.get("data").KetQua[0].Thang}
+                    Thời gian:{" "}
+                    <Text style={styles.textColorBlue}>{moment(item.get('Time')).format('DD/MM/YYYY H:mm:ss')}</Text>
                   </Text>
                   <Text style={styles.textColor}>
-                    Bài kiểm tra:{" "}
-                    {
-                      this.props.resultCheckingList.get("data").KetQua[0]
-                        .BaiKiemTra
-                    }
+                    Mac address:{" "}
+                    <Text style={styles.textColorBlue}>{item.get('MacAddress')}</Text>
+                  </Text>
+                  <Text style={[styles.textColor, { paddingHorizontal: 8 } ]}>
+                    Hệ điều hành:{" "}
+                    <Text style={styles.textColorBlue}>{item.get('OS')}</Text>
                   </Text>
                   <Text style={styles.textColor}>
-                    Điểm:{" "}
-                    {this.props.resultCheckingList.get("data").KetQua[0].Diem}
-                  </Text>
-                  <Text style={styles.textColor}>
-                    Kết quả:{" "}
-                    {this.props.resultCheckingList.get("data").KetQua[0].KetQua}
-                  </Text>
-                  <Text style={styles.textColor}>
-                    Ghi chú:{" "}
-                    {this.props.resultCheckingList.get("data").KetQua[0].GhiChu}
+                    Vị trí:{" "}
+                    <Text style={styles.textColorBlue}>{item.get('Location') != null ? item.get('Location') : ""}</Text>
                   </Text>
                 </View>
 
               </View>
-            : <Text style={ {color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text>}
+              }) }
+            </ScrollView>
+            : <Text style={ {color: 'white'} }>Không có dữ liệu</Text>}
 
       </Image>
     );
@@ -257,13 +255,16 @@ const styles = StyleSheet.create({
   },
   textColor: {
     color: "white"
+  },
+  textColorBlue: {
+    color: Colors.colorPrimary
   }
 });
 
 function mapStateToProps(state) {
   return {
-    resultCheckingList: state.resultCheckingList
+    userCheckedList: state.userCheckedList
   };
 }
 
-export default connect(mapStateToProps)(ResultChecking);
+export default connect(mapStateToProps)(UserChecked);
