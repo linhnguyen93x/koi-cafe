@@ -83,7 +83,7 @@ class SubmitLogin extends Component {
             placeholder={language.get("username")}
             placeholderTextColor="white"
             style={styles.input}
-            underlineColorAndroid="white"
+            underlineColorAndroid="transparent"
             returnKeyType="next"
             value={this.state.username}
             onSubmitEditing={() => this.passwordInput.focus()}
@@ -97,7 +97,7 @@ class SubmitLogin extends Component {
             placeholderTextColor="white"
             secureTextEntry
             style={styles.input}
-            underlineColorAndroid="white"
+            underlineColorAndroid="transparent"
             returnKeyType="go"
             value={this.state.password}
             selectTextOnFocus={true}
@@ -131,7 +131,9 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     marginHorizontal: 20,
     height: 40,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    borderBottomWidth: 1,
+    borderColor: 'white',
   },
   input: {
     flex: 1,

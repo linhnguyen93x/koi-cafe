@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
 		color: 'white',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
-		paddingHorizontal: 16
+		paddingHorizontal: 16,
+        backgroundColor: "transparent"
 
 	},
 	button: {

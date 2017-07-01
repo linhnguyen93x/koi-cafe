@@ -174,7 +174,7 @@ class UserChecked extends Component {
               </View>
               }) }
             </ScrollView>
-            : <Text style={ {color: 'white'} }>Không có dữ liệu</Text>}
+                :    <NoData/> }
 
       </Image>
     );
@@ -254,7 +254,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.colorPrimaryDark
   },
   textColor: {
-    color: "white"
+    color: "white",
+    backgroundColor: "transparent"
   },
   textColorBlue: {
     color: Colors.colorPrimary

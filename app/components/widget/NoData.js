@@ -12,7 +12,7 @@ class NoData extends Component {
 	render() {
 		return (
 			<View style={ { alignItems: 'center' } }>
-				<Text style={ { padding: 8, color: Colors.text_secondary, fontSize: 14 } }>Chưa có dữ liệu.</Text>
+				<Text style={ { padding: 8, backgroundColor:"transparent",color: Colors.text_secondary, fontSize: 14 } }>Chưa có dữ liệu.</Text>
 			</View>
 		);
 	}
