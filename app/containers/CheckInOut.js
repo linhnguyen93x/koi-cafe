@@ -77,7 +77,14 @@ class CheckInOut extends Component {
     this.props.getCheckStatus(this.state.user.MaNV, moment(new Date()).format("YYYY-MM-DD"));
 
     // Get Location
-    this._getLocationAsync();
+    if (this.props.locationUser.get('location') != null) {
+      this.setState({
+        location: this.props.locationUser.get('location')
+      })
+    } else {
+      this._getLocationAsync();
+    }
+
 
     // Get MAC address
     NetworkInfo.getMACAddress(
@@ -491,7 +498,8 @@ function mapStateToProps(state) {
     employeeOutletIps: state.employeeOutletIps,
     employeeOutletInfo: state.employeeOutletInfo,
     checkStatus: state.checkStatus,
-    checkResponseStatus: state.checkResponseStatus
+    checkResponseStatus: state.checkResponseStatus,
+    locationUser: state.locationUser
   };
 }
 

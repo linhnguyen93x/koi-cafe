@@ -6,6 +6,7 @@ import * as DetailSalaryActions from './detailSalary'
 import * as WorkSheetActions from './workSheet'
 import * as HistoryCheckInActions from './historyCheckIn'
 import * as ResultCheckingActions from './resultChecking'
+import * as LocationActions from './location'
 
 export const ActionCreators = Object.assign({},
 	EmployeeListActions,
@@ -15,5 +16,6 @@ export const ActionCreators = Object.assign({},
 	DetailSalaryActions,
 	WorkSheetActions,
 	HistoryCheckInActions,
-	ResultCheckingActions
+	ResultCheckingActions,
+	LocationActions
 );

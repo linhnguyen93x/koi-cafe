@@ -9,6 +9,9 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Color, globalStyle } from "../style";
 import Api from "../libs/api";
 import KoiApi from "../libs/koiApi";
+import Permissions from "react-native-permissions";
+var MessageBarAlert = require('react-native-message-bar').MessageBar;
+var MessageBarManager = require('react-native-message-bar').MessageBarManager;
 
 const {
   ActivityIndicator,
@@ -18,7 +21,9 @@ const {
   Image,
   View,
   Text,
-  Platform
+  Platform,
+  Alert,
+  NetInfo
 } = ReactNative;
 
 const RouterWithRedux = connect()(Router);
@@ -47,6 +52,77 @@ class AppContainer extends Component {
     this.getSetting();
   }
 
+  componentDidMount() {
+    this._trackLocation();
+
+
+    NetInfo.isConnected.fetch().then(isConnected => {
+      // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+      this._handleShowMessage(isConnected);
+    });
+
+    NetInfo.isConnected.addEventListener(
+      'change',
+      this.handleFirstConnectivityChange.bind(this)
+    );
+
+  }
+
+  _handleShowMessage = isConnected => {
+    if (!isConnected) {
+      MessageBarManager.showAlert({
+        title: '',
+        message: 'Vui lòng kiểm tra kết nối mạng để tiếp tục...',
+        alertType: 'error',
+        shouldHideAfterDelay: false,
+        shouldHideOnTap: false,
+        position: 'bottom',
+        // See Properties section for full customization
+        // Or check `index.ios.js` or `index.android.js` for a complete example
+      });
+    } else {
+      MessageBarManager.hideAlert();
+    }
+  }
+
+  handleFirstConnectivityChange(isConnected) {
+    this._handleShowMessage(isConnected);
+    NetInfo.isConnected.removeEventListener(
+      'change',
+      this.handleFirstConnectivityChange.bind(this)
+    );
+  }
+
+  _trackLocation = async () => {
+    let status = await Permissions.requestPermission("location");
+    if (status !== "authorized") {
+      Alert.alert(
+        'Thông báo',
+        'ứng dụng chưa được cấp quyền lấy vị trí người dùng',
+        [
+          { text: 'Xác nhận', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      )
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.props.setLocation(position);
+      },
+      (error) => { },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        this.props.setLocation(position);
+      },
+      (error) => { },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    );
+  }
+
   async getSetting() {
     var tokenId = await AsyncStorage.getItem("id_token");
     var user = await AsyncStorage.getItem("user");
@@ -54,25 +130,44 @@ class AppContainer extends Component {
     if (tokenId != null && user != null && user.length > 0) {
       user = JSON.parse(user);
       Api.setToken(tokenId).then(item => {
-         this.setState({
-        ...this.state,
-        hasToken: tokenId !== null,
-        isLoaded: true
+        this.setState({
+          ...this.state,
+          hasToken: tokenId !== null,
+          isLoaded: true
+        });
       });
-      });
-      // KoiApi.setToken(tokenId);
 
-     
     } else {
+      this._getEmployeeInfo();
+    }
+  }
+
+  _getEmployeeInfo = () => {
+    this.props.fetchEmployeeList().then(() => {
+      if (
+        this.props.employeeList.get("data") != null &&
+        this.props.employeeList.get("data").count() > 0
+      ) {
+        let userLogin = this.props.employeeList
+          .get("data")
+          .first()
+          .toJS();
+        AsyncStorage.setItem("user", JSON.stringify(userLogin));
+      }
       this.setState({
         ...this.state,
         isLoaded: true
       });
-    }
+    });
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
+    NetInfo.isConnected.removeEventListener('change', this.handleFirstConnectivityChange.bind(this));
   }
 
   render() {
-    if (!this.state.isLoaded) {
+    if (!this.state.isLoaded && !this.props.employeeList.get('isLoading')) {
       return <ActivityIndicator />;
     }
 
@@ -87,7 +182,7 @@ class AppContainer extends Component {
         barButtonIconStyle={styles.barButtonIconStyle}
         leftButtonStyle={styles.leftButtonStyle}
         renderRightButton={createRightButton}
-        onRight={() => {}}
+        onRight={() => { }}
         drawerImage={require("../../assets/icons/menu_burger_white.png")}
       >
         <Scene key="drawer" component={Constants.NavigationDrawer} open={true}>
@@ -98,7 +193,7 @@ class AppContainer extends Component {
               initial={!this.state.hasToken}
               title="Login"
               onRight={null}
-              hideNavBar={true} 
+              hideNavBar={true}
               renderRightButton={() => {
                 return <View />;
               }}
@@ -149,7 +244,7 @@ class AppContainer extends Component {
               component={Constants.ResultChecking}
               title="Kết quả kiểm tra"
             />
-             <Scene
+            <Scene
               key="userChecked"
               component={Constants.UserChecked}
               title="Lịch sử check in/out"
@@ -230,10 +325,18 @@ const animationStyle = props => {
   };
 };
 
+class RootComponent extends Component {
+  render() {
+    return <View style={{ backgroundColor: 'transparent' }}></View>
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
 export default connect(state => {
-  return {};
+  return {
+    employeeList: state.employeeList,
+  };
 }, mapDispatchToProps)(AppContainer);

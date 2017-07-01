@@ -33,9 +33,10 @@ const {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  TouchableNativeFeedback,
   ScrollView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Linking ,
+  Platform
 } = ReactNative;
 
 class UserChecked extends Component {
@@ -72,6 +73,15 @@ class UserChecked extends Component {
         });
     }
   };
+
+  _openUrl = item => {
+    const scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:';
+    const prefix = Platform.OS === 'ios' ? '' : '?q=' + item.get('Location');
+    const location = scheme + item.get('Location') + prefix;
+
+    Linking.openURL(location);
+  }
+
 
   componentWillUnmount() {
     this.props.resetUserChecked();
@@ -167,14 +177,25 @@ class UserChecked extends Component {
                   </Text>
                   <Text style={styles.textColor}>
                     Vị trí:{" "}
-                    <Text style={styles.textColorBlue}>{item.get('Location') != null ? item.get('Location') : ""}</Text>
+                    {item.get('Location') != null ?
+                      <Text style={styles.textColorBlue}>{item.get('Location')}  
+                      </Text> : null}
                   </Text>
+                  <TouchableOpacity
+                    activtyOpacity={.5}
+                    onPress={() => this._openUrl(item)}>
+                    <View style={ {borderBottomWidth: 1, borderColor: 'white'} }>
+                    <Text style={ {color: 'white'} }>
+                      <Icon name="map" size={15} color="white" />  Xem vị trí
+                    </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
 
               </View>
               }) }
             </ScrollView>
-                :    <NoData/> }
+            : <Text style={ {color: 'white'} }>Không có dữ liệu</Text>}
 
       </Image>
     );
@@ -254,8 +275,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.colorPrimaryDark
   },
   textColor: {
-    color: "white",
-    backgroundColor: "transparent"
+    color: "white"
   },
   textColorBlue: {
     color: Colors.colorPrimary

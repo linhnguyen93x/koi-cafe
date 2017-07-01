@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from "react";
-import { StyleSheet, Text, View, AsyncStorage, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, View, AsyncStorage, ScrollView, Image, ViewPropTypes  } from "react-native";
 import Button from 'react-native-button';
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux';
@@ -13,7 +13,7 @@ const contextTypes = {
 
 const propTypes = {
   name: PropTypes.string,
-  sceneStyle: View.propTypes.style,
+  sceneStyle: ViewPropTypes.style,
   title: PropTypes.string,
 };
 

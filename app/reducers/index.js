@@ -8,6 +8,7 @@ import * as DetailSalaryReducer from './detailSalary'
 import * as WorkSheetReducer from './workSheet'
 import * as HistoryCheckInReducer from './historyCheckIn'
 import * as ResultCheckingReducer from './resultChecking'
+import * as LocationReducer from './location'
 
 const appReducer = combineReducers(Object.assign(
 	routes,
@@ -17,7 +18,8 @@ const appReducer = combineReducers(Object.assign(
 	DetailSalaryReducer,
 	WorkSheetReducer,
 	HistoryCheckInReducer,
-	ResultCheckingReducer
+	ResultCheckingReducer,
+	LocationReducer
 ));
 
 const rootReducer = (state, action) => {

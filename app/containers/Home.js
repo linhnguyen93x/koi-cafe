@@ -32,47 +32,69 @@ class Home extends Component {
       checkInOutIcon: null,
       clockIcon: null,
       moneyIcon: null,
-      listIcon: null
+      listIcon: null,
+      tryTime: 0
     };
   }
 
   componentWillMount() {
-    this.props.fetchEmployeeList().then(() => {
-      if (
-        this.props.employeeList.get("data") != null &&
-        this.props.employeeList.get("data").count() > 0
-      ) {
-        let userLogin = this.props.employeeList
-          .get("data")
-          .first()
-          .toJS();
-        AsyncStorage.setItem("user", JSON.stringify(userLogin)).then(() => {
-          this._getUser();
-        }).catch(ex => {
-          Actions.logout();
-        });
-      } else {
-        Actions.logout();
-      }
-    });
+    this._getEmployeeInfo();
     this._bindHomeIcon();
   }
 
-  componentDidMount() {
-    fetch("https://ifcfg.me/ip")
-      .then(resp => {
-        return resp.text();
-      })
-      .then(textResponse => {
-        let ip = textResponse;
+  _getEmployeeInfo = async () => {
+    let user = JSON.parse(await AsyncStorage.getItem("user"));
 
-        if (ip != null) {
-          Actions.refresh({ title: ip });
-        }
-      })
-      .catch(ex => {
-        console.log(ex);
+    if (user != null) {
+      this.setState({
+        ...this.state,
+        user
       });
+    } else {
+      this.props.fetchEmployeeList().then(() => {
+        if (
+          this.props.employeeList.get("data") != null &&
+          this.props.employeeList.get("data").count() > 0
+        ) {
+          let userLogin = this.props.employeeList
+            .get("data")
+            .first()
+            .toJS();
+          AsyncStorage.setItem("user", JSON.stringify(userLogin)).then(() => {
+            this._getUser();
+          });
+        } else {
+          this.setState({
+            tryTime: this.state.tryTime + 1
+          });
+          if (this.state.tryTime > 2) {
+            Actions.logout();
+          } else {
+            this._getEmployeeInfo();
+          }
+
+        }
+      });
+    }
+
+
+  }
+
+  componentDidMount() {
+    // fetch("https://ifcfg.me/ip")
+    //   .then(resp => {
+    //     return resp.text();
+    //   })
+    //   .then(textResponse => {
+    //     let ip = textResponse;
+
+    //     if (ip != null) {
+    //       Actions.refresh({ title: ip });
+    //     }
+    //   })
+    //   .catch(ex => {
+    //     console.log(ex);
+    //   });
   }
 
   _bindHomeIcon = () => {
@@ -157,7 +179,24 @@ class Home extends Component {
 
   render() {
     if (this.state.user == null) {
-      return <ActivityIndicator />;
+      return <Image
+        style={[
+          styles.imgContainer,
+          globalStyle.container,
+          globalStyle.mainPaddingTop,
+          {
+            justifyContent: "flex-start",
+            alignItems: "center"
+          }
+        ]}
+        source={require("../../assets/backgrounds/main_bg.png")}
+        resizeMode={Image.resizeMode.cover}
+      >
+        <ActivityIndicator size="large" />
+        <Text style={{ color: 'white' }}>Đang lấy thông tin nhân viên... {this.state.tryTime > 0 ?
+           `(${this.state.tryTime})` : ""}
+        </Text>
+      </Image>;
     }
 
     let functionByRole = this._bindViewRole();
@@ -262,12 +301,12 @@ const styles = StyleSheet.create({
   }
 });
 
-    
+
 
 function mapStateToProps(state) {
   return {
 
-     employeeList: state.employeeList,
+    employeeList: state.employeeList,
   };
 }
 
