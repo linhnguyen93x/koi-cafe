@@ -111,7 +111,7 @@ class AppContainer extends Component {
         this.props.setLocation(position);
       },
       (error) => { },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
     );
 
     this.watchId = navigator.geolocation.watchPosition(
@@ -119,7 +119,7 @@ class AppContainer extends Component {
         this.props.setLocation(position);
       },
       (error) => { },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
     );
   }
 

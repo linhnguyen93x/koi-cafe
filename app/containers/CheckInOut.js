@@ -128,9 +128,9 @@ class CheckInOut extends Component {
         );
       },
       {
-        enableHighAccuracy: true,
-        maximumAge: 30000,
-        timeout: 15000
+        enableHighAccuracy: false,
+        maximumAge: 1000,
+        timeout: 20000
       }
     );
   };
