@@ -12,6 +12,7 @@ import {
   Text,
   View
 } from 'react-native';
+import { NativeModules } from 'react-native';  
 
 export default class Koi extends Component {
   render() {

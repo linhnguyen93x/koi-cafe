@@ -87,7 +87,19 @@ class CheckInOut extends Component {
 
 
     // Get MAC address
-    NetworkInfo.getMACAddress(
+    if(Platform.OS === 'ios'){
+      NetworkInfo.getMACAddress((error, events) => {
+        if (error) {
+          console.error(error);
+        } else {
+          this.setState({
+          ...this.state,
+          macAddress: events
+        });
+        }
+      });
+    }else{
+       NetworkInfo.getMACAddress(
       err => {
         console.log(err);
       },
@@ -98,6 +110,9 @@ class CheckInOut extends Component {
         });
       }
     );
+      
+    }
+   
   }
 
   _getLocationAsync = async () => {
