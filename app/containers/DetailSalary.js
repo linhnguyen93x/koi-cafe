@@ -242,9 +242,10 @@ class DetailSalary extends Component {
         <Image
           source={{
             uri:
-            "https://s-media-cache-ak0.pinimg.com/236x/2e/56/a1/2e56a1d72c817e63bb74f6cb1b7636eb.jpg"
+            "http://www.limestone.edu/sites/default/files/user.png"
           }}
           style={styles.logo}
+          resizeMode="cover"
         />
         <View style={styles.picker_container}>
           <TouchableWithoutFeedback
@@ -303,8 +304,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 8,
-
-
   },
 });
 

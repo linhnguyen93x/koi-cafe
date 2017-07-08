@@ -26,6 +26,16 @@ export const employeeOutletInfo = createReducer(initialState, {
   }
 });
 
+export const allOutletInfo = createReducer(initialState, {
+  [types.SET_ALL_OUTLET_INFO](state, action) {
+    return state.withMutations(ctx => {
+      ctx
+        .set("data", action.result != null ? action.result : null)
+        .set("isError", action.result == null ? true : false);
+    });
+  }
+});
+
 export const employeeOutletIps = createReducer(ipState, {
   [types.SET_EMPLOYEE_OUTLET_IP](state, action) {
     return state.withMutations(ctx => {

@@ -30,6 +30,36 @@ export function getUserOutlet(userCode) {
   };
 }
 
+/**
+ * [getAllOutlet Get all outlet use for dropdown]
+ * @return {[type]} [description]
+ */
+export function getAllOutlet() {
+  return (dispatch, getState) => {
+    return KoiApi.get(`/api/getcuahang`)
+      .then(resp => {
+        if (resp != null && resp.length > 0) {
+          dispatch({
+            type: types.SET_ALL_OUTLET_INFO,
+            result: resp.length > 0 ? resp : null
+          });
+        } else {
+          dispatch({
+            type: types.SET_ALL_OUTLET_INFO,
+            result: null
+          });
+        }
+      })
+      .catch(ex => {
+        console.log(ex);
+        dispatch({
+          type: types.SET_ALL_OUTLET_INFO,
+          result: null
+        });
+      });
+  };
+}
+
 export function getIpOutlet(outletInfo) {
   return (dispatch, getState) => {
     return KoiApi.get(`/api/getip`)
@@ -67,7 +97,7 @@ export function getCheckStatus(maNV, date) {
         let userIp = resp.filter(el => {
             return maNV == el.UserID;
           });
-      
+
         dispatch({
           type: types.SET_CHECK_STATUS,
           status: resp.length > 0 ? resp[0] : null
