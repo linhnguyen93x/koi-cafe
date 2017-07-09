@@ -67,7 +67,7 @@ class Api {
     options.headers = Api.headers();
     return fetch(url, options).then(resp => {
       let json = resp.json();
-      if (resp.status == 500 || resp.status == 503) {
+      if (resp.status == 500 || resp.status == 503 || resp.status == 401) {
         UserUtils.logoutWithoutRedux().then(() => {
           UserUtils.clearData();
         });

@@ -193,3 +193,15 @@ export function resetUserChecked() {
     });
   };
 }
+
+export function resetUserOutlet()  {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      resolve();
+    }).then(() => {
+      dispatch({
+        type: types.RESET_USER_OUTLET
+      });
+    });
+  }
+}

@@ -63,56 +63,54 @@ class CheckInOut extends Component {
       } else {
         // Works on both iOS and Android
         Alert.alert(
-          'Thông báo',
-          'Không thể lấy thông tin cửa hàng. Vui lòng liên hệ quản trị viên!',
-          [
-            { text: 'OK', onPress: () => Actions.pop() },
-          ],
+          "Thông báo",
+          "Không thể lấy thông tin cửa hàng. Vui lòng liên hệ quản trị viên!",
+          [{ text: "OK", onPress: () => Actions.pop() }],
           { cancelable: false }
-        )
+        );
       }
     });
 
     /* actions/checkInOut */
-    this.props.getCheckStatus(this.state.user.MaNV, moment(new Date()).format("YYYY-MM-DD"));
+    this.props.getCheckStatus(
+      this.state.user.MaNV,
+      moment(new Date()).format("YYYY-MM-DD")
+    );
 
     // Get Location
-    if (this.props.locationUser.get('location') != null) {
+    if (this.props.locationUser.get("location") != null) {
       this.setState({
-        location: this.props.locationUser.get('location')
-      })
+        location: this.props.locationUser.get("location")
+      });
     } else {
       this._getLocationAsync();
     }
 
-
     // Get MAC address
-    if(Platform.OS === 'ios'){
+    if (Platform.OS === "ios") {
       NetworkInfo.getMACAddress((error, events) => {
         if (error) {
           console.error(error);
         } else {
           this.setState({
-          ...this.state,
-          macAddress: events
-        });
+            ...this.state,
+            macAddress: events
+          });
         }
       });
-    }else{
-       NetworkInfo.getMACAddress(
-      err => {
-        console.log(err);
-      },
-      mac => {
-        this.setState({
-          ...this.state,
-          macAddress: mac
-        });
-      }
-    );
-      
+    } else {
+      NetworkInfo.getMACAddress(
+        err => {
+          console.log(err);
+        },
+        mac => {
+          this.setState({
+            ...this.state,
+            macAddress: mac
+          });
+        }
+      );
     }
-   
   }
 
   _getLocationAsync = async () => {
@@ -233,15 +231,15 @@ class CheckInOut extends Component {
                 // console.log(this.props.checkStatus.get("isCheckin"));
                 this.props
                   .submitCheckInOut(
-                  this.state.user.MaNV,
-                  this.props.checkStatus.get("isCheckin") == null ||
+                    this.state.user.MaNV,
+                    this.props.checkStatus.get("isCheckin") == null ||
                     this.props.checkStatus.get("isCheckin") == 0 ||
                     this.props.checkStatus.get("isCheckin") == 1
-                    ? 1
-                    : 2,
-                  this.state.macAddress,
-                  DeviceInfo.getBrand() + " " + DeviceInfo.getModel(),
-                  submitLocation
+                      ? 1
+                      : 2,
+                    this.state.macAddress,
+                    DeviceInfo.getBrand() + " " + DeviceInfo.getModel(),
+                    submitLocation
                   )
                   .then(() => {
                     if (this.props.checkResponseStatus.get("isError")) {
@@ -261,11 +259,11 @@ class CheckInOut extends Component {
                       Alert.alert(
                         "Check thành công",
                         this.props.checkResponseStatus.get("data").InOutMode ==
-                          1
+                        1
                           ? "Check in lúc " +
-                          this.props.checkResponseStatus.get("data").Time
+                            this.props.checkResponseStatus.get("data").Time
                           : "Check out lúc " +
-                          this.props.checkResponseStatus.get("data").Time,
+                            this.props.checkResponseStatus.get("data").Time,
                         [
                           {
                             text: "Xác nhận",
@@ -397,12 +395,14 @@ class CheckInOut extends Component {
       >
         {/*Logo Section*/}
         <View style={[styles.contentSection]}>
-          <Text style={styles.name}>{this.state.time}</Text>
+          <Text style={styles.name}>
+            {this.state.time}
+          </Text>
           <Text style={styles.role}>
             {this.props.employeeOutletInfo.get("data") != null
               ? moment(new Date()).format("ll") +
-              ", " +
-              this.props.employeeOutletInfo.get("data").tencuahang
+                ", " +
+                this.props.employeeOutletInfo.get("data").tencuahang
               : ""}
           </Text>
         </View>
@@ -412,55 +412,110 @@ class CheckInOut extends Component {
             this.onLayout(event);
           }}
         >
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "transparent",
-              borderWidth: 1,
-              borderColor: Colors.colorPrimaryDark,
-              borderRadius: borderRadius,
-              padding: 16
-            }}
-          >
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => {
-                this._checkIn();
+          <View style={{ alignItems: "center" }}>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "transparent",
+                borderWidth: 1,
+                borderColor: Colors.colorPrimaryDark,
+                borderRadius: borderRadius,
+                padding: 16
               }}
             >
-              <Animated.View
-                style={{
-                  backgroundColor: interpolatedColorAnimation,
-                  opacity: this.state.fadeValue,
-                  width: this.state.heightMenu.width - 36,
-                  height: this.state.heightMenu.width - 36,
-                  borderRadius: borderRadius,
-                  justifyContent: "center",
-                  alignItems: "center"
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => {
+                  this._checkIn();
                 }}
               >
-                <Text
+                <Animated.View
                   style={{
-                    color: "white",
-                    textAlign: "center",
-                    fontSize: 32,
-                    fontWeight: "bold"
+                    backgroundColor: interpolatedColorAnimation,
+                    opacity: this.state.fadeValue,
+                    width: this.state.heightMenu.width / 2 - 48,
+                    height: this.state.heightMenu.width / 2 - 48,
+                    borderRadius: borderRadius,
+                    justifyContent: "center",
+                    alignItems: "center"
                   }}
                 >
-                  {this.props.checkStatus.get("isCheckin") == null
-                    ? ""
-                    : this.props.checkStatus.get("isCheckin") == 0 ||
-                      this.props.checkStatus.get("isCheckin") == 1
-                      ? "CHECK\nIN"
-                      : "CHECK\nOUT"}
-
-                </Text>
-              </Animated.View>
-            </TouchableOpacity>
-
+                  <Text
+                    style={{
+                      color: "white",
+                      textAlign: "center",
+                      fontSize: 32,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {this.props.checkStatus.get("isCheckin") == null
+                      ? ""
+                      : this.props.checkStatus.get("isCheckin") == 0 ||
+                        this.props.checkStatus.get("isCheckin") == 1
+                        ? "CHECK\nIN"
+                        : "CHECK\nOUT"}
+                  </Text>
+                </Animated.View>
+              </TouchableOpacity>
+            </View>
+            <Text style={{ color: "white", paddingTop: 8 }}>
+              CHECK ĐẦU NGÀY
+            </Text>
           </View>
 
+          {/* Check giữa giờ  */}
+          <View style={{ alignItems: "center" }}>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "transparent",
+                borderWidth: 1,
+                borderColor: Colors.colorPrimaryDark,
+                borderRadius: borderRadius,
+                padding: 16
+              }}
+            >
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => {
+                  this._checkIn();
+                }}
+              >
+                <Animated.View
+                  style={{
+                    backgroundColor: interpolatedColorAnimation,
+                    opacity: this.state.fadeValue,
+                    width: this.state.heightMenu.width / 2 - 48,
+                    height: this.state.heightMenu.width / 2 - 48,
+                    borderRadius: borderRadius,
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                      textAlign: "center",
+                      fontSize: 32,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {this.props.checkStatus.get("isCheckin") == null
+                      ? ""
+                      : this.props.checkStatus.get("isCheckin") == 0 ||
+                        this.props.checkStatus.get("isCheckin") == 1
+                        ? "CHECK\nIN"
+                        : "CHECK\nOUT"}
+                  </Text>
+                </Animated.View>
+              </TouchableOpacity>
+            </View>
+            <Text style={{ color: "white", paddingTop: 8 }}>
+              CHECK GIỮA NGÀY
+            </Text>
+          </View>
         </View>
       </Image>
     );
@@ -478,9 +533,9 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   logo: {
-    height: 150,
-    width: 150,
-    borderRadius: 75,
+    height: 75,
+    width: 75,
+    borderRadius: 35,
     resizeMode: "contain"
   },
   name: {
@@ -495,9 +550,10 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     flex: 1,
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    margin: 48
+    marginVertical: 48
   },
   menu: {
     justifyContent: "space-around",

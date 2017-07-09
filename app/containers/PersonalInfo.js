@@ -28,6 +28,10 @@ class PersonalInfo extends Component {
     this.props.getUserOutlet(this.props.item.get('MaCuaHang'));
   }
 
+  componentWillUnmount() {
+    this.props.resetUserOutlet();
+  }
+
   render() {
     return (
       <Image

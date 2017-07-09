@@ -19,9 +19,9 @@ const {
   TouchableWithoutFeedback
 } = ReactNative;
 
-const pickerData = [
-  ["Tất cả"]
-];
+const pickerData = ["Tất cả"];
+let mapOfPickerData = new Map();
+mapOfPickerData.set("Tất cả", "All");
 
 class EmployeeList extends Component {
   constructor(props) {
@@ -29,21 +29,31 @@ class EmployeeList extends Component {
     this.state = {
       search: "",
       isLoading: false,
-			outlet: "Tất cả"
+      outlet: "Tất cả",
+      employeeData: null
     };
   }
 
   componentWillMount() {
     //actions/checkInOut.js
-    this.props.getAllOutlet().then( () => {
-      if (!this.props.allOutletInfo.get('isError')) {
-        console.log('haha');
+    this.props.getAllOutlet().then(() => {
+      if (!this.props.allOutletInfo.get("isError")) {
+        this.props.allOutletInfo.get("data").forEach(item => {
+          pickerData.push(item.tencuahang);
+          mapOfPickerData.set(item.tencuahang, item.macuahang);
+        });
+
+        console.log("a");
       }
     });
 
     // actions/employeeList.js
     this.props.changeLoading().then(() => {
-      this.props.fetchEmployeeList();
+      this.props.fetchEmployeeList().then(() => {
+        this.setState({
+          employeeData: this.props.employeeList.get("data")
+        });
+      });
     });
   }
 
@@ -84,11 +94,24 @@ class EmployeeList extends Component {
       pickerTitleText: "Cửa hàng",
       selectedValue: [this.state.outlet],
       onPickerConfirm: data => {
-        this.setState({
-          outlet: data
-        }, () => {
-          // this._getPaySlip(this.state.month);
-        });
+        this.setState(
+          {
+            outlet: data,
+            isLoading: true
+          },
+          () => {
+            this.props
+              .filterEmployeeByCat(
+                this.state.employeeData,
+                mapOfPickerData.get(this.state.outlet.toString())
+              )
+              .then(() => {
+                this.setState({
+                  isLoading: false
+                });
+              });
+          }
+        );
       },
       onPickerCancel: data => {},
       onPickerSelect: data => {}
@@ -114,29 +137,33 @@ class EmployeeList extends Component {
         <View style={styles.picker_container}>
           <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
             <View style={styles.picker}>
-              <Text>{ this.state.outlet }</Text>
+              <Text>
+                {this.state.outlet}
+              </Text>
               <Icon name="angle-down" size={15} color="#036380" />
             </View>
           </TouchableWithoutFeedback>
         </View>
         {/*FlatList */}
-        <FlatList
-          keyExtractor={this._keyExtractor}
-          style={[styles.list]}
-          data={this.props.employeeList.get("data").toArray()}
-          renderItem={this.renderListItem}
-          onEndReached={info => this._loadMore(info)}
-          initialNumToRender={10}
-          getItemLayout={(data, index) => ({
-            length: 60,
-            offset: 61 * index,
-            index
-          })}
-          ItemSeparatorComponent={SeperatorComponent}
-          ListFooterComponent={
-            !this.props.employeeList.get("isEnd") ? FooterComponent : null
-          }
-        />
+        {this.state.isLoading
+          ? <ActivityIndicator size="large" />
+          : <FlatList
+              keyExtractor={this._keyExtractor}
+              style={[styles.list]}
+              data={this.props.employeeList.get("data").toArray()}
+              renderItem={this.renderListItem}
+              onEndReached={info => this._loadMore(info)}
+              initialNumToRender={10}
+              getItemLayout={(data, index) => ({
+                length: 60,
+                offset: 61 * index,
+                index
+              })}
+              ItemSeparatorComponent={SeperatorComponent}
+              ListFooterComponent={
+                !this.props.employeeList.get("isEnd") ? FooterComponent : null
+              }
+            />}
       </Image>
     );
   }

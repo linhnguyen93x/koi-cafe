@@ -23,6 +23,9 @@ export const employeeOutletInfo = createReducer(initialState, {
         .set("data", action.employeeStore != null ? action.employeeStore : null)
         .set("isError", action.employeeStore == null ? true : false);
     });
+  },
+  [types.RESET_USER_OUTLET](state, action) {
+    return initialState;
   }
 });
 
