@@ -55,7 +55,6 @@ class AppContainer extends Component {
   componentDidMount() {
     this._trackLocation();
 
-
     NetInfo.isConnected.fetch().then(isConnected => {
       // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
       this._handleShowMessage(isConnected);
@@ -90,36 +89,6 @@ class AppContainer extends Component {
     NetInfo.isConnected.removeEventListener(
       'change',
       this.handleFirstConnectivityChange.bind(this)
-    );
-  }
-
-  _trackLocation = async () => {
-    let status = await Permissions.requestPermission("location");
-    if (status !== "authorized") {
-      Alert.alert(
-        'Thông báo',
-        'ứng dụng chưa được cấp quyền lấy vị trí người dùng',
-        [
-          { text: 'Xác nhận', onPress: () => console.log('OK Pressed') },
-        ],
-        { cancelable: false }
-      )
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.props.setLocation(position);
-      },
-      (error) => { },
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
-    );
-
-    this.watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        this.props.setLocation(position);
-      },
-      (error) => { },
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
     );
   }
 
@@ -160,6 +129,32 @@ class AppContainer extends Component {
       });
     });
   }
+
+  _trackLocation = async () => {
+    let status = await Permissions.requestPermission("location");
+    if (status !== "authorized") {
+      Alert.alert(
+        "Thông báo",
+        "ứng dụng chưa được cấp quyền lấy vị trí người dùng",
+        [{ text: "Xác nhận", onPress: () => console.log("OK Pressed") }],
+        { cancelable: false }
+      );
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.props.setLocation(position);
+      },
+      error => {}
+    );
+
+    this.watchId = navigator.geolocation.watchPosition(
+      position => {
+        this.props.setLocation(position);
+      },
+      error => {}
+    );
+  };
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);

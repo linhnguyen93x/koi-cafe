@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -13,18 +13,18 @@ import {
   NativeModules,
   Alert,
   ActivityIndicator
-} from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
-import { Colors, globalStyle } from '../style';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as language from '../language';
-import moment from 'moment';
-import DeviceInfo from 'react-native-device-info';
-import vimoment from 'moment/locale/vi';
-import Permissions from 'react-native-permissions';
+} from "react-native";
+import { Actions } from "react-native-router-flux";
+import { connect } from "react-redux";
+import { Colors, globalStyle } from "../style";
+import Icon from "react-native-vector-icons/FontAwesome";
+import * as language from "../language";
+import moment from "moment";
+import DeviceInfo from "react-native-device-info";
+import vimoment from "moment/locale/vi";
+import Permissions from "react-native-permissions";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const deviceLocale = language.getLocale();
 const NetworkInfo = NativeModules.NetworkInfo;
 
@@ -37,7 +37,7 @@ class CheckInOut extends Component {
         height: null,
         width: null
       },
-      time: moment().format('h:mm'),
+      time: moment().format("h:mm"),
       errorMessage: null,
       location: null,
       animatedValue: new Animated.Value(0),
@@ -52,20 +52,20 @@ class CheckInOut extends Component {
   }
 
   async componentWillMount() {
-    moment.updateLocale('vi', vimoment);
-    let user = JSON.parse(await AsyncStorage.getItem('user'));
+    moment.updateLocale("vi", vimoment);
+    let user = JSON.parse(await AsyncStorage.getItem("user"));
     this.setState({ user });
 
     /* actions/checkInOut */
     this.props.getUserOutlet(user.MaCuaHang).then(() => {
-      if (!this.props.employeeOutletInfo.get('isError')) {
-        this.props.getIpOutlet(this.props.employeeOutletInfo.get('data'));
+      if (!this.props.employeeOutletInfo.get("isError")) {
+        this.props.getIpOutlet(this.props.employeeOutletInfo.get("data"));
       } else {
         // Works on both iOS and Android
         Alert.alert(
-          'Thông báo',
-          'Không thể lấy thông tin cửa hàng. Vui lòng liên hệ quản trị viên!',
-          [{ text: 'OK', onPress: () => Actions.pop() }],
+          "Thông báo",
+          "Không thể lấy thông tin cửa hàng. Vui lòng liên hệ quản trị viên!",
+          [{ text: "OK", onPress: () => Actions.pop() }],
           { cancelable: false }
         );
       }
@@ -74,20 +74,20 @@ class CheckInOut extends Component {
     /* actions/checkInOut */
     this.props.getCheckStatus(
       this.state.user.MaNV,
-      moment(new Date()).format('YYYY-MM-DD')
+      moment(new Date()).format("YYYY-MM-DD")
     );
 
     // Get Location
-    if (this.props.locationUser.get('location') != null) {
+    if (this.props.locationUser.get("location") != null) {
       this.setState({
-        location: this.props.locationUser.get('location')
+        location: this.props.locationUser.get("location")
       });
     } else {
       this._getLocationAsync();
     }
 
     // Get MAC address
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === "ios") {
       NetworkInfo.getMACAddress((error, events) => {
         if (error) {
           console.error(error);
@@ -114,10 +114,10 @@ class CheckInOut extends Component {
   }
 
   _getLocationAsync = async () => {
-    let status = await Permissions.requestPermission('location');
-    if (status !== 'authorized') {
+    let status = await Permissions.requestPermission("location");
+    if (status !== "authorized") {
       this.setState({
-        errorMessage: 'Permission to access location was denied'
+        errorMessage: "Permission to access location was denied"
       });
     }
 
@@ -128,22 +128,17 @@ class CheckInOut extends Component {
       error => {
         console.log(error);
         Alert.alert(
-          'Thông báo',
-          'Không thể lấy vị trí của bạn. Vui lòng thử lại!',
+          "Thông báo",
+          "Không thể lấy vị trí của bạn. Vui lòng thử lại!",
           [
             {
-              text: 'Xác nhận',
+              text: "Xác nhận",
               onPress: () => Actions.pop(),
-              style: 'cancel'
+              style: "cancel"
             },
             { cancelable: true }
           ]
         );
-      },
-      {
-        enableHighAccuracy: false,
-        maximumAge: 1000,
-        timeout: 20000
       }
     );
   };
@@ -173,14 +168,14 @@ class CheckInOut extends Component {
     // );
 
     this._interval = setInterval(
-      () => this.setState({ ...this.state, time: moment().format('h:mm') }),
+      () => this.setState({ ...this.state, time: moment().format("h:mm") }),
       10000
     );
   }
 
   _checkIn = () => {
     if (this.state.isChecking) {
-      Alert.alert('Hệ thống đang xử lý, vui lòng đợi trong giây lát...');
+      Alert.alert("Hệ thống đang xử lý, vui lòng đợi trong giây lát...");
     }
 
     this.setState({
@@ -192,7 +187,7 @@ class CheckInOut extends Component {
 
     this._runAnimation();
     /* Get IP address */
-    fetch('http://checkin.koithe.vn/api/ip') //http://ipecho.net/plain
+    fetch("http://checkin.koithe.vn/api/ip") //http://ipecho.net/plain
       .then(resp => {
         return resp.text();
       })
@@ -205,60 +200,60 @@ class CheckInOut extends Component {
             ...this.state,
             isChecking: false
           });
-          if (!this.props.employeeOutletIps.get('isError')) {
+          if (!this.props.employeeOutletIps.get("isError")) {
             let ipContains = this.props.employeeOutletIps
-              .get('data')
+              .get("data")
               .filter(item => {
-                return item.get('ip').trim() == ip.trim();
+                return item.get("ip").trim() == ip.trim();
               });
 
             if (ipContains.count() > 0) {
               if (this.state.location != null) {
                 const submitLocation =
                   this.state.location.coords.latitude +
-                  ',' +
+                  "," +
                   this.state.location.coords.longitude;
 
                 this.props
                   .submitCheckInOut(
                     this.state.user.MaNV,
-                    this.props.checkStatus.get('isCheckin') == null ||
-                    this.props.checkStatus.get('isCheckin') == 0 ||
-                    this.props.checkStatus.get('isCheckin') == 1
+                    this.props.checkStatus.get("isCheckin") == null ||
+                    this.props.checkStatus.get("isCheckin") == 0 ||
+                    this.props.checkStatus.get("isCheckin") == 1
                       ? 1
                       : 2,
                     this.state.macAddress,
-                    DeviceInfo.getBrand() + ' ' + DeviceInfo.getModel(),
+                    DeviceInfo.getBrand() + " " + DeviceInfo.getModel(),
                     submitLocation
                   )
                   .then(() => {
-                    if (this.props.checkResponseStatus.get('isError')) {
+                    if (this.props.checkResponseStatus.get("isError")) {
                       Alert.alert(
-                        'Thông báo',
-                        this.props.checkResponseStatus.get('data').error,
+                        "Thông báo",
+                        this.props.checkResponseStatus.get("data").error,
                         [
                           {
-                            text: 'Xác nhận',
-                            onPress: () => console.log('Cancel Pressed'),
-                            style: 'cancel'
+                            text: "Xác nhận",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
                           }
                         ],
                         { cancelable: true }
                       );
                     } else {
                       Alert.alert(
-                        'Check thành công',
-                        this.props.checkResponseStatus.get('data').InOutMode ==
+                        "Check thành công",
+                        this.props.checkResponseStatus.get("data").InOutMode ==
                         1
-                          ? 'Check in lúc ' +
-                            this.props.checkResponseStatus.get('data').Time
-                          : 'Check out lúc ' +
-                            this.props.checkResponseStatus.get('data').Time,
+                          ? "Check in lúc " +
+                            this.props.checkResponseStatus.get("data").Time
+                          : "Check out lúc " +
+                            this.props.checkResponseStatus.get("data").Time,
                         [
                           {
-                            text: 'Xác nhận',
-                            onPress: () => console.log('Cancel Pressed'),
-                            style: 'cancel'
+                            text: "Xác nhận",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
                           }
                         ],
                         { cancelable: true }
@@ -270,13 +265,13 @@ class CheckInOut extends Component {
                 this.state.fadeValue.stopAnimation();
               } else {
                 Alert.alert(
-                  'Thông báo',
-                  'Không thể lấy vị trí của bạn. Vui lòng thử lại!',
+                  "Thông báo",
+                  "Không thể lấy vị trí của bạn. Vui lòng thử lại!",
                   [
                     {
-                      text: 'Xác nhận',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel'
+                      text: "Xác nhận",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
                     },
                     { cancelable: true }
                   ]
@@ -287,13 +282,13 @@ class CheckInOut extends Component {
               }
             } else {
               Alert.alert(
-                'Thông báo',
-                'IP của bạn chưa được cấp quyền Check. Vui lòng liên hệ quản trị viên!',
+                "Thông báo",
+                "IP của bạn chưa được cấp quyền Check. Vui lòng liên hệ quản trị viên!",
                 [
                   {
-                    text: 'Xác nhận',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel'
+                    text: "Xác nhận",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
                   }
                 ],
                 { cancelable: false }
@@ -304,13 +299,13 @@ class CheckInOut extends Component {
             }
           } else {
             Alert.alert(
-              'Thông báo',
-              'IP check in không hợp lệ. Vui lòng liên hệ quản trị viên!',
+              "Thông báo",
+              "IP check in không hợp lệ. Vui lòng liên hệ quản trị viên!",
               [
                 {
-                  text: 'Xác nhận',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel'
+                  text: "Xác nhận",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
                 }
               ],
               { cancelable: false }
@@ -325,13 +320,13 @@ class CheckInOut extends Component {
           isChecking: false
         });
         Alert.alert(
-          'Thông báo',
-          'Không thể lấy địa chỉ IP',
+          "Thông báo",
+          "Không thể lấy địa chỉ IP",
           [
             {
-              text: 'Xác nhận',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel'
+              text: "Xác nhận",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
             }
           ],
           { cancelable: true }
@@ -341,7 +336,7 @@ class CheckInOut extends Component {
 
   _checkInMiddle = () => {
     if (this.state.isChecking) {
-      Alert.alert('Hệ thống đang xử lý, vui lòng đợi trong giây lát...');
+      Alert.alert("Hệ thống đang xử lý, vui lòng đợi trong giây lát...");
     }
 
     this.setState({
@@ -353,7 +348,7 @@ class CheckInOut extends Component {
 
     this._runAnimation();
     /* Get IP address */
-    fetch('http://checkin.koithe.vn/api/ip') //http://ipecho.net/plain
+    fetch("http://checkin.koithe.vn/api/ip") //http://ipecho.net/plain
       .then(resp => {
         return resp.text();
       })
@@ -366,60 +361,60 @@ class CheckInOut extends Component {
             ...this.state,
             isChecking: false
           });
-          if (!this.props.employeeOutletIps.get('isError')) {
+          if (!this.props.employeeOutletIps.get("isError")) {
             let ipContains = this.props.employeeOutletIps
-              .get('data')
+              .get("data")
               .filter(item => {
-                return item.get('ip').trim() == ip.trim();
+                return item.get("ip").trim() == ip.trim();
               });
 
             if (ipContains.count() > 0) {
               if (this.state.location != null) {
                 const submitLocation =
                   this.state.location.coords.latitude +
-                  ',' +
+                  "," +
                   this.state.location.coords.longitude;
 
                 this.props
                   .submitCheckInOut(
                     this.state.user.MaNV,
-                    this.props.checkStatus.get('isCheckinMiddle') == null ||
-                    this.props.checkStatus.get('isCheckinMiddle') == 0 ||
-                    this.props.checkStatus.get('isCheckinMiddle') == 3
+                    this.props.checkStatus.get("isCheckinMiddle") == null ||
+                    this.props.checkStatus.get("isCheckinMiddle") == 0 ||
+                    this.props.checkStatus.get("isCheckinMiddle") == 3
                       ? 3
                       : 4,
                     this.state.macAddress,
-                    DeviceInfo.getBrand() + ' ' + DeviceInfo.getModel(),
+                    DeviceInfo.getBrand() + " " + DeviceInfo.getModel(),
                     submitLocation
                   )
                   .then(() => {
-                    if (this.props.checkResponseStatus.get('isError')) {
+                    if (this.props.checkResponseStatus.get("isError")) {
                       Alert.alert(
-                        'Thông báo',
-                        this.props.checkResponseStatus.get('data').error,
+                        "Thông báo",
+                        this.props.checkResponseStatus.get("data").error,
                         [
                           {
-                            text: 'Xác nhận',
-                            onPress: () => console.log('Cancel Pressed'),
-                            style: 'cancel'
+                            text: "Xác nhận",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
                           }
                         ],
                         { cancelable: true }
                       );
                     } else {
                       Alert.alert(
-                        'Check thành công',
-                        this.props.checkResponseStatus.get('data').InOutMode ==
-                        1
-                          ? 'Check in giữa giờ lúc ' +
-                            this.props.checkResponseStatus.get('data').Time
-                          : 'Check out giữa giờ lúc ' +
-                            this.props.checkResponseStatus.get('data').Time,
+                        "Check thành công",
+                        this.props.checkResponseStatus.get("data").InOutMode ==
+                        3
+                          ? "Check in giữa giờ lúc " +
+                            this.props.checkResponseStatus.get("data").Time
+                          : "Check out giữa giờ lúc " +
+                            this.props.checkResponseStatus.get("data").Time,
                         [
                           {
-                            text: 'Xác nhận',
-                            onPress: () => console.log('Cancel Pressed'),
-                            style: 'cancel'
+                            text: "Xác nhận",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
                           }
                         ],
                         { cancelable: true }
@@ -431,13 +426,13 @@ class CheckInOut extends Component {
                 this.state.fadeValue.stopAnimation();
               } else {
                 Alert.alert(
-                  'Thông báo',
-                  'Không thể lấy vị trí của bạn. Vui lòng thử lại!',
+                  "Thông báo",
+                  "Không thể lấy vị trí của bạn. Vui lòng thử lại!",
                   [
                     {
-                      text: 'Xác nhận',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel'
+                      text: "Xác nhận",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
                     },
                     { cancelable: true }
                   ]
@@ -448,13 +443,13 @@ class CheckInOut extends Component {
               }
             } else {
               Alert.alert(
-                'Thông báo',
-                'IP của bạn chưa được cấp quyền Check. Vui lòng liên hệ quản trị viên!',
+                "Thông báo",
+                "IP của bạn chưa được cấp quyền Check. Vui lòng liên hệ quản trị viên!",
                 [
                   {
-                    text: 'Xác nhận',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel'
+                    text: "Xác nhận",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
                   }
                 ],
                 { cancelable: false }
@@ -465,13 +460,13 @@ class CheckInOut extends Component {
             }
           } else {
             Alert.alert(
-              'Thông báo',
-              'IP check in không hợp lệ. Vui lòng liên hệ quản trị viên!',
+              "Thông báo",
+              "IP check in không hợp lệ. Vui lòng liên hệ quản trị viên!",
               [
                 {
-                  text: 'Xác nhận',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel'
+                  text: "Xác nhận",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
                 }
               ],
               { cancelable: false }
@@ -486,13 +481,13 @@ class CheckInOut extends Component {
           isChecking: false
         });
         Alert.alert(
-          'Thông báo',
-          'Không thể lấy địa chỉ IP',
+          "Thông báo",
+          "Không thể lấy địa chỉ IP",
           [
             {
-              text: 'Xác nhận',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel'
+              text: "Xác nhận",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
             }
           ],
           { cancelable: true }
@@ -523,12 +518,12 @@ class CheckInOut extends Component {
     };
     const interpolatedColorAnimation = this.state.animatedValue.interpolate({
       inputRange: [0, 100],
-      outputRange: [Colors.colorPrimaryDark, 'rgba(51,156,177, 1)']
+      outputRange: [Colors.colorPrimaryDark, "rgba(51,156,177, 1)"]
     });
 
     if (
       this.state.user == null ||
-      this.props.checkStatus.get('isCheckin') == null ||
+      this.props.checkStatus.get("isCheckin") == null ||
       this.state.location == null
     ) {
       return <ActivityIndicator />;
@@ -541,7 +536,7 @@ class CheckInOut extends Component {
           globalStyle.imgContainer,
           globalStyle.mainPaddingTop
         ]}
-        source={require('../../assets/backgrounds/main_bg.png')}
+        source={require("../../assets/backgrounds/main_bg.png")}
         resizeMode={Image.resizeMode.cover}
       >
         {/*Logo Section*/}
@@ -550,11 +545,11 @@ class CheckInOut extends Component {
             {this.state.time}
           </Text>
           <Text style={styles.role}>
-            {this.props.employeeOutletInfo.get('data') != null
-              ? moment(new Date()).format('ll') +
-                ', ' +
-                this.props.employeeOutletInfo.get('data').tencuahang
-              : ''}
+            {this.props.employeeOutletInfo.get("data") != null
+              ? moment(new Date()).format("ll") +
+                ", " +
+                this.props.employeeOutletInfo.get("data").tencuahang
+              : ""}
           </Text>
         </View>
         <View
@@ -563,12 +558,12 @@ class CheckInOut extends Component {
             this.onLayout(event);
           }}
         >
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <View
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'transparent',
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "transparent",
                 borderWidth: 1,
                 borderColor: Colors.colorPrimaryDark,
                 borderRadius: borderRadius,
@@ -588,40 +583,40 @@ class CheckInOut extends Component {
                     width: this.state.heightMenu.width / 2 - 48,
                     height: this.state.heightMenu.width / 2 - 48,
                     borderRadius: borderRadius,
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    justifyContent: "center",
+                    alignItems: "center"
                   }}
                 >
                   <Text
                     style={{
-                      color: 'white',
-                      textAlign: 'center',
+                      color: "white",
+                      textAlign: "center",
                       fontSize: 32,
-                      fontWeight: 'bold'
+                      fontWeight: "bold"
                     }}
                   >
-                    {this.props.checkStatus.get('isCheckin') == null
-                      ? ''
-                      : this.props.checkStatus.get('isCheckin') == 0 ||
-                        this.props.checkStatus.get('isCheckin') == 1
-                        ? 'CHECK\nIN'
-                        : 'CHECK\nOUT'}
+                    {this.props.checkStatus.get("isCheckin") == null
+                      ? ""
+                      : this.props.checkStatus.get("isCheckin") == 0 ||
+                        this.props.checkStatus.get("isCheckin") == 1
+                        ? "CHECK\nIN"
+                        : "CHECK\nOUT"}
                   </Text>
                 </Animated.View>
               </TouchableOpacity>
             </View>
-            <Text style={{ color: 'white', paddingTop: 8 }}>
+            <Text style={{ color: "white", paddingTop: 8 }}>
               CHECK ĐẦU NGÀY
             </Text>
           </View>
 
           {/* Check giữa giờ  */}
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <View
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'transparent',
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "transparent",
                 borderWidth: 1,
                 borderColor: Colors.colorPrimaryDark,
                 borderRadius: borderRadius,
@@ -641,29 +636,29 @@ class CheckInOut extends Component {
                     width: this.state.heightMenu.width / 2 - 48,
                     height: this.state.heightMenu.width / 2 - 48,
                     borderRadius: borderRadius,
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    justifyContent: "center",
+                    alignItems: "center"
                   }}
                 >
                   <Text
                     style={{
-                      color: 'white',
-                      textAlign: 'center',
+                      color: "white",
+                      textAlign: "center",
                       fontSize: 32,
-                      fontWeight: 'bold'
+                      fontWeight: "bold"
                     }}
                   >
-                    {this.props.checkStatus.get('isCheckinMiddle') == null
-                      ? ''
-                      : this.props.checkStatus.get('isCheckinMiddle') == 0 ||
-                        this.props.checkStatus.get('isCheckinMiddle') == 3
-                        ? 'CHECK\nIN'
-                        : 'CHECK\nOUT'}
+                    {this.props.checkStatus.get("isCheckinMiddle") == null
+                      ? ""
+                      : this.props.checkStatus.get("isCheckinMiddle") == 0 ||
+                        this.props.checkStatus.get("isCheckinMiddle") == 3
+                        ? "CHECK\nIN"
+                        : "CHECK\nOUT"}
                   </Text>
                 </Animated.View>
               </TouchableOpacity>
             </View>
-            <Text style={{ color: 'white', paddingTop: 8 }}>
+            <Text style={{ color: "white", paddingTop: 8 }}>
               CHECK GIỮA NGÀY
             </Text>
           </View>
@@ -676,39 +671,39 @@ class CheckInOut extends Component {
 // Css for each view
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-between'
+    justifyContent: "space-between"
   },
   contentSection: {
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    backgroundColor: 'transparent'
+    alignItems: "center",
+    justifyContent: "space-around",
+    backgroundColor: "transparent"
   },
   logo: {
     height: 75,
     width: 75,
     borderRadius: 35,
-    resizeMode: 'contain'
+    resizeMode: "contain"
   },
   name: {
-    backgroundColor: 'transparent',
-    color: 'white',
+    backgroundColor: "transparent",
+    color: "white",
     fontSize: 96,
-    fontWeight: 'bold'
+    fontWeight: "bold"
   },
   role: {
-    color: 'white',
+    color: "white",
     fontSize: 16
   },
   menuContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginVertical: 48
   },
   menu: {
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    justifyContent: "space-around",
+    alignItems: "center",
     width: width / 2 - 28,
     backgroundColor: Colors.colorPrimaryDark,
     margin: 2

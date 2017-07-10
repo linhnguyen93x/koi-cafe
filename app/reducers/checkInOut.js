@@ -119,7 +119,7 @@ export const checkStatus = createReducer(statusState, {
     } else if (action.InOutMode == 3 || action.InOutMode == 4) {
       let checkOutMiddleStatus = 0;
       if (action.result.hasOwnProperty('error')) {
-        if (action.result.error == 'chua checkin') {
+        if (action.result.error == 'chua checkin giua gio') {
           checkOutMiddleStatus = 3;
         } else {
           checkOutMiddleStatus = 4;
