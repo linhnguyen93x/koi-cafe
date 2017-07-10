@@ -272,7 +272,7 @@ class HistoryCheckIn extends Component {
                 //theme={{calendarBackground: 'red'}}
                 //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
               />
-            : <Text style={ {color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text> }
+            : <Text style={ {backgroundColor: "transparent",color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text> }
 
       </Image>
     );

@@ -180,10 +180,10 @@ class WorkSheet extends Component {
                   marginLeft: 0
                 },
                 dateInput: {
-                  marginLeft: 36
+                  marginLeft: 0
                 },
                 dateText: {
-                  paddingRight: 6
+                  paddingRight: 60
                 }
                 // ... You can check the source to find the other keys.
               }}
@@ -211,11 +211,11 @@ class WorkSheet extends Component {
                   marginLeft: 0
                 },
                 dateInput: {
-                  marginLeft: 36,
-                  paddingHorizontal: 8
+                  marginLeft: 0,
+                  paddingHorizontal: 0
                 },
                 dateText: {
-                  paddingRight: 6
+                  paddingRight: 60
                 }
                 // ... You can check the source to find the other keys.
               }}
@@ -262,7 +262,7 @@ class WorkSheet extends Component {
                 //theme={{calendarBackground: 'red'}}
                 //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
               />
-            : <Text style={ {color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text>}
+            : <Text style={ {color: 'white', backgroundColor: "transparent", textAlign: 'center'} }>Không có dữ liệu</Text>}
 
       </Image>
     );
