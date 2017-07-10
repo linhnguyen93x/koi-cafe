@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import ReactNative, { AsyncStorage } from "react-native";
-import { Actions } from "react-native-router-flux";
-import { connect } from "react-redux";
-import { Colors, globalStyle } from "../style";
-import Icon from "react-native-vector-icons/FontAwesome";
-import * as language from "../language";
-import { EmployeeItem, NoData, FieldSet } from "../components";
-import moment from "moment";
-import { Agenda } from "react-native-calendars";
-import Picker from "react-native-picker";
-import DatePicker from "react-native-datepicker";
+import React, { Component } from 'react';
+import ReactNative, { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Colors, globalStyle } from '../style';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as language from '../language';
+import { EmployeeItem, NoData, FieldSet } from '../components';
+import moment from 'moment';
+import { Agenda } from 'react-native-calendars';
+import Picker from 'react-native-picker';
+import DatePicker from 'react-native-datepicker';
 
 var currentYear = new Date().getFullYear();
 const pickerData = [
-  ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   [
     currentYear,
     currentYear - 1,
@@ -35,7 +35,7 @@ const {
   TouchableOpacity,
   ScrollView,
   TouchableWithoutFeedback,
-  Linking ,
+  Linking,
   Platform
 } = ReactNative;
 
@@ -43,7 +43,7 @@ class UserChecked extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
+      search: '',
       isLoading: false,
       items: {},
       fromDate: null,
@@ -66,9 +66,10 @@ class UserChecked extends Component {
         .then(() => {
           this.setState({
             isLoading: false,
-            items: this.props.userCheckedList.get("data") != null
-              ? this.props.userCheckedList.get("data")
-              : {}
+            items:
+              this.props.userCheckedList.get('data') != null
+                ? this.props.userCheckedList.get('data')
+                : {}
           });
         });
     }
@@ -80,8 +81,7 @@ class UserChecked extends Component {
     const location = scheme + item.get('Location') + prefix;
 
     Linking.openURL(location);
-  }
-
+  };
 
   componentWillUnmount() {
     this.props.resetUserChecked();
@@ -95,16 +95,22 @@ class UserChecked extends Component {
           globalStyle.container,
           globalStyle.mainPaddingTop
         ]}
-        source={require("../../assets/backgrounds/main_bg.png")}
+        source={require('../../assets/backgrounds/main_bg.png')}
         resizeMode={Image.resizeMode.cover}
       >
-        <View style={{ flexDirection: "row", marginBottom: 4, backgroundColor: 'transparent' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginBottom: 4,
+            backgroundColor: 'transparent'
+          }}
+        >
           <View style={styles.picker_container}>
             <DatePicker
               style={{ width: 200, backgroundColor: 'white' }}
               date={this.state.fromDate}
               mode="date"
-              maxDate={moment(new Date()).format("YYYY-MM-DD")}
+              maxDate={moment(new Date()).format('YYYY-MM-DD')}
               androidMode="spinner"
               placeholder="Tháng"
               format="YYYY-MM-DD"
@@ -112,7 +118,7 @@ class UserChecked extends Component {
               cancelBtnText="Cancel"
               customStyles={{
                 dateIcon: {
-                  position: "absolute",
+                  position: 'absolute',
                   left: 0,
                   top: 4,
                   marginLeft: 0
@@ -140,10 +146,10 @@ class UserChecked extends Component {
             <View
               style={{
                 flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
+                alignItems: 'center',
+                justifyContent: 'center',
                 padding: 8,
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 marginTop: 8
               }}
             >
@@ -154,49 +160,76 @@ class UserChecked extends Component {
 
         {this.state.isLoading
           ? <ActivityIndicator />
-          : this.props.userCheckedList.get("data").count() > 0
-            ? <ScrollView style={ { marginVertical: 4, alignSelf: 'stretch' } }>
-              { this.props.userCheckedList.get('data').toArray().map(item => {
-                return <View key={item.get('id')}>
-                <View style={styles.titleContainer}>
-                  <Text style={styles.title}>{ item.get('InOutMode') == 1 ? "Check In" : "Check Out" }</Text>
-                </View>
+          : this.props.userCheckedList.get('data').count() > 0
+            ? <ScrollView style={{ marginVertical: 4, alignSelf: 'stretch' }}>
+                {this.props.userCheckedList.get('data').toArray().map(item => {
+                  return (
+                    <View key={item.get('id')}>
+                      <View style={styles.titleContainer}>
+                        <Text style={styles.title}>
+                          {item.get('InOutMode') == 1
+                            ? 'Check In'
+                            : item.get('InOutMode') == 3
+                              ? 'Check In - Middle'
+                              : item.get('InOutMode') == 4
+                                ? 'Check out - Middle'
+                                : 'Check Out'}
+                        </Text>
+                      </View>
 
-                <View style={styles.container}>
-                  <Text style={styles.textColor}>
-                    Thời gian:{" "}
-                    <Text style={styles.textColorBlue}>{moment(item.get('Time')).format('DD/MM/YYYY H:mm:ss')}</Text>
-                  </Text>
-                  <Text style={styles.textColor}>
-                    Mac address:{" "}
-                    <Text style={styles.textColorBlue}>{item.get('MacAddress')}</Text>
-                  </Text>
-                  <Text style={[styles.textColor, { paddingHorizontal: 8 } ]}>
-                    Hệ điều hành:{" "}
-                    <Text style={styles.textColorBlue}>{item.get('OS')}</Text>
-                  </Text>
-                  <Text style={styles.textColor}>
-                    Vị trí:{" "}
-                    {item.get('Location') != null ?
-                      <Text style={styles.textColorBlue}>{item.get('Location')}  
-                      </Text> : null}
-                  </Text>
-                  <TouchableOpacity
-                    activtyOpacity={.5}
-                    onPress={() => this._openUrl(item)}>
-                    <View style={ {borderBottomWidth: 1, borderColor: 'white'} }>
-                    <Text style={ {color: 'white'} }>
-                      <Icon name="map" size={15} color="white" />  Xem vị trí
-                    </Text>
+                      <View style={styles.container}>
+                        <Text style={styles.textColor}>
+                          Thời gian:{' '}
+                          <Text style={styles.textColorBlue}>
+                            {moment(item.get('Time')).format(
+                              'DD/MM/YYYY H:mm:ss'
+                            )}
+                          </Text>
+                        </Text>
+                        <Text style={styles.textColor}>
+                          Mac address:{' '}
+                          <Text style={styles.textColorBlue}>
+                            {item.get('MacAddress')}
+                          </Text>
+                        </Text>
+                        <Text
+                          style={[styles.textColor, { paddingHorizontal: 8 }]}
+                        >
+                          Hệ điều hành:{' '}
+                          <Text style={styles.textColorBlue}>
+                            {item.get('OS')}
+                          </Text>
+                        </Text>
+                        <Text style={styles.textColor}>
+                          Vị trí:{' '}
+                          {item.get('Location') != null
+                            ? <Text style={styles.textColorBlue}>
+                                {item.get('Location')}
+                              </Text>
+                            : null}
+                        </Text>
+                        <TouchableOpacity
+                          activtyOpacity={0.5}
+                          onPress={() => this._openUrl(item)}
+                        >
+                          <View
+                            style={{
+                              borderBottomWidth: 1,
+                              borderColor: 'white'
+                            }}
+                          >
+                            <Text style={{ color: 'white' }}>
+                              <Icon name="map" size={15} color="white" /> Xem vị
+                              trí
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                  </TouchableOpacity>
-                </View>
-
-              </View>
-              }) }
-            </ScrollView>
-            : <Text style={ {color: 'white'} }>Không có dữ liệu</Text>}
-
+                  );
+                })}
+              </ScrollView>
+            : <Text style={{ color: 'white' }}>Không có dữ liệu</Text>}
       </Image>
     );
   }
@@ -207,11 +240,11 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: undefined,
     height: undefined,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     alignItems: 'center'
   },
   item: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flex: 1,
     borderRadius: 5,
     padding: 10,
@@ -225,57 +258,57 @@ const styles = StyleSheet.create({
   },
   picker_container: {
     alignSelf: 'stretch',
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
 
     marginTop: 8,
     marginHorizontal: 4
   },
   picker: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 40,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 8
   },
   container: {
     alignItems: 'center',
     paddingTop: 16,
     paddingBottom: 8,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
 
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: 'white',
     marginVertical: 8,
     marginHorizontal: 4,
     zIndex: 0
   },
   titleContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: -2,
     left: 0,
     right: 0,
     zIndex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   title: {
-    textAlign: "center",
-    color: "white",
-    fontWeight: "bold",
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 16,
     zIndex: 1,
-    backgroundColor: "black"
+    backgroundColor: 'black'
   },
   textItemValue: {
-    textAlign: "center",
-    color: "white",
+    textAlign: 'center',
+    color: 'white',
     fontSize: 14,
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     backgroundColor: Colors.colorPrimaryDark
   },
   textColor: {
-    color: "white"
+    color: 'white'
   },
   textColorBlue: {
     color: Colors.colorPrimary

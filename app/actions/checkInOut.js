@@ -1,5 +1,5 @@
-import * as types from "./types";
-import KoiApi from "../libs/koiApi";
+import * as types from './types';
+import KoiApi from '../libs/koiApi';
 
 export function getUserOutlet(userCode) {
   return (dispatch, getState) => {
@@ -92,62 +92,72 @@ export function getIpOutlet(outletInfo) {
 export function getCheckStatus(maNV, date) {
   return (dispatch, getState) => {
     return KoiApi.get(`/api/getchamcong?from=${date}&to=${date}`)
-    .then(resp => {
-      if (resp != null && resp.length > 0) {
-        let userIp = resp.filter(el => {
-            return maNV == el.UserID;
+      .then(resp => {
+        if (resp != null && resp.length > 0) {
+          let userIp = resp.filter(el => {
+            return (
+              maNV == el.UserID && (el.InOutMode == 1 || el.InOutMode == 2)
+            );
           });
 
+          let checkMiddle = resp.filter(el => {
+            return (
+              maNV == el.UserID && (el.InOutMode == 3 || el.InOutMode == 4)
+            );
+          });
+
+          dispatch({
+            type: types.SET_CHECK_STATUS,
+            status: userIp.length > 0 ? userIp[0] : null,
+            statusMiddle: checkMiddle.length > 0 ? checkMiddle[0] : null
+          });
+        } else {
+          dispatch({
+            type: types.SET_CHECK_STATUS,
+            status: null,
+            statusMiddle: null
+          });
+        }
+      })
+      .catch(ex => {
+        console.log(ex);
         dispatch({
           type: types.SET_CHECK_STATUS,
-          status: resp.length > 0 ? resp[0] : null
+          status: null,
+          statusMiddle: nulls
         });
-      } else {
-        dispatch({
-          type: types.SET_CHECK_STATUS,
-          status: null
-        });
-      }
-    })
-    .catch(ex => {
-      console.log(ex);
-      dispatch({
-        type: types.SET_CHECK_STATUS,
-        status: null
       });
-    });
   };
 }
 
 export function getUserChecked(maNV, date) {
   return (dispatch, getState) => {
     return KoiApi.get(`/api/getchamcong?from=${date}&to=${date}`)
-    .then(resp => {
-      if (resp != null && resp.length > 0) {
-        let userIp = resp.filter(el => {
+      .then(resp => {
+        if (resp != null && resp.length > 0) {
+          let userIp = resp.filter(el => {
             return maNV == el.UserID;
           });
-        dispatch({
-          type: types.SET_CHECK_STATUS_LIST,
-          status: userIp.length > 0 ? userIp : null
-        });
-      } else {
+          dispatch({
+            type: types.SET_CHECK_STATUS_LIST,
+            status: userIp.length > 0 ? userIp : null
+          });
+        } else {
+          dispatch({
+            type: types.SET_CHECK_STATUS_LIST,
+            status: null
+          });
+        }
+      })
+      .catch(ex => {
+        console.log(ex);
         dispatch({
           type: types.SET_CHECK_STATUS_LIST,
           status: null
         });
-      }
-    })
-    .catch(ex => {
-      console.log(ex);
-      dispatch({
-        type: types.SET_CHECK_STATUS_LIST,
-        status: null
       });
-    });
   };
 }
-
 
 export function submitCheckInOut(UserId, InOutMode, MacAddress, OS, Location) {
   return (dispatch, getState) => {
@@ -157,29 +167,29 @@ export function submitCheckInOut(UserId, InOutMode, MacAddress, OS, Location) {
       MacAddress,
       OS,
       Location
-    }
+    };
 
     return KoiApi.postJson(`/api/postcheckinout`, params)
-    .then(resp => {
-      dispatch({
-        type: types.CHECK_SERVER_RESPONSE,
-        result: resp,
-        InOutMode
+      .then(resp => {
+        dispatch({
+          type: types.CHECK_SERVER_RESPONSE,
+          result: resp,
+          InOutMode
+        });
+        // console.log(resp);
+        // if (resp.hasOwnProperty('error')) {
+        //   console.log(resp.error);
+        // }
       })
-      // console.log(resp);
-      // if (resp.hasOwnProperty('error')) {
-      //   console.log(resp.error);
-      // }
-    })
-    .catch(ex => {
-      console.log(ex);
-      dispatch({
-        type: types.CHECK_SERVER_RESPONSE,
-        result: null,
-        InOutMode
-      })
-    });
-  }
+      .catch(ex => {
+        console.log(ex);
+        dispatch({
+          type: types.CHECK_SERVER_RESPONSE,
+          result: null,
+          InOutMode
+        });
+      });
+  };
 }
 
 export function resetUserChecked() {
@@ -194,7 +204,7 @@ export function resetUserChecked() {
   };
 }
 
-export function resetUserOutlet()  {
+export function resetUserOutlet() {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       resolve();
@@ -203,5 +213,5 @@ export function resetUserOutlet()  {
         type: types.RESET_USER_OUTLET
       });
     });
-  }
+  };
 }
