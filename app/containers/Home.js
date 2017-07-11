@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,14 @@ import {
   AsyncStorage,
   TouchableOpacity,
   ActivityIndicator
-} from "react-native";
-import Immutable, { Map, fromJS } from "immutable";
-import { connect } from "react-redux";
-import { Actions } from "react-native-router-flux";
-import { Colors, globalStyle } from "../style";
+} from 'react-native';
+import Immutable, { Map, fromJS } from 'immutable';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+import { Colors, globalStyle } from '../style';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as language from "../language";
-import * as AppConstants from "../utils/AppConstans";
+import * as language from '../language';
+import * as AppConstants from '../utils/AppConstans';
 
 const NetworkInfo = NativeModules.NetworkInfo;
 
@@ -27,7 +27,7 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      token: "",
+      token: '',
       user: null,
       checkInOutIcon: null,
       clockIcon: null,
@@ -43,7 +43,7 @@ class Home extends Component {
   }
 
   _getEmployeeInfo = async () => {
-    let user = JSON.parse(await AsyncStorage.getItem("user"));
+    let user = JSON.parse(await AsyncStorage.getItem('user'));
 
     if (user != null) {
       this.setState({
@@ -53,14 +53,11 @@ class Home extends Component {
     } else {
       this.props.fetchEmployeeList().then(() => {
         if (
-          this.props.employeeList.get("data") != null &&
-          this.props.employeeList.get("data").count() > 0
+          this.props.employeeList.get('data') != null &&
+          this.props.employeeList.get('data').count() > 0
         ) {
-          let userLogin = this.props.employeeList
-            .get("data")
-            .first()
-            .toJS();
-          AsyncStorage.setItem("user", JSON.stringify(userLogin)).then(() => {
+          let userLogin = this.props.employeeList.get('data').first().toJS();
+          AsyncStorage.setItem('user', JSON.stringify(userLogin)).then(() => {
             this._getUser();
           });
         } else {
@@ -72,13 +69,10 @@ class Home extends Component {
           } else {
             this._getEmployeeInfo();
           }
-
         }
       });
     }
-
-
-  }
+  };
 
   componentDidMount() {
     // fetch("https://ifcfg.me/ip")
@@ -87,7 +81,6 @@ class Home extends Component {
     //   })
     //   .then(textResponse => {
     //     let ip = textResponse;
-
     //     if (ip != null) {
     //       Actions.refresh({ title: ip });
     //     }
@@ -98,16 +91,24 @@ class Home extends Component {
   }
 
   _bindHomeIcon = () => {
-    Icon.getImageSource('calendar-check-o', 15, 'white').then((source) => this.setState({ checkInOutIcon: source }));
-    Icon.getImageSource('clock-o', 15, 'white').then((source) => this.setState({ clockIcon: source }));
-    Icon.getImageSource('calculator', 15, 'white').then((source) => this.setState({ moneyIcon: source }));
-    Icon.getImageSource('list', 15, 'white').then((source) => this.setState({ listIcon: source }));
-  }
+    Icon.getImageSource('calendar-check-o', 15, 'white').then(source =>
+      this.setState({ checkInOutIcon: source })
+    );
+    Icon.getImageSource('clock-o', 15, 'white').then(source =>
+      this.setState({ clockIcon: source })
+    );
+    Icon.getImageSource('calculator', 15, 'white').then(source =>
+      this.setState({ moneyIcon: source })
+    );
+    Icon.getImageSource('list', 15, 'white').then(source =>
+      this.setState({ listIcon: source })
+    );
+  };
 
-  async getExternalIp() { }
+  async getExternalIp() {}
 
   _getUser = async () => {
-    let user = JSON.parse(await AsyncStorage.getItem("user"));
+    let user = JSON.parse(await AsyncStorage.getItem('user'));
 
     this.setState({
       ...this.state,
@@ -119,28 +120,28 @@ class Home extends Component {
     let functionByRole = [
       {
         key: 0,
-        text: language.get("checkIn_checkOut"),
+        text: language.get('checkIn_checkOut'),
         image: this.state.checkInOutIcon,
-        type: "checkInOut"
+        type: 'checkInOut'
       },
       {
         key: 1,
-        text: language.get("work_sheet"),
+        text: language.get('work_sheet'),
         image: this.state.clockIcon,
-        type: "workSheet"
+        type: 'workSheet'
       },
       {
         key: 2,
-        text: language.get("detail_salary"),
+        text: language.get('detail_salary'),
         image: this.state.moneyIcon,
-        type: "detailSalary"
+        type: 'detailSalary'
       },
       {
         key: 3,
-        text: language.get("view_list_employee"),
+        text: language.get('view_list_employee'),
         image: this.state.listIcon,
-        type: "listEmployee"
-      },
+        type: 'listEmployee'
+      }
       // {
       //   key: 3,
       //   text: language.get("employee_info"),
@@ -153,23 +154,23 @@ class Home extends Component {
 
   _itemSelected = type => {
     switch (type) {
-      case "listEmployee":
+      case 'listEmployee':
         Actions.employeeList();
 
         break;
-      case "checkInOut":
+      case 'checkInOut':
         Actions.checkInOut();
         break;
-      case "employeeInfo":
+      case 'employeeInfo':
         Actions.employeeMenu({
           title: this.state.user.HoTen,
           item: Map(this.state.user)
         });
         break;
-      case "workSheet":
+      case 'workSheet':
         Actions.workSheet();
         break;
-      case "detailSalary":
+      case 'detailSalary':
         Actions.detailSalary();
 
         break;
@@ -179,24 +180,27 @@ class Home extends Component {
 
   render() {
     if (this.state.user == null) {
-      return <Image
-        style={[
-          styles.imgContainer,
-          globalStyle.container,
-          globalStyle.mainPaddingTop,
-          {
-            justifyContent: "flex-start",
-            alignItems: "center"
-          }
-        ]}
-        source={require("../../assets/backgrounds/main_bg.png")}
-        resizeMode={Image.resizeMode.cover}
-      >
-        <ActivityIndicator size="large" />
-        <Text style={{ color: 'white' }}>Đang lấy thông tin nhân viên... {this.state.tryTime > 0 ?
-           `(${this.state.tryTime})` : ""}
-        </Text>
-      </Image>;
+      return (
+        <Image
+          style={[
+            styles.imgContainer,
+            globalStyle.container,
+            globalStyle.mainPaddingTop,
+            {
+              justifyContent: 'flex-start',
+              alignItems: 'center'
+            }
+          ]}
+          source={require('../../assets/backgrounds/main_bg.png')}
+          resizeMode={Image.resizeMode.cover}
+        >
+          <ActivityIndicator size="large" />
+          <Text style={{ color: 'white' }}>
+            {language.get('getting_employee_info')}{' '}
+            {this.state.tryTime > 0 ? `(${this.state.tryTime})` : ''}
+          </Text>
+        </Image>
+      );
     }
 
     let functionByRole = this._bindViewRole();
@@ -208,13 +212,13 @@ class Home extends Component {
           globalStyle.container,
           globalStyle.mainPaddingTop
         ]}
-        source={require("../../assets/backgrounds/main_bg.png")}
+        source={require('../../assets/backgrounds/main_bg.png')}
         resizeMode={Image.resizeMode.cover}
       >
         {functionByRole.map(item => {
           return (
             <TouchableOpacity
-              style={{ alignSelf: "stretch" }}
+              style={{ alignSelf: 'stretch' }}
               key={item.key}
               onPress={() => this._itemSelected(item.type)}
               activeOpacity={0.5}
@@ -238,7 +242,6 @@ class Home extends Component {
             </TouchableOpacity>
           );
         })}
-
       </Image>
     );
   }
@@ -252,9 +255,9 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: undefined,
     height: undefined,
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   contentSection: {
     height: 200,
@@ -269,21 +272,21 @@ const styles = StyleSheet.create({
   logo: {
     height: 150,
     width: 150,
-    resizeMode: "contain"
+    resizeMode: 'contain'
   },
   title: {
-    color: "white",
-    textAlign: "center",
+    color: 'white',
+    textAlign: 'center',
     paddingBottom: 8,
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: 'bold'
   },
   bgItem: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: Colors.colorPrimaryDark,
-    alignSelf: "stretch",
-    justifyContent: "space-around",
-    alignItems: "center",
+    alignSelf: 'stretch',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     padding: 16,
     marginVertical: 2
   },
@@ -293,7 +296,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     flex: 1,
-    color: "white",
+    color: 'white',
     marginHorizontal: 8
   },
   arrow: {
@@ -301,12 +304,9 @@ const styles = StyleSheet.create({
   }
 });
 
-
-
 function mapStateToProps(state) {
   return {
-
-    employeeList: state.employeeList,
+    employeeList: state.employeeList
   };
 }
 

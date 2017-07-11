@@ -112,7 +112,7 @@ class UserChecked extends Component {
               mode="date"
               maxDate={moment(new Date()).format('YYYY-MM-DD')}
               androidMode="spinner"
-              placeholder="Tháng"
+              placeholder={language.get('month')}
               format="YYYY-MM-DD"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
@@ -179,7 +179,7 @@ class UserChecked extends Component {
 
                       <View style={styles.container}>
                         <Text style={styles.textColor}>
-                          Thời gian:{' '}
+                          {language.get('time')}
                           <Text style={styles.textColorBlue}>
                             {moment(item.get('Time')).format(
                               'DD/MM/YYYY H:mm:ss'
@@ -187,7 +187,7 @@ class UserChecked extends Component {
                           </Text>
                         </Text>
                         <Text style={styles.textColor}>
-                          Mac address:{' '}
+                          {language.get('mac_address')}
                           <Text style={styles.textColorBlue}>
                             {item.get('MacAddress')}
                           </Text>
@@ -195,13 +195,13 @@ class UserChecked extends Component {
                         <Text
                           style={[styles.textColor, { paddingHorizontal: 8 }]}
                         >
-                          Hệ điều hành:{' '}
+                          {language.get('os')}
                           <Text style={styles.textColorBlue}>
                             {item.get('OS')}
                           </Text>
                         </Text>
                         <Text style={styles.textColor}>
-                          Vị trí:{' '}
+                          {language.get('location')}
                           {item.get('Location') != null
                             ? <Text style={styles.textColorBlue}>
                                 {item.get('Location')}
@@ -219,8 +219,8 @@ class UserChecked extends Component {
                             }}
                           >
                             <Text style={{ color: 'white' }}>
-                              <Icon name="map" size={15} color="white" /> Xem vị
-                              trí
+                              <Icon name="map" size={15} color="white" />{' '}
+                              {language.get('view_location')}
                             </Text>
                           </View>
                         </TouchableOpacity>
@@ -229,7 +229,9 @@ class UserChecked extends Component {
                   );
                 })}
               </ScrollView>
-            : <Text style={{ color: 'white' }}>Không có dữ liệu</Text>}
+            : <Text style={{ color: 'white' }}>
+                {language.get('no_data')}
+              </Text>}
       </Image>
     );
   }

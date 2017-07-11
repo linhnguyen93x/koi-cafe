@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import ReactNative from "react-native";
-import { Actions } from "react-native-router-flux";
-import { connect } from "react-redux";
-import { Colors, globalStyle } from "../style";
-import Icon from "react-native-vector-icons/FontAwesome";
-import * as language from "../language";
-import { EmployeeItem, NoData } from "../components";
-import Picker from "react-native-picker";
+import React, { Component } from 'react';
+import ReactNative from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Colors, globalStyle } from '../style';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as language from '../language';
+import { EmployeeItem, NoData } from '../components';
+import Picker from 'react-native-picker';
 
 const {
   View,
@@ -19,17 +19,17 @@ const {
   TouchableWithoutFeedback
 } = ReactNative;
 
-const pickerData = ["Tất cả"];
+const pickerData = [language.get('all')];
 let mapOfPickerData = new Map();
-mapOfPickerData.set("Tất cả", "All");
+mapOfPickerData.set(language.get('all'), 'All');
 
 class EmployeeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
+      search: '',
       isLoading: false,
-      outlet: "Tất cả",
+      outlet: language.get('all'),
       employeeData: null
     };
   }
@@ -37,13 +37,13 @@ class EmployeeList extends Component {
   componentWillMount() {
     //actions/checkInOut.js
     this.props.getAllOutlet().then(() => {
-      if (!this.props.allOutletInfo.get("isError")) {
-        this.props.allOutletInfo.get("data").forEach(item => {
+      if (!this.props.allOutletInfo.get('isError')) {
+        this.props.allOutletInfo.get('data').forEach(item => {
           pickerData.push(item.tencuahang);
           mapOfPickerData.set(item.tencuahang, item.macuahang);
         });
 
-        console.log("a");
+        console.log('a');
       }
     });
 
@@ -51,14 +51,14 @@ class EmployeeList extends Component {
     this.props.changeLoading().then(() => {
       this.props.fetchEmployeeList().then(() => {
         this.setState({
-          employeeData: this.props.employeeList.get("data")
+          employeeData: this.props.employeeList.get('data')
         });
       });
     });
   }
 
   _keyExtractor = (item, index) => {
-    return item.get("MaNV");
+    return item.get('MaNV');
   };
 
   renderListItem = item => {
@@ -89,9 +89,9 @@ class EmployeeList extends Component {
   _openDropDown() {
     Picker.init({
       pickerData: pickerData,
-      pickerConfirmBtnText: language.get("choose"),
-      pickerCancelBtnText: language.get("cancel"),
-      pickerTitleText: "Cửa hàng",
+      pickerConfirmBtnText: language.get('choose'),
+      pickerCancelBtnText: language.get('cancel'),
+      pickerTitleText: language.get('store'),
       selectedValue: [this.state.outlet],
       onPickerConfirm: data => {
         this.setState(
@@ -131,7 +131,7 @@ class EmployeeList extends Component {
           globalStyle.container,
           globalStyle.mainPaddingTop
         ]}
-        source={require("../../assets/backgrounds/main_bg.png")}
+        source={require('../../assets/backgrounds/main_bg.png')}
         resizeMode={Image.resizeMode.cover}
       >
         <View style={styles.picker_container}>
@@ -150,7 +150,7 @@ class EmployeeList extends Component {
           : <FlatList
               keyExtractor={this._keyExtractor}
               style={[styles.list]}
-              data={this.props.employeeList.get("data").toArray()}
+              data={this.props.employeeList.get('data').toArray()}
               renderItem={this.renderListItem}
               onEndReached={info => this._loadMore(info)}
               initialNumToRender={10}
@@ -161,7 +161,7 @@ class EmployeeList extends Component {
               })}
               ItemSeparatorComponent={SeperatorComponent}
               ListFooterComponent={
-                !this.props.employeeList.get("isEnd") ? FooterComponent : null
+                !this.props.employeeList.get('isEnd') ? FooterComponent : null
               }
             />}
       </Image>
@@ -186,26 +186,26 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: undefined,
     height: undefined,
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent'
   },
   divider: {
     borderWidth: 0.2,
-    borderColor: "#DDDDDD",
-    alignSelf: "stretch"
+    borderColor: '#DDDDDD',
+    alignSelf: 'stretch'
   },
   picker_container: {
     height: 40,
-    alignSelf: "stretch",
-    backgroundColor: "white",
+    alignSelf: 'stretch',
+    backgroundColor: 'white',
     borderRadius: 8,
     marginVertical: 4,
     marginHorizontal: 48
   },
   picker: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 40,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 8
   }
 });

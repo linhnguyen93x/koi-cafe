@@ -1,30 +1,16 @@
-import React, { Component } from "react";
-import ReactNative, { AsyncStorage } from "react-native";
-import { Actions } from "react-native-router-flux";
-import { connect } from "react-redux";
-import { Colors, globalStyle } from "../style";
-import Icon from "react-native-vector-icons/FontAwesome";
-import * as language from "../language";
-import { EmployeeItem, NoData, FieldSet } from "../components";
-import moment from "moment";
-import { Agenda } from "react-native-calendars";
-import Picker from "react-native-picker";
-import DatePicker from "react-native-datepicker";
+import React, { Component } from 'react';
+import ReactNative, { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Colors, globalStyle } from '../style';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as language from '../language';
+import { EmployeeItem, NoData, FieldSet } from '../components';
+import moment from 'moment';
+import { Agenda } from 'react-native-calendars';
+import Picker from 'react-native-picker';
+import DatePicker from 'react-native-datepicker';
 
-var currentYear = new Date().getFullYear();
-const pickerData = [
-  ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-  [
-    currentYear,
-    currentYear - 1,
-    currentYear - 2,
-    currentYear - 3,
-    currentYear - 4,
-    currentYear - 5,
-    currentYear - 6,
-    currentYear - 7
-  ]
-];
 const {
   View,
   Text,
@@ -42,7 +28,7 @@ class WorkSheet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
+      search: '',
       isLoading: false,
       items: {},
       fromDate: null,
@@ -56,7 +42,7 @@ class WorkSheet extends Component {
     setTimeout(() => {
       for (
         let i = 1;
-        i < Object.keys(this.props.workSheetList.get("data")).length;
+        i < Object.keys(this.props.workSheetList.get('data')).length;
         i++
       ) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
@@ -84,15 +70,24 @@ class WorkSheet extends Component {
   renderItem(item) {
     return (
       <View style={[styles.item, { height: item.height }]}>
-        <Text>{item.name}</Text>
-        <Text>Tu {item.Tu} - Den {item.Den}</Text>
+        <Text>
+          {item.name}
+        </Text>
+        <Text>
+          {language.get('from') + ' ' + item.Tu} -{' '}
+          {language.get('to') + ' ' + item.Den}
+        </Text>
       </View>
     );
   }
 
   renderEmptyDate() {
     return (
-      <View style={styles.emptyDate}><Text>Chưa có dữ liệu</Text></View>
+      <View style={styles.emptyDate}>
+        <Text>
+          {language.get('no_data')}
+        </Text>
+      </View>
     );
   }
 
@@ -102,15 +97,15 @@ class WorkSheet extends Component {
 
   timeToString(time) {
     const date = new Date(time);
-    return date.toISOString().split("T")[0];
+    return date.toISOString().split('T')[0];
   }
 
   _openDropDown() {
     Picker.init({
       pickerData: pickerData,
-      pickerConfirmBtnText: language.get("choose"),
-      pickerCancelBtnText: language.get("cancel"),
-      pickerTitleText: language.get("choose_a_month"),
+      pickerConfirmBtnText: language.get('choose'),
+      pickerCancelBtnText: language.get('cancel'),
+      pickerTitleText: language.get('choose_a_month'),
       selectedValue: [1, currentYear],
       onPickerConfirm: data => {
         console.log(data);
@@ -122,7 +117,7 @@ class WorkSheet extends Component {
   }
 
   _searchData = async () => {
-    let user = JSON.parse(await AsyncStorage.getItem("user"));
+    let user = JSON.parse(await AsyncStorage.getItem('user'));
 
     if (user != null) {
       this.setState({
@@ -137,9 +132,10 @@ class WorkSheet extends Component {
         .then(() => {
           this.setState({
             isLoading: false,
-            items: this.props.workSheetList.get("data") != null
-              ? this.props.workSheetList.get("data")
-              : {}
+            items:
+              this.props.workSheetList.get('data') != null
+                ? this.props.workSheetList.get('data')
+                : {}
           });
         });
     }
@@ -157,24 +153,24 @@ class WorkSheet extends Component {
           globalStyle.container,
           globalStyle.mainPaddingTop
         ]}
-        source={require("../../assets/backgrounds/main_bg.png")}
+        source={require('../../assets/backgrounds/main_bg.png')}
         resizeMode={Image.resizeMode.cover}
       >
-        <View style={{ flexDirection: "row", marginBottom: 4 }}>
+        <View style={{ flexDirection: 'row', marginBottom: 4 }}>
           <View style={styles.picker_container}>
             <DatePicker
               style={{ width: 200 }}
               date={this.state.fromDate}
               mode="date"
-              maxDate={moment(new Date()).format("YYYY-MM-DD")}
+              // maxDate={moment(new Date()).format("YYYY-MM-DD")}
               androidMode="spinner"
-              placeholder="Từ ngày"
+              placeholder={language.get('from_date')}
               format="YYYY-MM-DD"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
                 dateIcon: {
-                  position: "absolute",
+                  position: 'absolute',
                   left: 0,
                   top: 4,
                   marginLeft: 0
@@ -198,14 +194,14 @@ class WorkSheet extends Component {
               date={this.state.toDate}
               mode="date"
               androidMode="spinner"
-              placeholder="Đến ngày"
+              placeholder={language.get('to_date')}
               format="YYYY-MM-DD"
-              maxDate={moment(new Date()).format("YYYY-MM-DD")}
+              // maxDate={moment(new Date()).format("YYYY-MM-DD")}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
                 dateIcon: {
-                  position: "absolute",
+                  position: 'absolute',
                   left: 0,
                   top: 4,
                   marginLeft: 0
@@ -233,10 +229,10 @@ class WorkSheet extends Component {
             <View
               style={{
                 flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
+                alignItems: 'center',
+                justifyContent: 'center',
                 padding: 8,
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 marginTop: 8
               }}
             >
@@ -247,12 +243,12 @@ class WorkSheet extends Component {
 
         {this.state.isLoading
           ? <ActivityIndicator />
-          : this.props.workSheetList.get("data") != null
+          : this.props.workSheetList.get('data') != null
             ? <Agenda
-                style={{ alignSelf: "stretch", backgroundColor: "transparent" }}
+                style={{ alignSelf: 'stretch', backgroundColor: 'transparent' }}
                 items={this.state.items}
                 loadItemsForMonth={this.loadItems.bind(this)}
-                selected={Object.keys(this.props.workSheetList.get("data"))[0]}
+                selected={Object.keys(this.props.workSheetList.get('data'))[0]}
                 renderItem={this.renderItem.bind(this)}
                 renderEmptyDate={this.renderEmptyDate.bind(this)}
                 rowHasChanged={this.rowHasChanged.bind(this)}
@@ -262,8 +258,15 @@ class WorkSheet extends Component {
                 //theme={{calendarBackground: 'red'}}
                 //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
               />
-            : <Text style={ {color: 'white', backgroundColor: "transparent", textAlign: 'center'} }>Không có dữ liệu</Text>}
-
+            : <Text
+                style={{
+                  color: 'white',
+                  backgroundColor: 'transparent',
+                  textAlign: 'center'
+                }}
+              >
+                {language.get('no_data')}
+              </Text>}
       </Image>
     );
   }
@@ -274,10 +277,10 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: undefined,
     height: undefined,
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent'
   },
   item: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flex: 1,
     borderRadius: 5,
     padding: 10,
@@ -291,16 +294,16 @@ const styles = StyleSheet.create({
   },
   picker_container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: 'white',
 
     marginTop: 8,
     marginHorizontal: 4
   },
   picker: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 40,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 8
   }
 });

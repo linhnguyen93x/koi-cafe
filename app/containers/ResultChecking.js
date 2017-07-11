@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import ReactNative, { AsyncStorage } from "react-native";
-import { Actions } from "react-native-router-flux";
-import { connect } from "react-redux";
-import { Colors, globalStyle } from "../style";
-import Icon from "react-native-vector-icons/FontAwesome";
-import * as language from "../language";
-import { EmployeeItem, NoData, FieldSet } from "../components";
-import moment from "moment";
-import { Agenda } from "react-native-calendars";
-import Picker from "react-native-picker";
-import DatePicker from "react-native-datepicker";
+import React, { Component } from 'react';
+import ReactNative, { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Colors, globalStyle } from '../style';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as language from '../language';
+import { EmployeeItem, NoData, FieldSet } from '../components';
+import moment from 'moment';
+import { Agenda } from 'react-native-calendars';
+import Picker from 'react-native-picker';
+import DatePicker from 'react-native-datepicker';
 
 var currentYear = new Date().getFullYear();
 const pickerData = [
-  ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   [
     currentYear,
     currentYear - 1,
@@ -42,7 +42,7 @@ class ResultChecking extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
+      search: '',
       isLoading: false,
       items: {},
       fromDate: null,
@@ -64,9 +64,10 @@ class ResultChecking extends Component {
         .then(() => {
           this.setState({
             isLoading: false,
-            items: this.props.resultCheckingList.get("data") != null
-              ? this.props.resultCheckingList.get("data")
-              : {}
+            items:
+              this.props.resultCheckingList.get('data') != null
+                ? this.props.resultCheckingList.get('data')
+                : {}
           });
         });
     }
@@ -84,16 +85,22 @@ class ResultChecking extends Component {
           globalStyle.container,
           globalStyle.mainPaddingTop
         ]}
-        source={require("../../assets/backgrounds/main_bg.png")}
+        source={require('../../assets/backgrounds/main_bg.png')}
         resizeMode={Image.resizeMode.cover}
       >
-        <View style={{ flexDirection: "row", marginBottom: 4, backgroundColor: 'transparent' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginBottom: 4,
+            backgroundColor: 'transparent'
+          }}
+        >
           <View style={styles.picker_container}>
             <DatePicker
               style={{ width: 200, backgroundColor: 'white' }}
               date={this.state.fromDate}
               mode="date"
-              maxDate={moment(new Date()).format("YYYY-MM-DD")}
+              maxDate={moment(new Date()).format('YYYY-MM-DD')}
               androidMode="spinner"
               placeholder="Tháng"
               format="YYYY-MM-DD"
@@ -101,7 +108,7 @@ class ResultChecking extends Component {
               cancelBtnText="Cancel"
               customStyles={{
                 dateIcon: {
-                  position: "absolute",
+                  position: 'absolute',
                   left: 0,
                   top: 4,
                   marginLeft: 0
@@ -129,10 +136,10 @@ class ResultChecking extends Component {
             <View
               style={{
                 flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
+                alignItems: 'center',
+                justifyContent: 'center',
                 padding: 8,
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 marginTop: 8
               }}
             >
@@ -143,41 +150,43 @@ class ResultChecking extends Component {
 
         {this.state.isLoading
           ? <ActivityIndicator />
-          : this.props.resultCheckingList.get("data") != null
+          : this.props.resultCheckingList.get('data') != null
             ? <View style={{ marginVertical: 4, alignSelf: 'stretch' }}>
                 <View style={styles.titleContainer}>
-                  <Text style={styles.title}>Kiểm tra</Text>
+                  <Text style={styles.title}>
+                    {language.get('test')}
+                  </Text>
                 </View>
 
                 <View style={styles.container}>
                   <Text style={styles.textColor}>
-                    Tháng:{" "}
-                    {this.props.resultCheckingList.get("data").KetQua[0].Thang}
+                    {language.get('month') + ': '}
+                    {this.props.resultCheckingList.get('data').KetQua[0].Thang}
                   </Text>
                   <Text style={styles.textColor}>
-                    Bài kiểm tra:{" "}
+                    {language.get('test_note')}
                     {
-                      this.props.resultCheckingList.get("data").KetQua[0]
+                      this.props.resultCheckingList.get('data').KetQua[0]
                         .BaiKiemTra
                     }
                   </Text>
                   <Text style={styles.textColor}>
-                    Điểm:{" "}
-                    {this.props.resultCheckingList.get("data").KetQua[0].Diem}
+                    {language.get('point_title')}
+                    {this.props.resultCheckingList.get('data').KetQua[0].Diem}
                   </Text>
                   <Text style={styles.textColor}>
-                    Kết quả:{" "}
-                    {this.props.resultCheckingList.get("data").KetQua[0].KetQua}
+                    {language.get('result_title')}
+                    {this.props.resultCheckingList.get('data').KetQua[0].KetQua}
                   </Text>
                   <Text style={styles.textColor}>
-                    Ghi chú:{" "}
-                    {this.props.resultCheckingList.get("data").KetQua[0].GhiChu}
+                    {language.get('note_title')}
+                    {this.props.resultCheckingList.get('data').KetQua[0].GhiChu}
                   </Text>
                 </View>
-
               </View>
-            : <Text style={ {color: 'white', textAlign: 'center'} }>Không có dữ liệu</Text>}
-
+            : <Text style={{ color: 'white', textAlign: 'center' }}>
+                {language.get('no_data')}
+              </Text>}
       </Image>
     );
   }
@@ -188,11 +197,11 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: undefined,
     height: undefined,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     alignItems: 'center'
   },
   item: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flex: 1,
     borderRadius: 5,
     padding: 10,
@@ -206,57 +215,57 @@ const styles = StyleSheet.create({
   },
   picker_container: {
     alignSelf: 'stretch',
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
 
     marginTop: 8,
     marginHorizontal: 4
   },
   picker: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 40,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 8
   },
   container: {
     alignItems: 'center',
     paddingTop: 16,
     paddingBottom: 8,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
 
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: 'white',
     marginVertical: 8,
     marginHorizontal: 4,
     zIndex: 0
   },
   titleContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: -2,
     left: 0,
     right: 0,
     zIndex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   title: {
-    textAlign: "center",
-    color: "white",
-    fontWeight: "bold",
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 16,
     zIndex: 1,
-    backgroundColor: "black"
+    backgroundColor: 'black'
   },
   textItemValue: {
-    textAlign: "center",
-    color: "white",
+    textAlign: 'center',
+    color: 'white',
     fontSize: 14,
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     backgroundColor: Colors.colorPrimaryDark
   },
   textColor: {
-    color: "white"
+    color: 'white'
   }
 });
 

@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import ReactNative from "react-native";
-import { Actions } from "react-native-router-flux";
-import { connect } from "react-redux";
-import * as language from "../language";
-import { Colors, globalStyle } from "../style";
-import Api from "../libs/api";
-import KoiApi from "../libs/koiApi";
+import React, { Component } from 'react';
+import ReactNative from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import * as language from '../language';
+import { Colors, globalStyle } from '../style';
+import Api from '../libs/api';
+import KoiApi from '../libs/koiApi';
 
 // All Component react for render view
 const {
@@ -27,40 +27,39 @@ class SubmitLogin extends Component {
       isSubmit: false,
       username: null,
       password: null,
-      buttonText: "Đăng nhập"
+      buttonText: language.get('login')
     };
   }
 
-  componenDidMount() { }
+  componenDidMount() {}
 
   async saveItem(item, selectedValue) {
     try {
       await AsyncStorage.setItem(item, selectedValue);
     } catch (error) {
-      console.error("AsyncStorage error: " + error.message);
+      console.error('AsyncStorage error: ' + error.message);
     }
   }
 
   userLogin() {
     if (!this.state.username || !this.state.password) {
-      Alert.alert("Đăng nhập thất bại!", "Vui lòng nhập đầy đủ thông tin");
+      Alert.alert(language.get('login_fail_miss_info'));
       return;
     }
 
     // Call Api... actions/login.js
-    this.setState({ buttonText: "Đang kết nối..." });
+    this.setState({ buttonText: language.get('connecting') });
     this.props.login(this.state.username, this.state.password).then(() => {
       if (!this.props.loginFail) {
         AsyncStorage.setItem(
-          "id_token",
-          this.props.info.token_type + " " + this.props.info.access_token
+          'id_token',
+          this.props.info.token_type + ' ' + this.props.info.access_token
         ).then(() => {
           Api.setToken(
-            this.props.info.token_type + " " + this.props.info.access_token
+            this.props.info.token_type + ' ' + this.props.info.access_token
           ).then(() => {
-            Actions.home({ type: "reset" });
+            Actions.home({ type: 'reset' });
           });
-
         });
 
         // KoiApi.setToken(
@@ -69,8 +68,8 @@ class SubmitLogin extends Component {
 
         // Alert.alert('Login Success!', 'Click the button to get a Chuck Norris quote!');
       } else {
-        this.setState({ buttonText: "Đăng nhập" });
-        Alert.alert("Đăng nhập thất bại!", "Vui lòng đăng nhập lại");
+        this.setState({ buttonText: language.get('login') });
+        Alert.alert(language.get('login_fail_try_again'));
       }
     });
   }
@@ -80,7 +79,7 @@ class SubmitLogin extends Component {
       <View style={styles.wrapper}>
         <View style={styles.inputWrap}>
           <TextInput
-            placeholder={language.get("username")}
+            placeholder={language.get('username')}
             placeholderTextColor="white"
             style={styles.input}
             underlineColorAndroid="transparent"
@@ -93,7 +92,7 @@ class SubmitLogin extends Component {
         </View>
         <View style={styles.inputWrap}>
           <TextInput
-            placeholder={language.get("password")}
+            placeholder={language.get('password')}
             placeholderTextColor="white"
             secureTextEntry
             style={styles.input}
@@ -111,7 +110,9 @@ class SubmitLogin extends Component {
           onPress={this.userLogin.bind(this)}
         >
           <View style={styles.button}>
-            <Text style={styles.buttonText}>{this.state.buttonText}</Text>
+            <Text style={styles.buttonText}>
+              {this.state.buttonText}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -123,31 +124,31 @@ class SubmitLogin extends Component {
 const styles = StyleSheet.create({
   wrapper: {
     paddingTop: 16,
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     paddingHorizontal: 36
   },
   inputWrap: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginVertical: 4,
     marginHorizontal: 20,
     height: 40,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     borderBottomWidth: 1,
-    borderColor: 'white',
+    borderColor: 'white'
   },
   input: {
     flex: 1,
     paddingHorizontal: 10,
-    color: "white"
+    color: 'white'
   },
   button: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingVertical: 15,
     marginBottom: 24,
     marginTop: 44,
     marginHorizontal: 40,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 50
   },
   buttonText: {
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
   },
   forgetPassword: {
     color: Colors.text_secondary,
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
     paddingVertical: 8,
     fontSize: 12
   }
@@ -164,7 +165,6 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-
     info: state.info,
     loginFail: state.loginFail
   };
