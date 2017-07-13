@@ -73,14 +73,14 @@
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "Koi.app"
             BlueprintName = "Koi"
-            ReferencedContainer = "container:0.xcodeproj">
+            ReferencedContainer = "container:Koi.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -96,7 +96,7 @@
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "Koi.app"
             BlueprintName = "Koi"
-            ReferencedContainer = "container:0.xcodeproj">
+            ReferencedContainer = "container:Koi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>

@@ -30,7 +30,8 @@ RCT_EXPORT_METHOD(getMACAddress:(RCTResponseSenderBlock)callback)
       break;
     }
   }
-  callback(@[[NSNull null], @"đsds"]);
+  //callback(@[[NSNull null], SSIDInfo[@"BSSID"]]);
+  callback(@[[NSNull null], @"aaa"]);
 }
 
 @end
