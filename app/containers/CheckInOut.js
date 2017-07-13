@@ -283,7 +283,7 @@ class CheckInOut extends Component {
             } else {
               Alert.alert(
                 language.get('notice'),
-                language.get('request_admin_ip'),
+                language.get('request_ip_admin'),
                 [
                   {
                     text: language.get('confirm'),
