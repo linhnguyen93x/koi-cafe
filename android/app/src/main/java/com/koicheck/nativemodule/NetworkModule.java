@@ -1,4 +1,4 @@
-package com.koi.nativemodule;
+package com.koicheck.nativemodule;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;

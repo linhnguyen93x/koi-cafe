@@ -1,4 +1,4 @@
-package com.koi;
+package com.koicheck;
 
 import android.app.Application;
 
@@ -7,7 +7,7 @@ import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.beefe.picker.PickerViewPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
-import com.koi.nativemodule.NetworkPackage;
+import com.koicheck.nativemodule.NetworkPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;

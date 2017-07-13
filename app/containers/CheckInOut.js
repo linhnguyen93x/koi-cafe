@@ -406,9 +406,9 @@ class CheckInOut extends Component {
                         language.get('check_success'),
                         this.props.checkResponseStatus.get('data').InOutMode ==
                         3
-                          ? language.get('check_in_middle') +
+                          ? language.get('check_in_middle_success') +
                             this.props.checkResponseStatus.get('data').Time
-                          : language.get('check_out_middle') +
+                          : language.get('check_out_middle_success') +
                             this.props.checkResponseStatus.get('data').Time,
                         [
                           {

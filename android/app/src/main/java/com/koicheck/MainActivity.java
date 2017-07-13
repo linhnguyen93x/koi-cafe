@@ -1,4 +1,4 @@
-package com.koi;
+package com.koicheck;
 
 import com.facebook.react.ReactActivity;
 
