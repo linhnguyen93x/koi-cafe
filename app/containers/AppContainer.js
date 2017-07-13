@@ -56,10 +56,10 @@ class AppContainer extends Component {
   componentDidMount() {
     this._trackLocation();
 
-    NetInfo.isConnected.fetch().then(isConnected => {
-      // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-      this._handleShowMessage(isConnected);
-    });
+    // NetInfo.isConnected.fetch().then(isConnected => {
+    //   // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+    //   this._handleShowMessage(isConnected);
+    // });
 
     NetInfo.isConnected.addEventListener(
       'change',
@@ -74,7 +74,7 @@ class AppContainer extends Component {
         message: language.get('check_network'),
         alertType: 'error',
         shouldHideAfterDelay: false,
-        shouldHideOnTap: false,
+        shouldHideOnTap: true,
         position: 'bottom'
         // See Properties section for full customization
         // Or check `index.ios.js` or `index.android.js` for a complete example
