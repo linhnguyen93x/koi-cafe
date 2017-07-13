@@ -241,7 +241,7 @@ class AppContainer extends Component {
             <Scene
               key="resultChecking"
               component={Constants.ResultChecking}
-              title={language.get('result_tested')}
+              title={language.get('result_checking')}
             />
             <Scene
               key="userChecked"
