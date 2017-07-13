@@ -193,7 +193,7 @@ class UserChecked extends Component {
                           </Text>
                         </Text>
                         <Text
-                          style={[styles.textColor, { paddingHorizontal: 8 }]}
+                          style={[styles.textColor]}
                         >
                           {language.get('os')}
                           <Text style={styles.textColorBlue}>
@@ -218,7 +218,7 @@ class UserChecked extends Component {
                               borderColor: 'white'
                             }}
                           >
-                            <Text style={{ color: 'white' }}>
+                            <Text style={{ color: 'white', backgroundColor: 'transparent' }}>
                               <Icon name="map" size={15} color="white" />{' '}
                               {language.get('view_location')}
                             </Text>
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8
   },
   container: {
-    alignItems: 'center',
+    paddingLeft: 10,
     paddingTop: 16,
     paddingBottom: 8,
     justifyContent: 'space-between',
@@ -310,10 +310,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.colorPrimaryDark
   },
   textColor: {
-    color: 'white'
+    color: 'gray',
+    backgroundColor: 'transparent'
   },
   textColorBlue: {
-    color: Colors.colorPrimary
+    color: 'white',
+    
   }
 });
 
