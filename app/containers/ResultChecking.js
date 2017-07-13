@@ -265,7 +265,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.colorPrimaryDark
   },
   textColor: {
-    color: 'white'
+    color: 'white',
+     backgroundColor: 'transparent'
   }
 });
 
