@@ -1,5 +1,5 @@
-import * as types from "./types";
-import Api from "../libs/api";
+import * as types from './types';
+import Api from '../libs/api';
 
 export function fetchEmployeeList() {
   return (dispatch, getState) => {
@@ -34,11 +34,11 @@ export function filterEmployeeByCat(data, search) {
     return new Promise((resolve, reject) => {
       let newData;
 
-      if (search == "All") {
+      if (search == 'All') {
         newData = data;
       } else {
         newData = data.filter(item => {
-          return search == item.get("MaCuaHang");
+          return search == item.get('MaCuaHang');
         });
       }
 

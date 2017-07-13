@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { ActivityIndicator, View } from "react-native";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, combineReduxers, compose } from "redux";
-import thunkMiddleware from "redux-thunk";
-import { createLogger } from "redux-logger";
-import { AppRegistry } from "react-native";
-import reducer from "./app/reducers";
-import AppContainer from "./app/containers/AppContainer";
-import { Actions } from "react-native-router-flux";
-import * as language from "./app/language";
-import Permissions from "react-native-permissions";
-var MessageBarAlert = require("react-native-message-bar").MessageBar;
-var MessageBarManager = require("react-native-message-bar").MessageBarManager;
+import React, { Component } from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, combineReduxers, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import { AppRegistry } from 'react-native';
+import reducer from './app/reducers';
+import AppContainer from './app/containers/AppContainer';
+import { Actions } from 'react-native-router-flux';
+import * as language from './app/language';
+import Permissions from 'react-native-permissions';
+var MessageBarAlert = require('react-native-message-bar').MessageBar;
+var MessageBarManager = require('react-native-message-bar').MessageBarManager;
 
 const loggerMiddleware = createLogger({
   predicate: (getState, action) => __DEV__
@@ -33,7 +33,6 @@ class App extends Component {
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.refs.alert);
   }
-
 
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();

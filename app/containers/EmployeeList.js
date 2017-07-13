@@ -19,7 +19,7 @@ const {
   TouchableWithoutFeedback
 } = ReactNative;
 
-const pickerData = [language.get('all')];
+const pickerData = new Array(language.get('all'));
 let mapOfPickerData = new Map();
 mapOfPickerData.set(language.get('all'), 'All');
 
@@ -35,15 +35,13 @@ class EmployeeList extends Component {
   }
 
   componentWillMount() {
-    //actions/checkInOut.js
+    // actions/checkInOut.js
     this.props.getAllOutlet().then(() => {
       if (!this.props.allOutletInfo.get('isError')) {
         this.props.allOutletInfo.get('data').forEach(item => {
           pickerData.push(item.tencuahang);
           mapOfPickerData.set(item.tencuahang, item.macuahang);
         });
-
-        console.log('a');
       }
     });
 
@@ -96,7 +94,7 @@ class EmployeeList extends Component {
       onPickerConfirm: data => {
         this.setState(
           {
-            outlet: data,
+            outlet: data[0],
             isLoading: true
           },
           () => {
