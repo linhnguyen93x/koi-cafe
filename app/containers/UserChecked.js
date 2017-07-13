@@ -229,7 +229,7 @@ class UserChecked extends Component {
                   );
                 })}
               </ScrollView>
-            : <Text style={{ color: 'white' }}>
+            : <Text style={{ color: 'white', backgroundColor: 'transparent'}}>
                 {language.get('no_data')}
               </Text>}
       </Image>

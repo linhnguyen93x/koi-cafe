@@ -184,7 +184,7 @@ class ResultChecking extends Component {
                   </Text>
                 </View>
               </View>
-            : <Text style={{ color: 'white', textAlign: 'center' }}>
+            : <Text style={{ color: 'white', textAlign: 'center', backgroundColor: 'transparent' }}>
                 {language.get('no_data')}
               </Text>}
       </Image>
