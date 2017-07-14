@@ -218,8 +218,8 @@ class UserChecked extends Component {
                               borderColor: 'white'
                             }}
                           >
-                            <Text style={{ color: 'white', backgroundColor: 'transparent' }}>
-                              <Icon name="map" size={15} color="white" />{' '}
+                            <Text style={{ color: 'yellow', backgroundColor: 'transparent', fontSize : 16 ,marginTop: 5, marginBottom: 5  }}>
+                              <Icon name="map" size={15} color="green" />{' '}
                               {language.get('view_location')}
                             </Text>
                           </View>
@@ -310,8 +310,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.colorPrimaryDark
   },
   textColor: {
-    color: 'gray',
-    backgroundColor: 'transparent'
+    color: 'white',
+    backgroundColor: 'transparent',
+    fontSize: 15
   },
   textColorBlue: {
     color: 'white',
