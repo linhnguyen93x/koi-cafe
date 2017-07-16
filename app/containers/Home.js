@@ -17,6 +17,7 @@ import { Colors, globalStyle } from '../style';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as language from '../language';
 import * as AppConstants from '../utils/AppConstans';
+import RNRestart from 'react-native-restart';
 
 const NetworkInfo = NativeModules.NetworkInfo;
 
@@ -160,6 +161,10 @@ class Home extends Component {
         break;
       case 'checkInOut':
         Actions.checkInOut();
+        // this.props.changeLanguage('vi').then(() => {
+        //   RNRestart.Restart();
+        // });
+
         break;
       case 'employeeInfo':
         Actions.employeeMenu({

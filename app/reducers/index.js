@@ -9,6 +9,7 @@ import * as WorkSheetReducer from './workSheet'
 import * as HistoryCheckInReducer from './historyCheckIn'
 import * as ResultCheckingReducer from './resultChecking'
 import * as LocationReducer from './location'
+import * as LocaleReducer from './locale'
 
 const appReducer = combineReducers(Object.assign(
 	routes,
@@ -19,7 +20,8 @@ const appReducer = combineReducers(Object.assign(
 	WorkSheetReducer,
 	HistoryCheckInReducer,
 	ResultCheckingReducer,
-	LocationReducer
+	LocationReducer,
+	LocaleReducer
 ));
 
 const rootReducer = (state, action) => {

@@ -7,6 +7,7 @@ import * as WorkSheetActions from './workSheet'
 import * as HistoryCheckInActions from './historyCheckIn'
 import * as ResultCheckingActions from './resultChecking'
 import * as LocationActions from './location'
+import * as LocaleActions from './locale'
 
 export const ActionCreators = Object.assign({},
 	EmployeeListActions,
@@ -17,5 +18,6 @@ export const ActionCreators = Object.assign({},
 	WorkSheetActions,
 	HistoryCheckInActions,
 	ResultCheckingActions,
-	LocationActions
+	LocationActions,
+	LocaleActions
 );

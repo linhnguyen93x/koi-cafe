@@ -5,7 +5,7 @@ import Button from 'react-native-button';
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import * as language from '../language'
 
 const contextTypes = {
   drawer: React.PropTypes.object,
@@ -25,12 +25,12 @@ const DrawerMenu = (props, context) => {
       // clear app key for user
       let keys = ["id_token", "user"];
 
-      // AsyncStorage.multiRemove(keys, (err) => {
-      //   if (!err) {
+      AsyncStorage.multiRemove(keys, (err) => {
+        if (!err) {
 
-      //   }
-      // });
-      await AsyncStorage.clear();
+        }
+      });
+      // await AsyncStorage.clear();
       Actions.login({ type: "reset" });
 
     } catch (error) {
@@ -88,11 +88,11 @@ const DrawerMenu = (props, context) => {
 
         <View style={styles.wrapNav}>
 
-          <Text style={styles.ttNav}>Chức năng chính</Text>
+          <Text style={styles.ttNav}>{ language.get('main_function') }</Text>
           <View style={styles.lineNav}>
             <Button style={styles.btn} onPress={() => { drawer.close(); }}>
               <Icon style={styles.navIcon} name="user" size={18} color="white" />
-              <Text style={styles.navText}>Trang cá nhân</Text>
+              <Text style={styles.navText}>{language.get('personal_page')}</Text>
             </Button>
           </View>
 
@@ -100,17 +100,11 @@ const DrawerMenu = (props, context) => {
         </View>
 
         <View style={styles.wrapNav}>
-          <Text style={styles.ttNav}>Trợ giúp</Text>
-          <View style={styles.lineNav}>
-            <Button style={styles.btn} onPress={() => { drawer.close(); }}>
-              <Icon style={[styles.navIcon, styles.opHide]} name="star" size={24} color="#bdbdbd" />
-              <Text style={styles.navText}>Đánh giá ứng dụng</Text>
-            </Button>
-          </View>
+          <Text style={styles.ttNav}>{language.get('help')}</Text>
           <View style={styles.lineNav}>
             <Button style={styles.btn} onPress={() => { drawer.close(); logout(); }}>
               <Icon style={[styles.navIcon, styles.opHide]} name="sign-out" size={24} color="#bdbdbd" />
-              <Text style={styles.navText}>Đăng xuất</Text>
+              <Text style={styles.navText}>{language.get('logout')}</Text>
             </Button>
           </View>
         </View>

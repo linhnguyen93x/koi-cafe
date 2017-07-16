@@ -51,6 +51,14 @@ class AppContainer extends Component {
 
   componentWillMount() {
     this.getSetting();
+    this.getLanguage();
+  }
+
+  getLanguage = async () => {
+    let language = await AsyncStorage.getItem('language');
+    if (language != null) {
+      this.props.changeLanguage(language);
+    }
   }
 
   componentDidMount() {
@@ -337,6 +345,7 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(state => {
   return {
-    employeeList: state.employeeList
+    employeeList: state.employeeList,
+
   };
 }, mapDispatchToProps)(AppContainer);

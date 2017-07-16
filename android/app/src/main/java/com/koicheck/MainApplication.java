@@ -3,6 +3,7 @@ package com.koicheck;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.beefe.picker.PickerViewPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new ReactNativeRestartPackage(),
             new ReactNativeI18n(),
                     new PickerViewPackage(),
                     new RNDeviceInfo(),
