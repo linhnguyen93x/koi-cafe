@@ -6,6 +6,8 @@ import * as language from '../language';
 import { Colors, globalStyle } from '../style';
 import Api from '../libs/api';
 import KoiApi from '../libs/koiApi';
+import Picker from 'react-native-picker';
+import RNRestart from 'react-native-restart';
 
 // All Component react for render view
 const {
@@ -17,8 +19,11 @@ const {
   TextInput,
   KeyboardAvoidingView,
   AsyncStorage,
-  Alert
+  Alert,
+  TouchableWithoutFeedback
 } = ReactNative;
+
+const pickerData = ['vi', 'zh'];
 
 class SubmitLogin extends Component {
   constructor(props) {
@@ -27,8 +32,18 @@ class SubmitLogin extends Component {
       isSubmit: false,
       username: null,
       password: null,
-      buttonText: language.get('login')
+      buttonText: language.get('login'),
+      language: pickerData[0]
     };
+  }
+
+  async componentWillMount() {
+    let language = await AsyncStorage.getItem('language');
+    if (language != null) {
+      this.setState({
+        language: language
+      });
+    }
   }
 
   componenDidMount() {}
@@ -74,9 +89,44 @@ class SubmitLogin extends Component {
     });
   }
 
+  _openDropDown() {
+    Picker.init({
+      pickerData: pickerData,
+      pickerConfirmBtnText: language.get('choose'),
+      pickerCancelBtnText: language.get('cancel'),
+      pickerTitleText: language.get('choose_language'),
+      selectedValue: [this.state.language],
+      onPickerConfirm: data => {
+        this.setState(
+          {
+            language: data[0]
+          },
+          () => {
+            this.props.changeLanguage(data[0]).then(() => {
+              RNRestart.Restart();
+            });
+          }
+        );
+      },
+      onPickerCancel: data => {},
+      onPickerSelect: data => {}
+    });
+    Picker.show();
+  }
+
   render() {
     return (
       <View style={styles.wrapper}>
+        <View style={styles.picker_container}>
+          <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
+            <View style={styles.picker}>
+              <Text>
+                {language.get('language') + ': ' + this.state.language}
+              </Text>
+              {/* <Icon name="calendar" size={15} color="#036380" /> */}
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
         <View style={styles.inputWrap}>
           <TextInput
             placeholder={language.get('username')}
@@ -160,6 +210,21 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     paddingVertical: 8,
     fontSize: 12
+  },
+  picker_container: {
+    height: 40,
+    alignSelf: 'stretch',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    marginVertical: 4,
+    marginHorizontal: 48
+  },
+  picker: {
+    flexDirection: 'row',
+    height: 40,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 8
   }
 });
 

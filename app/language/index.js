@@ -1,5 +1,5 @@
 import language from 'react-native-i18n';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native';
 
 language.fallbacks = true;
 
@@ -123,7 +123,8 @@ language.translations = {
     personal_page: 'Trang cá nhân',
     worksheet_data: 'Tổng số giờ công',
     main_function: 'Chức năng chính',
-    help: 'Trợ giúp'
+    help: 'Trợ giúp',
+    choose_language: 'Chọn ngôn ngữ'
   },
   en: {
     user_profile: 'Thông tin cá nhân',
@@ -244,7 +245,8 @@ language.translations = {
     personal_page: 'Trang cá nhân',
     worksheet_data: 'Tổng số giờ công',
     main_function: 'Chức năng chính',
-    help: 'Trợ giúp'
+    help: 'Trợ giúp',
+    choose_language: 'Chọn ngôn ngữ'
   },
   zh: {
     user_profile: '個人資料',
@@ -357,7 +359,8 @@ language.translations = {
     personal_page: '個人頁面',
     worksheet_data: '總工時數',
     main_function: '主要功能',
-    help: '帮助'
+    help: '帮助',
+    choose_language: '選擇一種語言'
   }
 };
 
@@ -374,5 +377,4 @@ export const setLocale = item => {
     let languageCode = item.substr(0, 2);
     language.locale = languageCode;
   }
-
 };
