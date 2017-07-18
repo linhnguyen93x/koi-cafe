@@ -124,7 +124,8 @@ language.translations = {
     worksheet_data: 'Tổng số giờ công',
     main_function: 'Chức năng chính',
     help: 'Trợ giúp',
-    choose_language: 'Chọn ngôn ngữ'
+    choose_language: 'Chọn ngôn ngữ',
+    confirm: 'Xác nhận'
   },
   en: {
     user_profile: 'Thông tin cá nhân',
@@ -246,7 +247,8 @@ language.translations = {
     worksheet_data: 'Tổng số giờ công',
     main_function: 'Chức năng chính',
     help: 'Trợ giúp',
-    choose_language: 'Chọn ngôn ngữ'
+    choose_language: 'Chọn ngôn ngữ',
+    confirm: 'Xác nhận'
   },
   zh: {
     user_profile: '個人資料',
@@ -360,7 +362,8 @@ language.translations = {
     worksheet_data: '總工時數',
     main_function: '主要功能',
     help: '帮助',
-    choose_language: '選擇一種語言'
+    choose_language: '選擇一種語言',
+    confirm: '确定'
   }
 };
 

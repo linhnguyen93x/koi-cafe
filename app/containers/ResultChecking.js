@@ -102,10 +102,10 @@ class ResultChecking extends Component {
               mode="date"
               maxDate={moment(new Date()).format('YYYY-MM-DD')}
               androidMode="spinner"
-              placeholder="Tháng"
+              placeholder={language.get('month')}
               format="YYYY-MM-DD"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
+              confirmBtnText={language.get('confirm')}
+              cancelBtnText={language.get('cancel')}
               customStyles={{
                 dateIcon: {
                   position: 'absolute',

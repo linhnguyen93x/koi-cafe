@@ -114,8 +114,8 @@ class UserChecked extends Component {
               androidMode="spinner"
               placeholder={language.get('month')}
               format="YYYY-MM-DD"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
+              confirmBtnText={language.get('confirm')}
+              cancelBtnText={language.get('cancel')}
               customStyles={{
                 dateIcon: {
                   position: 'absolute',

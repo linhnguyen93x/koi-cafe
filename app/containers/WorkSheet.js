@@ -166,8 +166,8 @@ class WorkSheet extends Component {
               androidMode="spinner"
               placeholder={language.get('from_date')}
               format="YYYY-MM-DD"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
+             confirmBtnText={language.get('confirm')}
+              cancelBtnText={language.get('cancel')}
               customStyles={{
                 dateIcon: {
                   position: 'absolute',
@@ -197,8 +197,8 @@ class WorkSheet extends Component {
               placeholder={language.get('to_date')}
               format="YYYY-MM-DD"
               // maxDate={moment(new Date()).format("YYYY-MM-DD")}
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
+              confirmBtnText={language.get('confirm')}
+              cancelBtnText={language.get('cancel')}
               customStyles={{
                 dateIcon: {
                   position: 'absolute',
