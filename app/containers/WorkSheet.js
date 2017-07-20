@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
 
     marginTop: 8,
-    marginHorizontal: 4
+    marginHorizontal: 1
   },
   picker: {
     flexDirection: 'row',

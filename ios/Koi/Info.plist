@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -42,6 +42,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Advertisement would like to use bluetooth.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Calendar for choose day.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is used to determine if your location matches the locate of the KOI's store to approve times work and display your locate on google map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This is the plist item for NSLocationWhenInUseUsageDescription</string>
 	<key>UIAppFonts</key>
@@ -67,12 +73,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your location is used to determine if your location matches the locate of the KOI&apos;s store to approve times work and display your locate on google map.</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Calendar for choose day.</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Advertisement would like to use bluetooth.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
   },
   textItem: {
     textAlign: "center",
-    color: "white"
+    color: "white",
+    backgroundColor: "transparent"
   },
   textItemValue: {
     textAlign: "center",

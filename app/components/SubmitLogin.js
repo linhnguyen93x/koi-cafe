@@ -173,7 +173,7 @@ class SubmitLogin extends Component {
 // Css for each view
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: 16,
+    paddingTop: 3,
     alignSelf: 'stretch',
     paddingHorizontal: 36
   },
@@ -193,10 +193,10 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'white',
-    paddingVertical: 15,
+    paddingVertical: 10,
     marginBottom: 24,
-    marginTop: 44,
-    marginHorizontal: 40,
+    marginTop: 5,
+    marginHorizontal: 50,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50

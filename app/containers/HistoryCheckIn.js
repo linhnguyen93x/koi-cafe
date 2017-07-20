@@ -194,10 +194,11 @@ class HistoryCheckIn extends Component {
                   marginLeft: 0
                 },
                 dateInput: {
-                  marginLeft: 36
+                  marginLeft: 0,
+                  paddingHorizontal: 0
                 },
                 dateText: {
-                  paddingRight: 6
+                  paddingRight: 60
                 }
                 // ... You can check the source to find the other keys.
               }}
@@ -225,11 +226,11 @@ class HistoryCheckIn extends Component {
                   marginLeft: 0
                 },
                 dateInput: {
-                  marginLeft: 36,
-                  paddingHorizontal: 8
+                  marginLeft: 0,
+                  paddingHorizontal: 0
                 },
                 dateText: {
-                  paddingRight: 6
+                  paddingRight: 60
                 }
                 // ... You can check the source to find the other keys.
               }}
@@ -263,7 +264,8 @@ class HistoryCheckIn extends Component {
           ? <ActivityIndicator />
           : this.props.historyCheckInList.get('data') != null
             ? <Agenda
-                style={{ alignSelf: 'stretch', backgroundColor: 'transparent' }}
+
+                style={{ alignSelf: 'stretch', backgroundColor: 'transparent', overflow: 'hidden'}}
                 items={this.state.items}
                 loadItemsForMonth={this.loadItems.bind(this)}
                 selected={
@@ -273,11 +275,12 @@ class HistoryCheckIn extends Component {
                 renderEmptyDate={this.renderEmptyDate.bind(this)}
                 rowHasChanged={this.rowHasChanged.bind(this)}
                 hideKnob={false}
+   
 
                 // monthFormat={'yyyy'}
                 //theme={{calendarBackground: 'red'}}
                 //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
-              />
+             />
             : <Text
                 style={{
                   backgroundColor: 'transparent',
@@ -317,7 +320,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
 
     marginTop: 8,
-    marginHorizontal: 4
+    marginHorizontal: 1
   },
   picker: {
     flexDirection: 'row',
