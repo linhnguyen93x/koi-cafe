@@ -23,11 +23,7 @@ class Login extends Component {
 			source={require('../../assets/backgrounds/main_bg.png')}
 			resizeMode={Image.resizeMode.cover} >
 			{/*Logo Section*/}
-			<View style={[styles.contentSection, globalStyle.loginPaddingImage]}>
-				<Image
-					source={require('../../assets/icons/koi_logo.png')}
-					style={styles.logo} />
-			</View>
+			
 
 			<SubmitLogin {...this.props} />
 

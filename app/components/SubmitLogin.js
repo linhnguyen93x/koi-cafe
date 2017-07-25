@@ -8,6 +8,7 @@ import Api from '../libs/api';
 import KoiApi from '../libs/koiApi';
 import Picker from 'react-native-picker';
 import RNRestart from 'react-native-restart';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // All Component react for render view
 const {
@@ -116,7 +117,16 @@ class SubmitLogin extends Component {
 
   render() {
     return (
-      <View style={styles.wrapper}>
+      <View >
+           <KeyboardAwareScrollView>
+        
+        <View style={styles.wrapper}>     
+        <View style={[styles.contentSection, globalStyle.loginPaddingImage]}>
+				<Image
+					source={require('../../assets/icons/koi_logo.png')}
+					style={styles.logo} />
+			</View>
+        
         <View style={styles.picker_container}>
           <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
             <View style={styles.picker}>
@@ -140,6 +150,7 @@ class SubmitLogin extends Component {
             onChangeText={username => this.setState({ username })}
           />
         </View>
+      
         <View style={styles.inputWrap}>
           <TextInput
             placeholder={language.get('password')}
@@ -165,7 +176,10 @@ class SubmitLogin extends Component {
             </Text>
           </View>
         </TouchableOpacity>
+           </View>
+             </KeyboardAwareScrollView>
       </View>
+        
     );
   }
 }
@@ -175,12 +189,12 @@ const styles = StyleSheet.create({
   wrapper: {
     paddingTop: 3,
     alignSelf: 'stretch',
-    paddingHorizontal: 36
+    paddingHorizontal: 50
   },
   inputWrap: {
     flexDirection: 'row',
     marginVertical: 4,
-    marginHorizontal: 20,
+    marginHorizontal: 0,
     height: 40,
     backgroundColor: 'transparent',
     borderBottomWidth: 1,
@@ -196,7 +210,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 24,
     marginTop: 5,
-    marginHorizontal: 50,
+    marginHorizontal: 30,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50
@@ -225,7 +239,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 8
-  }
+  },
+  contentSection: {
+		height: 200,
+		width: 200,
+		backgroundColor: Colors.koi_container,
+		borderRadius: 100,
+		padding: 15
+	},
+	logo: {
+		height: 150,
+		width: 150,
+		resizeMode: "contain",
+	}
 });
 
 function mapStateToProps(state) {
