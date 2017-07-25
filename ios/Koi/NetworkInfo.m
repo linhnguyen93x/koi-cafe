@@ -30,7 +30,12 @@ RCT_EXPORT_METHOD(getMACAddress:(RCTResponseSenderBlock)callback)
       break;
     }
   }
-  callback(@[[NSNull null], SSIDInfo[@"BSSID"]]);
+  if (SSIDInfo != nil && SSIDInfo != NULL && SSIDInfo[@"BSSID"] != nil) {
+      callback(@[[NSNull null], SSIDInfo[@"BSSID"]]);
+  }else{
+    callback(@[[NSNull null], @""]);
+  }
+  
 }
 
 @end

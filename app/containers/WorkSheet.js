@@ -245,7 +245,7 @@ class WorkSheet extends Component {
           ? <ActivityIndicator />
           : this.props.workSheetList.get('data') != null
             ? <Agenda
-                style={{ alignSelf: 'stretch', backgroundColor: 'transparent' }}
+                style={{ alignSelf: 'stretch', backgroundColor: 'transparent', overflow: 'hidden' }}
                 items={this.state.items}
                 loadItemsForMonth={this.loadItems.bind(this)}
                 selected={Object.keys(this.props.workSheetList.get('data'))[0]}
