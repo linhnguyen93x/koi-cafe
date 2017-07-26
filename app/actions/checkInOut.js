@@ -1,5 +1,5 @@
-import * as types from './types';
-import KoiApi from '../libs/koiApi';
+import * as types from "./types";
+import KoiApi from "../libs/koiApi";
 
 export function getUserOutlet(userCode) {
   return (dispatch, getState) => {
@@ -108,14 +108,52 @@ export function getCheckStatus(maNV, date) {
 
           dispatch({
             type: types.SET_CHECK_STATUS,
-            status: userIp.length > 0 ? userIp[0] : null,
-            statusMiddle: checkMiddle.length > 0 ? checkMiddle[0] : null
+            status:
+              userIp.length > 0
+                ? userIp[0]
+                : {
+                    id: undefined,
+                    UserID: undefined,
+                    Time: undefined,
+                    InOutMode: 0,
+                    MacAddress: undefined,
+                    OS: undefined,
+                    Location: undefined
+                  },
+            statusMiddle:
+              checkMiddle.length > 0
+                ? checkMiddle[0]
+                : {
+                    id: undefined,
+                    UserID: undefined,
+                    Time: undefined,
+                    InOutMode: 0,
+                    MacAddress: undefined,
+                    OS: undefined,
+                    Location: undefined
+                  }
           });
         } else {
           dispatch({
             type: types.SET_CHECK_STATUS,
-            status: null,
-            statusMiddle: null
+            status: {
+              id: undefined,
+              UserID: undefined,
+              Time: undefined,
+              InOutMode: 0,
+              MacAddress: undefined,
+              OS: undefined,
+              Location: undefined
+            },
+            statusMiddle: {
+              id: undefined,
+              UserID: undefined,
+              Time: undefined,
+              InOutMode: 0,
+              MacAddress: undefined,
+              OS: undefined,
+              Location: undefined
+            }
           });
         }
       })
@@ -124,7 +162,7 @@ export function getCheckStatus(maNV, date) {
         dispatch({
           type: types.SET_CHECK_STATUS,
           status: null,
-          statusMiddle: nulls
+          statusMiddle: null
         });
       });
   };

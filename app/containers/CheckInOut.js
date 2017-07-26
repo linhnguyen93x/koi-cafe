@@ -356,6 +356,7 @@ class CheckInOut extends Component {
     /*Location*/
 
     this._runAnimation();
+  
     /* Get IP address */
     fetch("http://checkin.koithe.vn/api/ip") //http://ipecho.net/plain
       .then(resp => {
@@ -504,11 +505,26 @@ class CheckInOut extends Component {
   };
 
   _runAnimation = () => {
-    this.state.fadeValue.setValue(1);
-    Animated.timing(this.state.fadeValue, {
-      toValue: 0.4,
-      duration: 1500
-    }).start(e => {
+    // this.state.fadeValue.setValue(0.7);
+    // Animated.timing(this.state.fadeValue, {
+    //   toValue: 0.4,
+    //   duration: 1500
+    // }).start(e => {
+    //   if (this.state.isChecking) {
+    //     this._runAnimation();
+    //   }
+    // });
+    Animated.sequence([
+      Animated.timing(this.state.fadeValue, {
+        toValue: 1,
+        duration: 1000,
+
+      }),
+      Animated.timing(this.state.fadeValue, {
+        toValue: 0.2,
+        duration: 1000
+      })
+    ]).start(() => {
       if (this.state.isChecking) {
         this._runAnimation();
       }
