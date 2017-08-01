@@ -47,7 +47,7 @@ class NavigationDrawer extends React.Component {
         captureGestures={true}
         onOpen={() => this._openDrawer(state)}
         onClose={() => Actions.refresh({ key: state.key, open: false })}
-        content={<DrawerMenu 
+        content={<DrawerMenu
           {...this.props}
           user={this.state.user} />}
         tapToClose={true}
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     padding: 8,
     color: 'white'
-   
-  }, 
+
+  },
   modalView: {
     flex: 1,
      alignSelf: 'stretch',
