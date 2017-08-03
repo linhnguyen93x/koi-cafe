@@ -119,14 +119,14 @@ class SubmitLogin extends Component {
     return (
       <View >
            <KeyboardAwareScrollView>
-        
-        <View style={styles.wrapper}>     
+
+        <View style={styles.wrapper}>
         <View style={[styles.contentSection, globalStyle.loginPaddingImage]}>
 				<Image
 					source={require('../../assets/icons/koi_logo.png')}
 					style={styles.logo} />
 			</View>
-        
+
         <View style={styles.picker_container}>
           <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
             <View style={styles.picker}>
@@ -150,7 +150,7 @@ class SubmitLogin extends Component {
             onChangeText={username => this.setState({ username })}
           />
         </View>
-      
+
         <View style={styles.inputWrap}>
           <TextInput
             placeholder={language.get('password')}
@@ -179,7 +179,7 @@ class SubmitLogin extends Component {
            </View>
              </KeyboardAwareScrollView>
       </View>
-        
+
     );
   }
 }

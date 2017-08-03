@@ -1,5 +1,6 @@
 import * as types from './types';
 import Api from '../libs/api';
+import KoiApi from '../libs/koiApi'
 
 export function fetchEmployeeList() {
   return (dispatch, getState) => {
@@ -22,6 +23,37 @@ export function fetchEmployeeList() {
   };
 }
 
+
+export function getAllPosition(token) {
+  return (dispatch, getState) => {
+    const params = {
+      token: token
+    }
+
+    return KoiApi.postJson(`/api/layloainhanvien`, params)
+      .then(resp => {
+        if (resp != null && resp.length > 0) {
+          dispatch({
+            type: types.SET_ALL_POSITION,
+            result: resp.length > 0 ? resp : null
+          });
+        } else {
+          dispatch({
+            type: types.SET_ALL_POSITION,
+            result: null
+          });
+        }
+      })
+      .catch(ex => {
+        console.log(ex);
+        dispatch({
+          type: types.SET_ALL_POSITION,
+          result: null
+        });
+      });
+  };
+}
+
 export function bindEmployeeList(result) {
   return {
     type: types.SET_EMPLOYEE_LIST,
@@ -38,7 +70,7 @@ export function filterEmployeeByCat(data, search) {
         newData = data;
       } else {
         newData = data.filter(item => {
-          return search == item.get('MaCuaHang');
+          return search == item.get('LoaiNhanVien');
         });
       }
 

@@ -9,6 +9,11 @@ const initialState = Map({
 	isLoading: false
 });
 
+const initialPositionState = Map({
+  data: null,
+  isError: false
+});
+
 export const employeeList = createReducer(initialState, {
 	[types.SET_CHANGE_LOADING](state, action) {
 		return state.withMutations((ctx) => {
@@ -34,4 +39,14 @@ export const employeeList = createReducer(initialState, {
 	[types.RESET_EMPLOYEE_LIST](state, action) {
 		return initialState;
 	}
+});
+
+export const allPosition = createReducer(initialPositionState, {
+  [types.SET_ALL_POSITION](state, action) {
+    return state.withMutations(ctx => {
+      ctx
+        .set('data', action.result != null ? action.result : null)
+        .set('isError', action.result == null ? true : false);
+    });
+  }
 });

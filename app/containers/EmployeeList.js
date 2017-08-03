@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import ReactNative from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
-import { Colors, globalStyle } from '../style';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as language from '../language';
-import { EmployeeItem, NoData } from '../components';
-import Picker from 'react-native-picker';
+import React, { Component } from "react";
+import ReactNative from "react-native";
+import { Actions } from "react-native-router-flux";
+import { connect } from "react-redux";
+import { Colors, globalStyle } from "../style";
+import Icon from "react-native-vector-icons/FontAwesome";
+import * as language from "../language";
+import { EmployeeItem, NoData } from "../components";
+import Picker from "react-native-picker";
 
 const {
   View,
@@ -16,47 +16,68 @@ const {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  AsyncStorage
 } = ReactNative;
 
-const pickerData = new Array(language.get('all'));
+const pickerData = new Array(language.get("all"));
 let mapOfPickerData = new Map();
-mapOfPickerData.set(language.get('all'), 'All');
+mapOfPickerData.set(language.get("all"), "All");
 
 class EmployeeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
+      search: "",
       isLoading: false,
-      outlet: language.get('all'),
+      workSheet: language.get("all"),
       employeeData: null
     };
   }
 
   componentWillMount() {
-    // actions/checkInOut.js
-    this.props.getAllOutlet().then(() => {
-      if (!this.props.allOutletInfo.get('isError')) {
-        this.props.allOutletInfo.get('data').forEach(item => {
-          pickerData.push(item.tencuahang);
-          mapOfPickerData.set(item.tencuahang, item.macuahang);
+    AsyncStorage.getItem("id_token").then(token => {
+      if (token != null) {
+        this.props.getAllPosition(token.split(" ")[1]).then(() => {
+          if (!this.props.allPosition.get("isError")) {
+            this.props.allPosition.get("data").forEach(item => {
+              console.log(item);
+              pickerData.push(item);
+              // mapOfPickerData.set(item.tencuahang, item.macuahang);
+            });
+          }
         });
       }
+
+
     });
 
     // actions/employeeList.js
     this.props.changeLoading().then(() => {
       this.props.fetchEmployeeList().then(() => {
-        this.setState({
-          employeeData: this.props.employeeList.get('data')
-        });
+        this.setState(
+          {
+            employeeData: this.props.employeeList.get("data")
+          },
+          () => {
+            this.setState({
+              isLoading: true
+            });
+            this.props
+              .filterEmployeeByCat(this.state.employeeData, this.props.filter)
+              .then(() => {
+                this.setState({
+                  isLoading: false
+                });
+              });
+          }
+        );
       });
     });
   }
 
   _keyExtractor = (item, index) => {
-    return item.get('MaNV');
+    return item.get("MaNV");
   };
 
   renderListItem = item => {
@@ -89,19 +110,19 @@ class EmployeeList extends Component {
       pickerData: pickerData,
       pickerConfirmBtnText: language.get('choose'),
       pickerCancelBtnText: language.get('cancel'),
-      pickerTitleText: language.get('store'),
-      selectedValue: [this.state.outlet],
+      pickerTitleText: language.get('work_sheet'),
+      selectedValue: [this.state.workSheet],
       onPickerConfirm: data => {
         this.setState(
           {
-            outlet: data[0],
+            workSheet: data[0],
             isLoading: true
           },
           () => {
             this.props
               .filterEmployeeByCat(
                 this.state.employeeData,
-                mapOfPickerData.get(this.state.outlet.toString())
+                this.state.workSheet
               )
               .then(() => {
                 this.setState({
@@ -129,14 +150,14 @@ class EmployeeList extends Component {
           globalStyle.container,
           globalStyle.mainPaddingTop
         ]}
-        source={require('../../assets/backgrounds/main_bg.png')}
+        source={require("../../assets/backgrounds/main_bg.png")}
         resizeMode={Image.resizeMode.cover}
       >
         <View style={styles.picker_container}>
           <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
             <View style={styles.picker}>
               <Text>
-                {this.state.outlet}
+                {this.state.workSheet}
               </Text>
               <Icon name="angle-down" size={15} color="#036380" />
             </View>
@@ -148,7 +169,7 @@ class EmployeeList extends Component {
           : <FlatList
               keyExtractor={this._keyExtractor}
               style={[styles.list]}
-              data={this.props.employeeList.get('data').toArray()}
+              data={this.props.employeeList.get("data").toArray()}
               renderItem={this.renderListItem}
               onEndReached={info => this._loadMore(info)}
               initialNumToRender={10}
@@ -159,7 +180,7 @@ class EmployeeList extends Component {
               })}
               ItemSeparatorComponent={SeperatorComponent}
               ListFooterComponent={
-                !this.props.employeeList.get('isEnd') ? FooterComponent : null
+                !this.props.employeeList.get("isEnd") ? FooterComponent : null
               }
             />}
       </Image>
@@ -184,26 +205,26 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: undefined,
     height: undefined,
-    backgroundColor: 'transparent'
+    backgroundColor: "transparent"
   },
   divider: {
     borderWidth: 0.2,
-    borderColor: '#DDDDDD',
-    alignSelf: 'stretch'
+    borderColor: "#DDDDDD",
+    alignSelf: "stretch"
   },
   picker_container: {
     height: 40,
-    alignSelf: 'stretch',
-    backgroundColor: 'white',
+    alignSelf: "stretch",
+    backgroundColor: "white",
     borderRadius: 8,
     marginVertical: 4,
     marginHorizontal: 48
   },
   picker: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 40,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 8
   }
 });
@@ -211,7 +232,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     employeeList: state.employeeList,
-    allOutletInfo: state.allOutletInfo
+    allPosition: state.allPosition
   };
 }
 
