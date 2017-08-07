@@ -46,14 +46,14 @@ class Home extends Component {
 
   componentWillMount() {
     // actions/checkInOut.js
-    this.props.getAllOutlet().then(() => {
-      if (!this.props.allOutletInfo.get("isError")) {
-        this.props.allOutletInfo.get("data").forEach(item => {
-          pickerData.push(item.tencuahang);
-          mapOfPickerData.set(item.tencuahang, item.macuahang);
-        });
-      }
-    });
+    // this.props.getAllOutlet().then(() => {
+    //   if (!this.props.allOutletInfo.get("isError")) {
+    //     this.props.allOutletInfo.get("data").forEach(item => {
+    //       pickerData.push(item.tencuahang);
+    //       mapOfPickerData.set(item.tencuahang, item.macuahang);
+    //     });
+    //   }
+    // });
     this._getEmployeeInfo();
     this._bindHomeIcon();
   }
@@ -206,8 +206,8 @@ class Home extends Component {
   _itemSelected = type => {
     switch (type) {
       case "listEmployee":
-        // Actions.employeeList();
-        this._openDropDown();
+        Actions.outletList();
+        // this._openDropDown();
 
         break;
       case "checkInOut":

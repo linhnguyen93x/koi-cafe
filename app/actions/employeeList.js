@@ -1,6 +1,7 @@
 import * as types from './types';
 import Api from '../libs/api';
 import KoiApi from '../libs/koiApi'
+import * as language from '../language'
 
 export function fetchEmployeeList() {
   return (dispatch, getState) => {
@@ -61,16 +62,21 @@ export function bindEmployeeList(result) {
   };
 }
 
-export function filterEmployeeByCat(data, search) {
+export function filterEmployeeByCat(data, search, byMaCuaHang) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       let newData;
 
-      if (search == 'All') {
+      if (search == language.get("all")) {
         newData = data;
       } else {
         newData = data.filter(item => {
-          return search == item.get('LoaiNhanVien');
+          if (byMaCuaHang) {
+            return search == item.get('MaCuaHang');
+          } else {
+            return search == item.get('LoaiNhanVien');
+          }
+
         });
       }
 

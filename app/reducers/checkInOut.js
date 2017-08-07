@@ -1,6 +1,6 @@
-import createReducer from '../libs/createReducer';
-import * as types from '../actions/types';
-import Immutable, { Map, List, fromJS, Set } from 'immutable';
+import createReducer from "../libs/createReducer";
+import * as types from "../actions/types";
+import Immutable, { Map, List, fromJS, Set } from "immutable";
 
 const initialState = Map({
   data: null,
@@ -21,8 +21,8 @@ export const employeeOutletInfo = createReducer(initialState, {
   [types.SET_EMPLOYEE_OUTLET_INFO](state, action) {
     return state.withMutations(ctx => {
       ctx
-        .set('data', action.employeeStore != null ? action.employeeStore : null)
-        .set('isError', action.employeeStore == null ? true : false);
+        .set("data", action.employeeStore != null ? action.employeeStore : null)
+        .set("isError", action.employeeStore == null ? true : false);
     });
   },
   [types.RESET_USER_OUTLET](state, action) {
@@ -30,12 +30,12 @@ export const employeeOutletInfo = createReducer(initialState, {
   }
 });
 
-export const allOutletInfo = createReducer(initialState, {
+export const allOutletInfo = createReducer(ipState, {
   [types.SET_ALL_OUTLET_INFO](state, action) {
     return state.withMutations(ctx => {
       ctx
-        .set('data', action.result != null ? action.result : null)
-        .set('isError', action.result == null ? true : false);
+        .set("data", action.result != null ? List(fromJS(action.result)) : null)
+        .set("isError", action.result == null ? true : false);
     });
   }
 });
@@ -45,10 +45,10 @@ export const employeeOutletIps = createReducer(ipState, {
     return state.withMutations(ctx => {
       ctx
         .set(
-          'data',
+          "data",
           action.outletIps != null ? List(fromJS(action.outletIps)) : List([])
         )
-        .set('isError', action.outletIps == null ? true : false);
+        .set("isError", action.outletIps == null ? true : false);
     });
   }
 });
@@ -58,10 +58,10 @@ export const userCheckedList = createReducer(ipState, {
     return state.withMutations(ctx => {
       ctx
         .set(
-          'data',
+          "data",
           action.status != null ? List(fromJS(action.status)) : List([])
         )
-        .set('isError', action.status == null ? true : false);
+        .set("isError", action.status == null ? true : false);
     });
   },
   [types.RESET_USER_CHECKED](state, action) {
@@ -95,15 +95,15 @@ export const checkStatus = createReducer(statusState, {
 
     return state.withMutations(ctx => {
       ctx
-        .set('isCheckin', checkOutStatus)
-        .set('isCheckinMiddle', checkOutStatusMiddle);
+        .set("isCheckin", checkOutStatus)
+        .set("isCheckinMiddle", checkOutStatusMiddle);
     });
   },
   [types.CHECK_SERVER_RESPONSE](state, action) {
     if (action.InOutMode == 1 || action.InOutMode == 2) {
       let checkOutStatus = 0;
-      if (action.result.hasOwnProperty('error')) {
-        if (action.result.error == 'chua checkin') {
+      if (action.result.hasOwnProperty("error")) {
+        if (action.result.error == "chua checkin") {
           checkOutStatus = 1;
         } else {
           checkOutStatus = 2;
@@ -114,12 +114,12 @@ export const checkStatus = createReducer(statusState, {
       }
 
       return state.withMutations(ctx => {
-        ctx.set('isCheckin', checkOutStatus);
+        ctx.set("isCheckin", checkOutStatus);
       });
     } else if (action.InOutMode == 3 || action.InOutMode == 4) {
       let checkOutMiddleStatus = 0;
-      if (action.result.hasOwnProperty('error')) {
-        if (action.result.error == 'chua checkin giua gio') {
+      if (action.result.hasOwnProperty("error")) {
+        if (action.result.error == "chua checkin giua gio") {
           checkOutMiddleStatus = 3;
         } else {
           checkOutMiddleStatus = 4;
@@ -130,7 +130,7 @@ export const checkStatus = createReducer(statusState, {
       }
 
       return state.withMutations(ctx => {
-        ctx.set('isCheckinMiddle', checkOutMiddleStatus);
+        ctx.set("isCheckinMiddle", checkOutMiddleStatus);
       });
     }
   }
@@ -140,10 +140,10 @@ export const checkResponseStatus = createReducer(initialState, {
   [types.CHECK_SERVER_RESPONSE](state, action) {
     return state.withMutations(ctx => {
       ctx
-        .set('data', action.result != null ? action.result : null)
+        .set("data", action.result != null ? action.result : null)
         .set(
-          'isError',
-          action.result == null || action.result.hasOwnProperty('error')
+          "isError",
+          action.result == null || action.result.hasOwnProperty("error")
             ? true
             : false
         );

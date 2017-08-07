@@ -10,6 +10,7 @@ import WorkSheet from './WorkSheet'
 import HistoryCheckIn from './HistoryCheckIn'
 import ResultChecking from './ResultChecking'
 import UserChecked from './UserChecked'
+import OutletList from './OutletList'
 
 export {
 	Home,
@@ -23,5 +24,6 @@ export {
 	WorkSheet,
 	HistoryCheckIn,
 	ResultChecking,
-	UserChecked
+	UserChecked,
+	OutletList
 }

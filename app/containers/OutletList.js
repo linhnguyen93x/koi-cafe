@@ -20,11 +20,7 @@ const {
   AsyncStorage
 } = ReactNative;
 
-const pickerData = new Array(language.get("all"));
-let mapOfPickerData = new Map();
-mapOfPickerData.set(language.get("all"), "All");
-
-class EmployeeList extends Component {
+class OutletList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,57 +32,35 @@ class EmployeeList extends Component {
   }
 
   componentWillMount() {
-    AsyncStorage.getItem("id_token").then(token => {
-      if (token != null) {
-        this.props.getAllPosition(token.split(" ")[1]).then(() => {
-          if (!this.props.allPosition.get("isError")) {
-            this.props.allPosition.get("data").forEach(item => {
-              console.log(item);
-              pickerData.push(item);
-              // mapOfPickerData.set(item.tencuahang, item.macuahang);
-            });
-          }
-        });
-      }
-    });
-
-    // actions/employeeList.js
-    this.setState({
-      isLoading: true
-    });
-
-    this.props.fetchEmployeeList().then(() => {
-      this.setState(
-        {
-          employeeData: this.props.employeeList.get("data")
-        },
-        () => {
-          // this.setState({
-          //   isLoading: true
-          // });
-          this.props
-            .filterEmployeeByCat(
-              this.state.employeeData,
-              this.props.filter,
-              true
-            )
-            .then(() => {
-              this.setState({
-                isLoading: false,
-                savedEmployeeList: this.props.employeeList.get("data")
-              });
-            });
-        }
-      );
-    });
+    // actions/checkInOut.js
+    this.props.getAllOutlet();
   }
 
   _keyExtractor = (item, index) => {
-    return item.get("MaNV");
+    return item.get("id");
   };
 
   renderListItem = item => {
-    return <EmployeeItem {...this.props} item={item.item} />;
+    return (
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() =>
+          Actions.employeeList({
+            filter: item.item.get("macuahang")
+          })}
+      >
+        <View style={styles.childContainer}>
+          <Image
+            style={styles.image}
+            source={require('../../assets/icons/koi_logo.png')}
+            resizeMode="cover"
+          />
+          <Text style={styles.name}>
+            {item.item.get("tencuahang")}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
   };
 
   _loadMore(info) {
@@ -110,41 +84,8 @@ class EmployeeList extends Component {
     // } );
   }
 
-  _openDropDown() {
-    Picker.init({
-      pickerData: pickerData,
-      pickerConfirmBtnText: language.get("choose"),
-      pickerCancelBtnText: language.get("cancel"),
-      pickerTitleText: language.get("work_sheet"),
-      selectedValue: [this.state.workSheet],
-      onPickerConfirm: data => {
-        this.setState(
-          {
-            workSheet: data[0],
-            isLoading: true
-          },
-          () => {
-            this.props
-              .filterEmployeeByCat(
-                this.state.savedEmployeeList,
-                this.state.workSheet
-              )
-              .then(() => {
-                this.setState({
-                  isLoading: false
-                });
-              });
-          }
-        );
-      },
-      onPickerCancel: data => {},
-      onPickerSelect: data => {}
-    });
-    Picker.show();
-  }
-
   componentWillUnmount() {
-    this.props.resetEmployeeList();
+    // this.props.resetEmployeeList();
   }
 
   render() {
@@ -158,7 +99,7 @@ class EmployeeList extends Component {
         source={require("../../assets/backgrounds/main_bg.png")}
         resizeMode={Image.resizeMode.cover}
       >
-        <View style={styles.picker_container}>
+        {/* <View style={styles.picker_container}>
           <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
             <View style={styles.picker}>
               <Text>
@@ -167,23 +108,23 @@ class EmployeeList extends Component {
               <Icon name="angle-down" size={15} color="#036380" />
             </View>
           </TouchableWithoutFeedback>
-        </View>
+        </View> */}
         {/*FlatList */}
         {this.state.isLoading
           ? <ActivityIndicator size="large" />
           : <FlatList
               keyExtractor={this._keyExtractor}
               style={[styles.list]}
-              data={this.props.employeeList.get("data").toArray()}
+              data={this.props.allOutletInfo.get("data").toArray()}
               renderItem={this.renderListItem}
-              onEndReached={info => this._loadMore(info)}
-              initialNumToRender={10}
+              // onEndReached={info => this._loadMore(info)}
+              initialNumToRender={20}
               getItemLayout={(data, index) => ({
                 length: 60,
                 offset: 61 * index,
                 index
               })}
-              ItemSeparatorComponent={SeperatorComponent}
+              // ItemSeparatorComponent={SeperatorComponent}
               // ListFooterComponent={
               //   !this.props.employeeList.get("isEnd") ? FooterComponent : null
               // }
@@ -231,14 +172,36 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 8
-  }
+  },
+  childContainer: {
+    height: 60,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 8,
+    paddingVertical: 8
+  },
+  name: {
+    flex: 1,
+    color: "white",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    paddingHorizontal: 16,
+    backgroundColor: "transparent"
+  },
+  image: {
+    width: 40,
+    height: 40,
+    borderRadius: 20
+  },
 });
 
 function mapStateToProps(state) {
   return {
     employeeList: state.employeeList,
-    allPosition: state.allPosition
+    allPosition: state.allPosition,
+    allOutletInfo: state.allOutletInfo
   };
 }
 
-export default connect(mapStateToProps)(EmployeeList);
+export default connect(mapStateToProps)(OutletList);
