@@ -260,7 +260,7 @@ class AppContainer extends Component {
               <Scene
                 key="outletList"
                 component={Constants.OutletList}
-                title={language.get("outlet_list")}
+                title={language.get("outletList")}
                 schema="modal"
               />
             </Scene>
