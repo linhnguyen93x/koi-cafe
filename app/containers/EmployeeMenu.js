@@ -75,18 +75,11 @@ class EmployeeMenu extends Component {
            }
          }}
        >
-         <Image
-           style={{
-             paddingVertical: 30,
-             width: 150,
-             height: 150,
-             borderRadius: 75
-           }}
-           resizeMode='contain'
+         <Image           
            source={{
              uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
            }}
-
+           style={styles.logo}
          />
        </PhotoUpload>
           
