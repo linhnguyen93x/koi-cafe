@@ -12,6 +12,7 @@ import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../style";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as language from "../language";
+import PhotoUpload from 'react-native-photo-upload'
 
 const { width, height } = Dimensions.get("window");
 
@@ -59,13 +60,36 @@ class EmployeeMenu extends Component {
       >
         {/*Logo Section*/}
         <View style={[styles.contentSection]}>
-          <Image
+          {/*<Image
             source={{
               uri:
                 "http://www.limestone.edu/sites/default/files/user.png"
             }}
             style={styles.logo}
-          />
+          />*/}
+          
+      <PhotoUpload
+         onPhotoSelect={avatar => {
+           if (avatar) {
+             console.log('Image base64 string: ', avatar)
+           }
+         }}
+       >
+         <Image
+           style={{
+             paddingVertical: 30,
+             width: 150,
+             height: 150,
+             borderRadius: 75
+           }}
+           resizeMode='contain'
+           source={{
+             uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
+           }}
+
+         />
+       </PhotoUpload>
+          
           <Text style={styles.name}>
             {this.props.item.get("HoTen").toUpperCase()}
           </Text>
