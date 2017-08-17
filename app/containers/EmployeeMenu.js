@@ -6,13 +6,14 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../style";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 import * as language from "../language";
-import PhotoUpload from 'react-native-photo-upload'
+import PhotoUpload from "react-native-photo-upload";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,12 +25,22 @@ class EmployeeMenu extends Component {
       heightMenu: {
         height: null
       },
-      customerIcon: null
+      customerIcon: null,
+      user: null
     };
   }
 
   componentWillMount() {
-    Icon.getImageSource('user-o', 30, 'white').then((source) => this.setState({ customerIcon: source }));
+    AsyncStorage.getItem("user").then(resp => {
+      let user = JSON.parse(resp);
+      this.setState({
+        user: user
+      });
+    });
+
+    Icon.getImageSource("user-o", 30, "white").then(source =>
+      this.setState({ customerIcon: source })
+    );
   }
 
   onLayout(event) {
@@ -41,6 +52,13 @@ class EmployeeMenu extends Component {
 
     this.setState({ heightMenu: newLayout });
   }
+
+  uploadAvatar = avatar => {
+    if (avatar) {
+      this.props.uploadAvatar(this.state.user.MaNV, avatar);
+      console.log("Image base64 string: ", avatar);
+    }
+  };
 
   render() {
     const icon = {
@@ -60,34 +78,41 @@ class EmployeeMenu extends Component {
       >
         {/*Logo Section*/}
         <View style={[styles.contentSection]}>
-          {/*<Image
-            source={{
-              uri:
-                "http://www.limestone.edu/sites/default/files/user.png"
-            }}
-            style={styles.logo}
-          />*/}
-          <View style={{ width: 150, height : 150}}>
-      <PhotoUpload
-         onPhotoSelect={avatar => {
-           if (avatar) {
-             console.log('Image base64 string: ', avatar)
-           }
-         }}
-       >
-         <Image           
-           source={{
-             uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
-           }}
-           style={styles.logo}
-         />
-       </PhotoUpload>
-            </View>
-          
+          {this.state.user != null &&
+          this.props.item.get("MaNV") == this.state.user.MaNV
+            ? <View style={{ width: 150, height: 150 }}>
+                <PhotoUpload
+                  onPhotoSelect={avatar => {
+                    this.uploadAvatar(avatar);
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri:
+                        this.props.item.get("HinhAnh") != null &&
+                        this.props.item.get("HinhAnh").length > 0
+                          ? this.props.item.get("HinhAnh")
+                          : "https://cdn2.iconfinder.com/data/icons/network-and-communication-13/28/9_user_profie_avatar_male_upload-2-512.png"
+                    }}
+                    resizeMode="cover"
+                    style={styles.logo}
+                  />
+                </PhotoUpload>
+              </View>
+            : <Image
+                source={{
+                  uri: "http://www.limestone.edu/sites/default/files/user.png"
+                }}
+                style={styles.logo}
+                resizeMode="cover"
+              />}
+
           <Text style={styles.name}>
             {this.props.item.get("HoTen").toUpperCase()}
           </Text>
-          <Text style={styles.role}>{this.props.item.get("ChucVu")}</Text>
+          <Text style={styles.role}>
+            {this.props.item.get("ChucVu")}
+          </Text>
         </View>
         <View
           style={styles.menuContainer}
@@ -102,38 +127,70 @@ class EmployeeMenu extends Component {
             }}
           >
             <View style={[styles.menu, this.state.heightMenu]}>
-              <Icon name="user" size={this.state.heightMenu.height/2} color="white" />
-              <Text style={styles.role}>{language.get("info")}</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.historyCheckIn({ item: this.props.item })}}>
-            <View style={[styles.menu, this.state.heightMenu]}>
-
-              <Icon name="clock-o" size={this.state.heightMenu.height/2} color="white" />
-              <Text style={styles.role}>{language.get("total_work_hour")}</Text>
+              <Icon
+                name="user"
+                size={this.state.heightMenu.height / 2}
+                color="white"
+              />
+              <Text style={styles.role}>
+                {language.get("info")}
+              </Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => {
-              Actions.userChecked({item: this.props.item});
+              Actions.historyCheckIn({ item: this.props.item });
             }}
           >
             <View style={[styles.menu, this.state.heightMenu]}>
-              <Icon name="calendar-check-o" size={this.state.heightMenu.height/2} color="white" />
-              <Text style={styles.role}>{language.get("history_check_in")}</Text>
+              <Icon
+                name="clock-o"
+                size={this.state.heightMenu.height / 2}
+                color="white"
+              />
+              <Text style={styles.role}>
+                {language.get("total_work_hour")}
+              </Text>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5} onPress={() => {Actions.resultChecking({ item: this.props.item })}}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              Actions.userChecked({ item: this.props.item });
+            }}
+          >
             <View style={[styles.menu, this.state.heightMenu]}>
-              <Icon name="thumbs-o-up" size={this.state.heightMenu.height/2} color="white" />
-              <Text style={styles.role}>{language.get("result_checking")}</Text>
+              <Icon
+                name="calendar-check-o"
+                size={this.state.heightMenu.height / 2}
+                color="white"
+              />
+              <Text style={styles.role}>
+                {language.get("history_check_in")}
+              </Text>
             </View>
           </TouchableOpacity>
 
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              Actions.resultChecking({ item: this.props.item });
+            }}
+          >
+            <View style={[styles.menu, this.state.heightMenu]}>
+              <Icon
+                name="thumbs-o-up"
+                size={this.state.heightMenu.height / 2}
+                color="white"
+              />
+              <Text style={styles.role}>
+                {language.get("result_checking")}
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </Image>
     );
@@ -153,8 +210,7 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
     borderRadius: 75,
-    paddingVertical: 30,
-    resizeMode: "cover"
+    paddingVertical: 30
   },
   name: {
     color: "white",

@@ -1,7 +1,7 @@
-import * as types from './types';
-import Api from '../libs/api';
-import KoiApi from '../libs/koiApi'
-import * as language from '../language'
+import * as types from "./types";
+import Api from "../libs/api";
+import KoiApi from "../libs/koiApi";
+import * as language from "../language";
 
 export function fetchEmployeeList() {
   return (dispatch, getState) => {
@@ -24,12 +24,45 @@ export function fetchEmployeeList() {
   };
 }
 
+export function uploadAvatar(maNV, avatar) {
+  return (dispatch, getState) => {
+    const params = {
+      UserID: maNV,
+      image: avatar
+    };
+
+    return KoiApi.postJson(`/api/postavatar`, params)
+      .then(resp => {
+        if (!resp.hasOwnProperty("error")) {
+          dispatch({
+            type: types.SET_AVATAR,
+            result: resp,
+            isError: false
+          });
+        } else {
+          dispatch({
+            type: types.SET_AVATAR,
+            result: resp.error,
+            isError: true
+          });
+        }
+      })
+      .catch(ex => {
+        console.log(ex);
+        dispatch({
+          type: types.SET_AVATAR,
+          result: "Upload avatar failed",
+          isError: true
+        });
+      });
+  };
+}
 
 export function getAllPosition(token) {
   return (dispatch, getState) => {
     const params = {
       token: token
-    }
+    };
 
     return KoiApi.postJson(`/api/layloainhanvien`, params)
       .then(resp => {
@@ -72,11 +105,10 @@ export function filterEmployeeByCat(data, search, byMaCuaHang) {
       } else {
         newData = data.filter(item => {
           if (byMaCuaHang) {
-            return search == item.get('MaCuaHang');
+            return search == item.get("MaCuaHang");
           } else {
-            return search == item.get('LoaiNhanVien');
+            return search == item.get("LoaiNhanVien");
           }
-
         });
       }
 
