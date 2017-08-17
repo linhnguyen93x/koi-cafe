@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4</string>
+	<string>1.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -47,7 +47,11 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Calendar for choose day.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your location is used to determine if your location matches the locate of the KOI's store to approve times work and display your locate on google map.</string>
+	<string>Your location is used to determine if your location matches the locate of the KOI&apos;s store to approve times work and display your locate on google map.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>photo</string>
+	<key>NSCameraUsageDescription</key>
+	<string>camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This is the plist item for NSLocationWhenInUseUsageDescription</string>
 	<key>UIAppFonts</key>

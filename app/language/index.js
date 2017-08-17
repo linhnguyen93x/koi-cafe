@@ -126,7 +126,8 @@ language.translations = {
     help: 'Trợ giúp',
     choose_language: 'Chọn ngôn ngữ',
     confirm: 'Xác nhận',
-    outletList: 'Danh sách cửa hàng'
+    outletList: 'Danh sách cửa hàng',
+    updateAvatar: 'Cập Nhật avatar'
   },
   en: {
     user_profile: 'Thông tin cá nhân',
@@ -250,7 +251,8 @@ language.translations = {
     help: 'Trợ giúp',
     choose_language: 'Chọn ngôn ngữ',
     confirm: 'Xác nhận',
-    outletList: 'Danh sách cửa hàng'
+    outletList: 'Danh sách cửa hàng',
+    updateAvatar: 'Cập Nhật avatar'
   },
   zh: {
     user_profile: '個人資料',
@@ -366,7 +368,8 @@ language.translations = {
     help: '帮助',
     choose_language: '選擇一種語言',
     confirm: '确定',
-    outletList: 'Danh sách cửa hàng'
+    outletList: '門市名單',
+    updateAvatar: '更新頭像'
   }
 };
 
