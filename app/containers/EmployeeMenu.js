@@ -67,7 +67,7 @@ class EmployeeMenu extends Component {
             }}
             style={styles.logo}
           />*/}
-          
+          <View style={{ width: 150, height : 150}}>
       <PhotoUpload
          onPhotoSelect={avatar => {
            if (avatar) {
@@ -82,6 +82,7 @@ class EmployeeMenu extends Component {
            style={styles.logo}
          />
        </PhotoUpload>
+            </View>
           
           <Text style={styles.name}>
             {this.props.item.get("HoTen").toUpperCase()}
@@ -152,7 +153,8 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
     borderRadius: 75,
-    resizeMode: "contain"
+    paddingVertical: 30,
+    resizeMode: "cover"
   },
   name: {
     color: "white",
