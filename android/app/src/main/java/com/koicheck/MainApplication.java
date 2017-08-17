@@ -3,7 +3,14 @@ package com.koicheck;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
+
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
+
+import com.imagepicker.ImagePickerPackage;
+
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
+
 import com.imagepicker.ImagePickerPackage;
 import com.rnfs.RNFSPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
@@ -33,11 +40,11 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-            new ImageResizerPackage(),
-            new ImagePickerPackage(),
-            new RNFSPackage(),
-            new ReactNativeRestartPackage(),
-            new ReactNativeI18n(),
+                    new RNFSPackage(),
+                    new ImageResizerPackage(),
+                    new ImagePickerPackage(),
+                    new ReactNativeRestartPackage(),
+                    new ReactNativeI18n(),
                     new PickerViewPackage(),
                     new RNDeviceInfo(),
                     new ReactNativePermissionsPackage(),
