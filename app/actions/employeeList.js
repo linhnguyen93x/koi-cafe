@@ -104,6 +104,20 @@ export function setChangeLoading() {
   };
 }
 
+export function uploadAvatar(base64) {
+    return (dispatch, getState) => {
+        const params = [
+            `image=${base64}`,
+            `UserID=${Platform.OS}`
+        ].join('&')
+        return KoiApi.postJson(`/api/postavatar`, params).then(resp => {
+            dispatch(setRegisterStatus(resp));
+        }).catch((ex) => {
+            console.log(ex);
+        });
+    };
+}
+
 export function resetEmployeeList() {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
