@@ -19,6 +19,7 @@ import * as language from "../language";
 import * as AppConstants from "../utils/AppConstans";
 import RNRestart from "react-native-restart";
 import Picker from "react-native-picker";
+import Immutable, { fromJS } from 'immutable'
 
 const pickerData = new Array(language.get("all"));
 let mapOfPickerData = new Map();
@@ -39,6 +40,7 @@ class Home extends Component {
       clockIcon: null,
       moneyIcon: null,
       listIcon: null,
+      userIcon: null,
       tryTime: 0,
       outlet: language.get("all")
     };
@@ -119,6 +121,9 @@ class Home extends Component {
     Icon.getImageSource("list", 15, "white").then(source =>
       this.setState({ listIcon: source })
     );
+    Icon.getImageSource("user", 15, "white").then(source =>
+      this.setState({ userIcon: source })
+    );
   };
 
   async getExternalIp() {}
@@ -153,11 +158,18 @@ class Home extends Component {
         type: "detailSalary"
       },
       {
+        key: 4,
+        text: "Thông tin cá nhân",
+        image: this.state.userIcon,
+        type: "userInfo"
+      },
+      {
         key: 3,
         text: language.get("view_list_employee"),
         image: this.state.listIcon,
         type: "listEmployee"
-      }
+      },
+
       // {
       //   key: 3,
       //   text: language.get("employee_info"),
@@ -228,6 +240,10 @@ class Home extends Component {
         break;
       case "detailSalary":
         Actions.detailSalary();
+
+        break;
+      case "userInfo":
+        Actions.employeeMenu({ item: fromJS(this.state.user) });
 
         break;
       default:
