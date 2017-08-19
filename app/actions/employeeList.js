@@ -58,6 +58,29 @@ export function uploadAvatar(maNV, avatar) {
   };
 }
 
+export function getAvatar(userID) {
+  return (dispatch, getState) => {
+    const params = {
+      UserID: userID
+    };
+    return Api.post(`/api/checkimage`, params)
+      .then(resp => {
+        dispatch({
+          type: types.SET_AVATAR,
+          result: resp
+        });
+        console.log(resp);
+      })
+      .catch(ex => {
+        console.log(ex);
+        dispatch({
+          type: types.SET_AVATAR,
+          result: null
+        });
+      });
+  };
+}
+
 export function getAllPosition(token) {
   return (dispatch, getState) => {
     const params = {
