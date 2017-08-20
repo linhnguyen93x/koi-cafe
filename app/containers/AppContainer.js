@@ -45,14 +45,52 @@ class AppContainer extends Component {
     super(props);
     this.state = {
       hasToken: false,
-      isLoaded: false
+      isLoaded: false,
+      user: null
     };
   }
 
   componentWillMount() {
     this.getSetting();
     this.getLanguage();
+    this.getAvatar();
   }
+  
+  getAvatar = async () => {
+       AsyncStorage.getItem("user").then(resp => {
+      let user = JSON.parse(resp);
+      this.setState({
+        user: user
+      });
+      console.log("TestMAN" + this.state.user.MaNV);
+      if(this.state.user != null){
+      this.props.getAvatar(this.state.user.MaNV).then(() => {
+       if (!this.props.avatar.get("isError")) {
+          console.log("TestHuy" + this.props.avatar.get("data"));
+          this.setState(
+            {
+              user: {
+                ...this.state.user,
+                HinhAnh: this.props.avatar.get("data")
+              }
+            },
+            () => {
+              AsyncStorage.mergeItem(
+                "user",
+                JSON.stringify(this.state.user),
+                () => {
+                  AsyncStorage.getItem("user", (err, result) => {
+                    console.log(result);
+                  });
+                }
+              );
+            }
+          );
+        }
+      });
+    }
+    });
+  };
 
   getLanguage = async () => {
     let language = await AsyncStorage.getItem("language");
@@ -103,9 +141,11 @@ class AppContainer extends Component {
   async getSetting() {
     var tokenId = await AsyncStorage.getItem("id_token");
     var user = await AsyncStorage.getItem("user");
-
     if (tokenId != null && user != null && user.length > 0) {
       user = JSON.parse(user);
+      this.setState({
+        user: user
+      });
       Api.setToken(tokenId).then(item => {
         this.setState({
           ...this.state,
@@ -126,6 +166,9 @@ class AppContainer extends Component {
       ) {
         let userLogin = this.props.employeeList.get("data").first().toJS();
         AsyncStorage.setItem("user", JSON.stringify(userLogin));
+         this.setState({
+           user: userLogin
+         });
       }
       this.setState({
         ...this.state,
@@ -353,6 +396,7 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(state => {
   return {
-    employeeList: state.employeeList
+    employeeList: state.employeeList,
+    avatar : state.avatar
   };
 }, mapDispatchToProps)(AppContainer);

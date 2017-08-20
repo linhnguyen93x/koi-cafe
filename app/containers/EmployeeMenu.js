@@ -37,8 +37,10 @@ class EmployeeMenu extends Component {
       this.setState({
         user: user
       });
+     
     });
-
+   
+    
     Icon.getImageSource("user-o", 30, "white").then(source =>
       this.setState({ customerIcon: source })
     );
@@ -58,6 +60,7 @@ class EmployeeMenu extends Component {
     if (avatar) {
       this.props.uploadAvatar(this.state.user.MaNV, avatar).then(() => {
         if (!this.props.avatar.get("isError")) {
+          console.log("url:" + this.props.avatar.get("data"))
           this.setState(
             {
               user: {

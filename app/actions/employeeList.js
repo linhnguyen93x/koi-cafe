@@ -66,6 +66,7 @@ export function getAvatar(userID) {
     return Api.post(`/api/checkimage`, params)
       .then(resp => {
         if (resp.hasOwnProperty("KetQua")) {
+           console.log("TestHuy" + resp);
           dispatch({
             type: types.FETCH_AVATAR,
             result: resp,

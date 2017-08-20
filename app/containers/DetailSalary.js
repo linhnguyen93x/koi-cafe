@@ -18,7 +18,8 @@ const {
   ActivityIndicator,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } = ReactNative;
 
 const currentYear = new Date().getFullYear();
@@ -42,7 +43,8 @@ class DetailSalary extends Component {
     this.state = {
       search: '',
       isLoading: false,
-      month: moment(new Date()).subtract(1, 'months').format('YYYY-MM')
+      month: moment(new Date()).subtract(1, 'months').format('YYYY-MM'),
+      user: null
     };
   }
 
@@ -51,7 +53,16 @@ class DetailSalary extends Component {
   };
 
   componentWillMount() {
-    this._getPaySlip(this.state.month);
+    AsyncStorage.getItem("user").then(resp => {
+      let user = JSON.parse(resp);
+      this.setState({
+        user: user
+      });
+    });
+  
+
+    
+     this._getPaySlip(this.state.month);
   }
 
   _getPaySlip = month => {
@@ -285,11 +296,16 @@ class DetailSalary extends Component {
         resizeMode={Image.resizeMode.cover}
       >
         <Image
-          source={{
-            uri: 'http://www.limestone.edu/sites/default/files/user.png'
-          }}
-          style={styles.logo}
-          resizeMode="cover"
+                    source={{
+                      uri:
+                        this.state.user != null &&
+                        this.state.user.HinhAnh != null &&
+                        this.state.user.HinhAnh.length > 0
+                          ? this.state.user.HinhAnh
+                          : 'http://www.limestone.edu/sites/default/files/user.png'
+                    }}
+                    resizeMode="cover"
+                    style={styles.logo}
         />
         <View style={styles.picker_container}>
           <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
