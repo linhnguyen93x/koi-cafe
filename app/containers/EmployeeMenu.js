@@ -14,6 +14,7 @@ import { Colors, globalStyle } from "../style";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as language from "../language";
 import PhotoUpload from "react-native-photo-upload";
+import { connect } from "react-redux";
 
 const { width, height } = Dimensions.get("window");
 
@@ -55,7 +56,29 @@ class EmployeeMenu extends Component {
 
   uploadAvatar = avatar => {
     if (avatar) {
-      this.props.uploadAvatar(this.state.user.MaNV, avatar);
+      this.props.uploadAvatar(this.state.user.MaNV, avatar).then(() => {
+        if (!this.props.avatar.get("isError")) {
+          this.setState(
+            {
+              user: {
+                ...this.state.user,
+                HinhAnh: this.props.avatar.get("data")
+              }
+            },
+            () => {
+              AsyncStorage.mergeItem(
+                "user",
+                JSON.stringify(this.state.user),
+                () => {
+                  AsyncStorage.getItem("user", (err, result) => {
+                    console.log(result);
+                  });
+                }
+              );
+            }
+          );
+        }
+      });
       console.log("Image base64 string: ", avatar);
     }
   };
@@ -89,9 +112,10 @@ class EmployeeMenu extends Component {
                   <Image
                     source={{
                       uri:
-                        this.props.item.get("HinhAnh") != null &&
-                        this.props.item.get("HinhAnh").length > 0
-                          ? this.props.item.get("HinhAnh")
+                        this.state.user != null &&
+                        this.state.user.HinhAnh != null &&
+                        this.state.user.HinhAnh.length > 0
+                          ? this.state.user.HinhAnh
                           : "https://cdn2.iconfinder.com/data/icons/network-and-communication-13/28/9_user_profie_avatar_male_upload-2-512.png"
                     }}
                     resizeMode="cover"
@@ -241,4 +265,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EmployeeMenu;
+function mapStateToProps(state) {
+  return {
+    avatar: state.avatar
+  };
+}
+
+export default connect(mapStateToProps)(EmployeeMenu);

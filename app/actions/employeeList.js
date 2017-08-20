@@ -65,17 +65,26 @@ export function getAvatar(userID) {
     };
     return Api.post(`/api/checkimage`, params)
       .then(resp => {
-        dispatch({
-          type: types.SET_AVATAR,
-          result: resp
-        });
-        console.log(resp);
+        if (resp.hasOwnProperty("KetQua")) {
+          dispatch({
+            type: types.FETCH_AVATAR,
+            result: resp,
+            isError: false
+          });
+        } else {
+          dispatch({
+            type: types.FETCH_AVATAR,
+            result: resp,
+            isError: true
+          });
+        }
       })
       .catch(ex => {
         console.log(ex);
         dispatch({
-          type: types.SET_AVATAR,
-          result: null
+          type: types.FETCH_AVATAR,
+          result: "Upload avatar failed",
+          isError: true
         });
       });
   };
