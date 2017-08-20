@@ -57,39 +57,7 @@ class AppContainer extends Component {
   }
   
   getAvatar = async () => {
-       AsyncStorage.getItem("user").then(resp => {
-      let user = JSON.parse(resp);
-      this.setState({
-        user: user
-      });
-      console.log("TestMAN" + this.state.user.MaNV);
-      if(this.state.user != null){
-      this.props.getAvatar(this.state.user.MaNV).then(() => {
-       if (!this.props.avatar.get("isError")) {
-          console.log("TestHuy" + this.props.avatar.get("data"));
-          this.setState(
-            {
-              user: {
-                ...this.state.user,
-                HinhAnh: this.props.avatar.get("data")
-              }
-            },
-            () => {
-              AsyncStorage.mergeItem(
-                "user",
-                JSON.stringify(this.state.user),
-                () => {
-                  AsyncStorage.getItem("user", (err, result) => {
-                    console.log(result);
-                  });
-                }
-              );
-            }
-          );
-        }
-      });
-    }
-    });
+      
   };
 
   getLanguage = async () => {
@@ -146,6 +114,34 @@ class AppContainer extends Component {
       this.setState({
         user: user
       });
+      if(this.state.user != null){
+        console.log("TestMaNV" + this.state.user.MaNV);
+        this.props.getAvatar(this.state.user.MaNV).then(() => {
+          if (!this.props.avatar.get("isError")) {
+            console.log("TestAvt" + this.props.avatar.get("data"));
+          this.setState(
+            {
+              user: {
+                ...this.state.user,
+                HinhAnh: this.props.avatar.get("data")
+              }
+            },
+            () => {
+              AsyncStorage.mergeItem(
+                "user",
+                JSON.stringify(this.state.user),
+                () => {
+                  AsyncStorage.getItem("user", (err, result) => {
+                    console.log(result);
+                  });
+                }
+              );
+            }
+          );
+        }
+      });
+    }
+      
       Api.setToken(tokenId).then(item => {
         this.setState({
           ...this.state,
@@ -169,6 +165,33 @@ class AppContainer extends Component {
          this.setState({
            user: userLogin
          });
+         if(this.state.user != null){
+        this.props.getAvatar(this.state.user.MaNV).then(() => {
+          if (!this.props.avatar.get("isError")) {
+          console.log("TestHinhAnh:" + this.props.avatar.get("data"));
+          this.setState(
+            {
+              user: {
+                ...this.state.user,
+                HinhAnh: this.props.avatar.get("data")
+              }
+            },
+            () => {
+              AsyncStorage.mergeItem(
+                "user",
+                JSON.stringify(this.state.user),
+                () => {
+                  AsyncStorage.getItem("user", (err, result) => {
+                    console.log(result);
+                  });
+                }
+              );
+            }
+          );
+        }
+      });
+    }
+        
       }
       this.setState({
         ...this.state,

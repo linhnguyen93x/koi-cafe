@@ -11,14 +11,16 @@ class EmployeeItem extends PureComponent {
   constructor(props) {
     super(props);
   }
-
+  
   render() {
     return (
       <View style={styles.container}>
         <Image
           style={styles.image}
           source={{
-            uri: 'http://www.limestone.edu/sites/default/files/user.png'
+            uri: this.props.item.get('HinhAnh') != null &&
+                        this.props.item.get('HinhAnh').length > 0
+                          ? this.props.item.get('HinhAnh') : 'http://www.limestone.edu/sites/default/files/user.png'
           }}
           resizeMode="cover"
         />
@@ -28,7 +30,7 @@ class EmployeeItem extends PureComponent {
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => {
-            Actions.employeeMenu({ item: this.props.item });
+            Actions.employeeMenu({ item: this.props.item});
           }}
         >
           <View style={styles.button}>

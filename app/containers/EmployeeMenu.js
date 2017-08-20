@@ -30,16 +30,36 @@ class EmployeeMenu extends Component {
       user: null
     };
   }
-
+  
   componentWillMount() {
-    AsyncStorage.getItem("user").then(resp => {
-      let user = JSON.parse(resp);
-      this.setState({
-        user: user
-      });
-     
-    });
-   
+     AsyncStorage.getItem("user").then(resp => {
+          let user = JSON.parse(resp);
+          this.setState({
+            user: user
+          });
+         });
+    
+    if(this.props.item.get('MaNV') != null){
+       this.setState(
+            {
+              user: {
+                ...this.state.user,
+                MaNV: this.props.item.get('MaNV')
+              }
+            },
+            () => {
+              AsyncStorage.mergeItem(
+                "user",
+                JSON.stringify(this.state.user),
+                () => {
+                  AsyncStorage.getItem("user", (err, result) => {
+                    console.log(result);
+                  });
+                }
+              );
+            }
+          );
+    }
     
     Icon.getImageSource("user-o", 30, "white").then(source =>
       this.setState({ customerIcon: source })
@@ -60,7 +80,7 @@ class EmployeeMenu extends Component {
     if (avatar) {
       this.props.uploadAvatar(this.state.user.MaNV, avatar).then(() => {
         if (!this.props.avatar.get("isError")) {
-          console.log("url:" + this.props.avatar.get("data"))
+          console.log("url:" + this.props.avatar.get("data"));
           this.setState(
             {
               user: {
