@@ -58,15 +58,14 @@ export function uploadAvatar(maNV, avatar) {
   };
 }
 
-export function getAvatar(userID) {
+export function getAvatar(maNV) {
   return (dispatch, getState) => {
     const params = {
-      UserID: userID
+      UserID: maNV
     };
-    return Api.post(`/api/checkimage`, params)
+    return KoiApi.postJson(`/api/checkimage`, params)
       .then(resp => {
-      console.log("HuyPro3" + resp);
-        if (resp.hasOwnProperty("KetQua")) {
+        if (resp != null) {
           dispatch({
             type: types.FETCH_AVATAR,
             result: resp,
@@ -75,7 +74,7 @@ export function getAvatar(userID) {
         } else {
           dispatch({
             type: types.FETCH_AVATAR,
-            result: resp,
+            result: "eror",
             isError: true
           });
         }
@@ -84,7 +83,7 @@ export function getAvatar(userID) {
         console.log(ex);
         dispatch({
           type: types.FETCH_AVATAR,
-          result: "Upload avatar failed",
+          result: "Fetch avatar failed",
           isError: true
         });
       });

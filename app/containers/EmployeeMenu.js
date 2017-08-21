@@ -38,13 +38,16 @@ class EmployeeMenu extends Component {
             user: user
           });
          });
+  
     
-    if(this.props.item.get('MaNV') != null){
-       this.setState(
+    if(this.props.item.get("MaNV") != null){
+        this.props.getAvatar(this.props.item.get("MaNV")).then(() => {
+          if (!this.props.avatar.get("isError")) {
+          this.setState(
             {
               user: {
                 ...this.state.user,
-                MaNV: this.props.item.get('MaNV')
+                HinhAnh: this.props.avatar.get("data")
               }
             },
             () => {
@@ -59,6 +62,8 @@ class EmployeeMenu extends Component {
               );
             }
           );
+        }
+      });
     }
     
     Icon.getImageSource("user-o", 30, "white").then(source =>
@@ -148,7 +153,11 @@ class EmployeeMenu extends Component {
               </View>
             : <Image
                 source={{
-                  uri: "http://www.limestone.edu/sites/default/files/user.png"
+                  uri:  this.state.user != null &&
+                        this.state.user.HinhAnh != null &&
+                        this.state.user.HinhAnh.length > 0
+                          ? this.state.user.HinhAnh
+                          : 'http://www.limestone.edu/sites/default/files/user.png'
                 }}
                 style={styles.logo}
                 resizeMode="cover"

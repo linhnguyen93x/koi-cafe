@@ -52,7 +52,6 @@ export const allPosition = createReducer(initialPositionState, {
 export const avatar = createReducer(initialPositionState, {
   [types.FETCH_AVATAR](state, action) {
     return state.withMutations(ctx => {
-      console.log("HinhAnh" + action.result);
       ctx
         .set(
           "data",
