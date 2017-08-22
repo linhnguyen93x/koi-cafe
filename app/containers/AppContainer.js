@@ -3,7 +3,13 @@ import ReactNative from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions";
-import { Router, Scene, Reducer, Actions, Modal } from "react-native-router-flux";
+import {
+  Router,
+  Scene,
+  Reducer,
+  Actions,
+  Modal
+} from "react-native-router-flux";
 import * as Constants from "./Constant";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Color, globalStyle } from "../style";
@@ -55,40 +61,40 @@ class AppContainer extends Component {
     this.getLanguage();
     this.getAvatar();
   }
-  
+
   getAvatar = async () => {
-       AsyncStorage.getItem("user").then(resp => {
+    AsyncStorage.getItem("user").then(resp => {
       let user = JSON.parse(resp);
       this.setState({
         user: user
       });
       console.log("TestMAN" + this.state.user.MaNV);
-      if(this.state.user != null){
-      this.props.getAvatar(this.state.user.MaNV).then(() => {
-       if (!this.props.avatar.get("isError")) {
-          console.log("TestHuy" + this.props.avatar.get("data"));
-          this.setState(
-            {
-              user: {
-                ...this.state.user,
-                HinhAnh: this.props.avatar.get("data")
-              }
-            },
-            () => {
-              AsyncStorage.mergeItem(
-                "user",
-                JSON.stringify(this.state.user),
-                () => {
-                  AsyncStorage.getItem("user", (err, result) => {
-                    console.log(result);
-                  });
+      if (this.state.user != null) {
+        this.props.getAvatar(this.state.user.MaNV).then(() => {
+          if (!this.props.avatar.get("isError")) {
+            console.log("TestHuy" + this.props.avatar.get("data"));
+            this.setState(
+              {
+                user: {
+                  ...this.state.user,
+                  HinhAnh: this.props.avatar.get("data")
                 }
-              );
-            }
-          );
-        }
-      });
-    }
+              },
+              () => {
+                AsyncStorage.mergeItem(
+                  "user",
+                  JSON.stringify(this.state.user),
+                  () => {
+                    AsyncStorage.getItem("user", (err, result) => {
+                      console.log(result);
+                    });
+                  }
+                );
+              }
+            );
+          }
+        });
+      }
     });
   };
 
@@ -166,9 +172,9 @@ class AppContainer extends Component {
       ) {
         let userLogin = this.props.employeeList.get("data").first().toJS();
         AsyncStorage.setItem("user", JSON.stringify(userLogin));
-         this.setState({
-           user: userLogin
-         });
+        this.setState({
+          user: userLogin
+        });
       }
       this.setState({
         ...this.state,
@@ -397,6 +403,6 @@ function mapDispatchToProps(dispatch) {
 export default connect(state => {
   return {
     employeeList: state.employeeList,
-    avatar : state.avatar
+    avatar: state.avatar
   };
 }, mapDispatchToProps)(AppContainer);
