@@ -80,10 +80,11 @@ const DrawerMenu = (props, context) => {
         <View style={styles.wrapNav}>
           <Image
                     source={{
-                      uri: props.user != null && props.user.MaNV != null ?
-                       "http://checkin.koithe.vn/imageuser/" + props.user.MaNV + ".jpg" 
-                      : 'http://www.limestone.edu/sites/default/files/user.png'
-                    }}
+                      uri:  props.user != null && props.user.MaNV != null ? "http://checkin.koithe.vn/imageuser/" + props.user.MaNV + ".jpg?id="+Math.random() 
+                          : 'http://www.limestone.edu/sites/default/files/user.png', 
+                      cache: 'reload'
+                    }
+                    }
                     resizeMode="cover"
                     style={styles.image} />
           <Text style={[styles.navText, { alignSelf: 'center', padding: 4, color: '#99FFCC', fontWeight: 'bold' }]}>

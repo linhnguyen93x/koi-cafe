@@ -15,13 +15,10 @@ class NavigationDrawer extends React.Component {
     super();
     this.state = {
       user: {},
-      avatar: null
+      avatar: null,
+      i : 0
     }
   }
-  
-    componentDidMount() {
-        Actions.refresh({key: 'drawer', ref: this.refs.navigation});
-    }
 
 
   componentWillMount() {
@@ -32,6 +29,18 @@ class NavigationDrawer extends React.Component {
       });
       
     })
+    
+     const min = 1;
+    const max = 100;
+    const rand = min + Math.random() * (max - min);
+     this.setState({
+         user: {
+                ...this.state.user,
+                i: rand
+              }
+      });
+    
+    console.log("Huy Trum" + rand);
   }
 
   _openDrawer = (state) => {
