@@ -58,6 +58,38 @@ class Home extends Component {
     // });
     this._getEmployeeInfo();
     this._bindHomeIcon();
+//        AsyncStorage.getItem("user").then(resp => {
+//           let user = JSON.parse(resp);
+//           this.setState({
+//             user: user
+//           });
+//        if(this.state.user != null){
+//          this.props.getAvatar(this.state.user.MaNV).then(() => {
+//           if (!this.props.avatar.get("isError")) {
+//             console.log("TestAvt" + this.props.avatar.get("data"));
+//           this.setState(
+//             {
+//               user: {
+//                 ...this.state.user,
+//                 HinhAnh: this.props.avatar.get("data")
+//               }
+//             },
+//             () => {
+//               AsyncStorage.mergeItem(
+//                 "user",
+//                 JSON.stringify(this.state.user),
+//                 () => {
+//                   AsyncStorage.getItem("user", (err, result) => {
+//                     console.log(result);
+//                   });
+//                 }
+//               );
+//             }
+//           );
+//               }
+//       });
+//      }
+//      });
   }
 
   _getEmployeeInfo = async () => {
@@ -90,6 +122,7 @@ class Home extends Component {
         }
       });
     }
+  
   };
 
   componentDidMount() {
@@ -159,7 +192,7 @@ class Home extends Component {
       },
       {
         key: 4,
-        text: "Thông tin cá nhân",
+        text: language.get("user_profile"),
         image: this.state.userIcon,
         type: "userInfo"
       },
@@ -379,7 +412,8 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     employeeList: state.employeeList,
-    allOutletInfo: state.allOutletInfo
+    allOutletInfo: state.allOutletInfo,
+    avatar : state.avatar
   };
 }
 

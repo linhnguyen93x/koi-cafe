@@ -37,12 +37,14 @@ class EmployeeMenu extends Component {
           this.setState({
             user: user
           });
-         });
-  
-    
-    if(this.props.item.get("MaNV") != null){
-        this.props.getAvatar(this.props.item.get("MaNV")).then(() => {
+       if(this.state.user != null){
+          let userID = this.state.user.MaNV;
+         if(this.state.user.MaNV != null && this.state.user.MaNV != this.props.item.get("MaNV")){
+             userID = this.props.item.get("MaNV");
+         }
+        this.props.getAvatar(userID).then(() => {
           if (!this.props.avatar.get("isError")) {
+            console.log("TestAvt" + this.props.avatar.get("data"));
           this.setState(
             {
               user: {
@@ -64,7 +66,11 @@ class EmployeeMenu extends Component {
           );
         }
       });
-    }
+     }
+     });
+    
+     
+    
     
     Icon.getImageSource("user-o", 30, "white").then(source =>
       this.setState({ customerIcon: source })

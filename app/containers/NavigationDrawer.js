@@ -14,16 +14,23 @@ class NavigationDrawer extends React.Component {
   constructor() {
     super();
     this.state = {
-      user: {}
+      user: {},
+      avatar: null
     }
   }
+  
+    componentDidMount() {
+        Actions.refresh({key: 'drawer', ref: this.refs.navigation});
+    }
+
 
   componentWillMount() {
     AsyncStorage.getItem('user').then(item => {
       let userObj = JSON.parse(item);
       this.setState({
         user: userObj
-      })
+      });
+      
     })
   }
 
@@ -33,7 +40,11 @@ class NavigationDrawer extends React.Component {
       this.setState({
         user: userObj
       })
+      
     })
+    
+    
+    
     Actions.refresh({ key: state.key, open: true })
   }
 

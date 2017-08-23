@@ -14,7 +14,7 @@ const contextTypes = {
 const propTypes = {
   name: PropTypes.string,
   sceneStyle: ViewPropTypes.style,
-  title: PropTypes.string,
+  title: PropTypes.string
 };
 
 const DrawerMenu = (props, context) => {
@@ -61,7 +61,7 @@ const DrawerMenu = (props, context) => {
   function isEmpty(str) {
     return (str == null || !str || 0 === str.length);
   }
-
+  
   return (
     <Image source={require('../../assets/backgrounds/blue_burst.png')}
       resizeMode="cover" style={[styles.container, props.sceneStyle, { width: null }]}>
@@ -78,9 +78,14 @@ const DrawerMenu = (props, context) => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.wrapNav}>
-          <Image source={{ uri: "http://www.limestone.edu/sites/default/files/user.png" }}
-            style={styles.image}
-            resizeMode="cover" />
+          <Image
+                    source={{
+                      uri: props.user != null && props.user.MaNV != null ?
+                       "http://checkin.koithe.vn/imageuser/" + props.user.MaNV + ".jpg" 
+                      : 'http://www.limestone.edu/sites/default/files/user.png'
+                    }}
+                    resizeMode="cover"
+                    style={styles.image} />
           <Text style={[styles.navText, { alignSelf: 'center', padding: 4, color: '#99FFCC', fontWeight: 'bold' }]}>
             {props.user != null ? props.user.HoTen : ""}
           </Text>
@@ -114,6 +119,7 @@ const DrawerMenu = (props, context) => {
 
 
     </Image>
+    
   );
 
 };

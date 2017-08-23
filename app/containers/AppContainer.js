@@ -50,15 +50,10 @@ class AppContainer extends Component {
     };
   }
 
-  componentWillMount() {
+  componentWillMount() {  
     this.getSetting();
     this.getLanguage();
-    this.getAvatar();
   }
-  
-  getAvatar = async () => {
-      
-  };
 
   getLanguage = async () => {
     let language = await AsyncStorage.getItem("language");
@@ -69,6 +64,8 @@ class AppContainer extends Component {
 
   componentDidMount() {
     this._trackLocation();
+
+
 
     // NetInfo.isConnected.fetch().then(isConnected => {
     //   // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
@@ -115,7 +112,6 @@ class AppContainer extends Component {
         user: user
       });
       if(this.state.user != null){
-        console.log("TestMaNV" + this.state.user.MaNV);
         this.props.getAvatar(this.state.user.MaNV).then(() => {
           if (!this.props.avatar.get("isError")) {
             console.log("TestAvt" + this.props.avatar.get("data"));
@@ -162,10 +158,10 @@ class AppContainer extends Component {
       ) {
         let userLogin = this.props.employeeList.get("data").first().toJS();
         AsyncStorage.setItem("user", JSON.stringify(userLogin));
-         this.setState({
-           user: userLogin
-         });
-         if(this.state.user != null){
+        this.setState({
+            user: user
+        });
+        if(this.state.user != null){
         this.props.getAvatar(this.state.user.MaNV).then(() => {
           if (!this.props.avatar.get("isError")) {
           console.log("TestHinhAnh:" + this.props.avatar.get("data"));

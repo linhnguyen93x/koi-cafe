@@ -53,12 +53,39 @@ class DetailSalary extends Component {
   };
 
   componentWillMount() {
-    AsyncStorage.getItem("user").then(resp => {
-      let user = JSON.parse(resp);
-      this.setState({
-        user: user
+      AsyncStorage.getItem("user").then(resp => {
+          let user = JSON.parse(resp);
+          this.setState({
+            user: user
+          });
+       if(this.state.user != null){
+        this.props.getAvatar(this.state.user.MaNV).then(() => {
+          if (!this.props.avatar.get("isError")) {
+            console.log("TestAvt" + this.props.avatar.get("data"));
+          this.setState(
+            {
+              user: {
+                ...this.state.user,
+                HinhAnh: this.props.avatar.get("data")
+              }
+            },
+            () => {
+              AsyncStorage.mergeItem(
+                "user",
+                JSON.stringify(this.state.user),
+                () => {
+                  AsyncStorage.getItem("user", (err, result) => {
+                    console.log(result);
+                  });
+                }
+              );
+            }
+          );
+        }
       });
-    });
+     }
+     });
+      
   
 
     
@@ -374,7 +401,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    detailSalaryInfo: state.detailSalaryInfo
+    detailSalaryInfo: state.detailSalaryInfo,
+    avatar: state.avatar
   };
 }
 

@@ -127,7 +127,7 @@ language.translations = {
     choose_language: 'Chọn ngôn ngữ',
     confirm: 'Xác nhận',
     outletList: 'Danh sách cửa hàng',
-    updateAvatar: 'Cập Nhật avatar'
+    updateAvatar: 'Cập Nhật avatar',
   },
   en: {
     user_profile: 'Thông tin cá nhân',
