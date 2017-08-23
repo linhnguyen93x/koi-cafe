@@ -328,7 +328,7 @@ class DetailSalary extends Component {
                         this.state.user != null &&
                         this.state.user.HinhAnh != null &&
                         this.state.user.HinhAnh.length > 0
-                          ? this.state.user.HinhAnh
+                          ? this.state.user.HinhAnh + "?id="+Math.random()
                           : 'http://www.limestone.edu/sites/default/files/user.png'
                     }}
                     resizeMode="cover"
