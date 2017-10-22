@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import ReactNative from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
-import { Colors, globalStyle } from '../style';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as language from '../language';
-import { EmployeeItem, NoData, FieldSet } from '../components';
-import moment from 'moment';
-import Picker from 'react-native-picker';
+import React, { Component } from "react";
+import ReactNative from "react-native";
+import { Actions } from "react-native-router-flux";
+import { connect } from "react-redux";
+import { Colors, globalStyle } from "../style";
+import Icon from "react-native-vector-icons/FontAwesome";
+import * as language from "../language";
+import { EmployeeItem, NoData, FieldSet } from "../components";
+import moment from "moment";
+import Picker from "react-native-picker";
 
 const {
   View,
@@ -24,7 +24,7 @@ const {
 
 const currentYear = new Date().getFullYear();
 const pickerData = [
-  ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+  ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
   [
     currentYear,
     currentYear - 1,
@@ -41,55 +41,54 @@ class DetailSalary extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
+      search: "",
       isLoading: false,
-      month: moment(new Date()).subtract(1, 'months').format('YYYY-MM'),
+      month: moment(new Date())
+        .subtract(1, "months")
+        .format("YYYY-MM"),
       user: null
     };
   }
 
   numberWithDot = x => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   componentWillMount() {
-      AsyncStorage.getItem("user").then(resp => {
-          let user = JSON.parse(resp);
-          this.setState({
-            user: user
-          });
-       if(this.state.user != null){
+    AsyncStorage.getItem("user").then(resp => {
+      let user = JSON.parse(resp);
+      this.setState({
+        user: user
+      });
+      if (this.state.user != null) {
         this.props.getAvatar(this.state.user.MaNV).then(() => {
           if (!this.props.avatar.get("isError")) {
             console.log("TestAvt" + this.props.avatar.get("data"));
-          this.setState(
-            {
-              user: {
-                ...this.state.user,
-                HinhAnh: this.props.avatar.get("data")
-              }
-            },
-            () => {
-              AsyncStorage.mergeItem(
-                "user",
-                JSON.stringify(this.state.user),
-                () => {
-                  AsyncStorage.getItem("user", (err, result) => {
-                    console.log(result);
-                  });
+            this.setState(
+              {
+                user: {
+                  ...this.state.user,
+                  HinhAnh: this.props.avatar.get("data")
                 }
-              );
-            }
-          );
-        }
-      });
-     }
-     });
-      
-  
+              },
+              () => {
+                AsyncStorage.mergeItem(
+                  "user",
+                  JSON.stringify(this.state.user),
+                  () => {
+                    AsyncStorage.getItem("user", (err, result) => {
+                      console.log(result);
+                    });
+                  }
+                );
+              }
+            );
+          }
+        });
+      }
+    });
 
-    
-     this._getPaySlip(this.state.month);
+    this._getPaySlip(this.state.month);
   }
 
   _getPaySlip = month => {
@@ -106,17 +105,17 @@ class DetailSalary extends Component {
   _openDropDown() {
     Picker.init({
       pickerData: pickerData,
-      pickerConfirmBtnText: language.get('choose'),
-      pickerCancelBtnText: language.get('cancel'),
-      pickerTitleText: language.get('choose_a_month'),
+      pickerConfirmBtnText: language.get("choose"),
+      pickerCancelBtnText: language.get("cancel"),
+      pickerTitleText: language.get("choose_a_month"),
       selectedValue: [
-        this.state.month.split('-')[1],
-        this.state.month.split('-')[0]
+        this.state.month.split("-")[1],
+        this.state.month.split("-")[0]
       ],
       onPickerConfirm: data => {
         this.setState(
           {
-            month: data[1] + '-' + data[0]
+            month: data[1] + "-" + data[0]
           },
           () => {
             this._getPaySlip(this.state.month);
@@ -135,178 +134,344 @@ class DetailSalary extends Component {
     let data3 = [];
     let data4 = [];
     let data5 = [];
-    if (this.props.detailSalaryInfo.get('data') != null) {
+    if (this.props.detailSalaryInfo.get("data") != null) {
       data1 = [
         {
-          title: language.get('basic_salary'),
+          title: language.get("basic_salary"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('LuongCoban')
+            .get("data")
+            .hasOwnProperty("LuongCoban")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').LuongCoban)
+                parseInt(this.props.detailSalaryInfo.get("data").LuongCoban)
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('one_day_salary'),
+          title: language.get("one_day_salary"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('Luong1Ngay')
+            .get("data")
+            .hasOwnProperty("Luong1Ngay")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').Luong1Ngay)
+                parseInt(this.props.detailSalaryInfo.get("data").Luong1Ngay)
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('one_hour_salary'),
+          title: language.get("one_hour_salary"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('Luong1Gio')
+            .get("data")
+            .hasOwnProperty("Luong1Gio")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').Luong1Gio)
+                parseInt(this.props.detailSalaryInfo.get("data").Luong1Gio)
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('real_basic_salary'),
+          title: language.get("real_basic_salary"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('LuongCoBanThucNhan')
+            .get("data")
+            .hasOwnProperty("LuongCoBanThucNhan")
             ? this.numberWithDot(
                 parseInt(
-                  this.props.detailSalaryInfo.get('data').LuongCoBanThucNhan
+                  this.props.detailSalaryInfo.get("data").LuongCoBanThucNhan
                 )
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('ot_salary'),
+          title: language.get("ot_salary"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('LuongTangCa')
+            .get("data")
+            .hasOwnProperty("LuongTangCa")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').LuongTangCa)
+                parseInt(this.props.detailSalaryInfo.get("data").LuongTangCa)
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('celebrate_salary'),
+          title: language.get("celebrate_salary"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('LuongNgayLe')
+            .get("data")
+            .hasOwnProperty("LuongNgayLe")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').LuongNgayLe)
+                parseInt(this.props.detailSalaryInfo.get("data").LuongNgayLe)
               )
-            : ''
+            : ""
+        },
+        {
+          title: language.get("work_day"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("NgayCong")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").NgayCong
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("work_hour"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("GioCong")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").GioCong
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("ot_hour"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("GioTangCa")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").GioTangCa
+                )
+              )
+            : ""
         }
       ];
       data2 = [
         {
-          title: language.get('diligence'),
+          title: language.get("diligence"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('ChuyenCan')
+            .get("data")
+            .hasOwnProperty("ChuyenCan")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').ChuyenCan)
+                parseInt(this.props.detailSalaryInfo.get("data").ChuyenCan)
               )
-            : ''
+            : ""
         },
-        { title: language.get('position_salary'), value: '  ' },
+        { title: language.get("position_salary"), value: "  " },
         {
-          title: language.get('other_supply'),
+          title: language.get("other_supply"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('PhuCapKhac')
+            .get("data")
+            .hasOwnProperty("PhuCapKhac")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').PhuCapKhac)
+                parseInt(this.props.detailSalaryInfo.get("data").PhuCapKhac)
               )
-            : ''
-        },
-        {
-          title: language.get('language'),
-          value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('TienNgonNgu')
-            ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').TienNgonNgu)
-              )
-            : ''
+            : ""
         },
         {
-          title: language.get('manager_store'),
+          title: language.get("language"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('QuanLyTiem')
+            .get("data")
+            .hasOwnProperty("TienNgonNgu")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').QuanLyTiem)
+                parseInt(this.props.detailSalaryInfo.get("data").TienNgonNgu)
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('rice_money'),
+          title: language.get("manager_store"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('TienCom')
+            .get("data")
+            .hasOwnProperty("QuanLyTiem")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').TienCom)
+                parseInt(this.props.detailSalaryInfo.get("data").QuanLyTiem)
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('fixed_supply'),
+          title: language.get("rice_money"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('TroCapCoDinh')
+            .get("data")
+            .hasOwnProperty("TienCom")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').TroCapCoDinh)
+                parseInt(this.props.detailSalaryInfo.get("data").TienCom)
               )
-            : ''
-        }
+            : ""
+        },
+        {
+          title: language.get("fixed_supply"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("TroCapCoDinh")
+            ? this.numberWithDot(
+                parseInt(this.props.detailSalaryInfo.get("data").TroCapCoDinh)
+              )
+            : ""
+        },
+        {
+          title: language.get("bonus_money"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("TienThuong")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").TienThuong
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("birthday_money"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("TienSinhNhat")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").TienSinhNhat
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("parking_money"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("GiuXe")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").GiuXe
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("static_supply"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("TroCapCoDinh")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").TroCapCoDinh
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("supply_total"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("TongKhoanTroCap")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").TongKhoanTroCap
+                )
+              )
+            : ""
+        },
       ];
       data3 = [
         {
-          title: language.get('day_off'),
+          title: language.get("day_off"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('NgayNghi')
+            .get("data")
+            .hasOwnProperty("NgayNghi")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').NgayNghi)
+                parseInt(this.props.detailSalaryInfo.get("data").NgayNghi)
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('minute_go_late'),
+          title: language.get("minute_go_late"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('PhutDiTre')
+            .get("data")
+            .hasOwnProperty("PhutDiTre")
             ? this.numberWithDot(
-                parseInt(this.props.detailSalaryInfo.get('data').PhutDiTre)
+                parseInt(this.props.detailSalaryInfo.get("data").PhutDiTre)
               )
-            : ''
+            : ""
         },
         {
-          title: language.get('forgot_press_card'),
+          title: language.get("forgot_press_card"),
           value: this.props.detailSalaryInfo
-            .get('data')
-            .hasOwnProperty('SoLanQuenBamThe')
+            .get("data")
+            .hasOwnProperty("SoLanQuenBamThe")
             ? this.numberWithDot(
                 parseInt(
-                  this.props.detailSalaryInfo.get('data').SoLanQuenBamThe
+                  this.props.detailSalaryInfo.get("data").SoLanQuenBamThe
                 )
               )
-            : ''
-        }
+            : ""
+        },
+        {
+          title: language.get("bhxh"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("BHXH")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").BHXH
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("parking_fee"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("PhiGiuXe")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").PhiGiuXe
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("tncn_fee"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("ThueTNCN")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").ThueTNCN
+                )
+              )
+            : ""
+        },
+        {
+          title: language.get("negative_total"),
+          value: this.props.detailSalaryInfo
+            .get("data")
+            .hasOwnProperty("TongKhoanTru")
+            ? this.numberWithDot(
+                parseInt(
+                  this.props.detailSalaryInfo.get("data").TongKhoanTru
+                )
+              )
+            : ""
+        },
+
       ];
-      // data4 = [
-      //   { title: "Tiền doanh thu", value: "100.000" },
-      //   { title: "Tiền phúc lợi", value: "200.000" },
-      //   { title: "Tiền thưởng tết", value: "150.000" }
-      // ];
+      data4 = [
+        // {
+        //   title: language.get("work_day"),
+        //   value: this.props.detailSalaryInfo
+        //     .get("data")
+        //     .hasOwnProperty("NgayCong")
+        //     ? this.numberWithDot(
+        //         parseInt(
+        //           this.props.detailSalaryInfo.get("data").NgayCong
+        //         )
+        //       )
+        //     : ""
+        // },
+        // {
+        //   title: language.get("off_day"),
+        //   value: this.props.detailSalaryInfo
+        //     .get("data")
+        //     .hasOwnProperty("NgayNghi")
+        //     ? this.numberWithDot(
+        //         parseInt(
+        //           this.props.detailSalaryInfo.get("data").NgayCong
+        //         )
+        //       )
+        //     : ""
+        // }
+      ];
       data5 = [
         {
           title: null,
           value: this.numberWithDot(
-            parseInt(this.props.detailSalaryInfo.get('data').LuongCoBanThucNhan)
+            parseInt(this.props.detailSalaryInfo.get("data").TongLuongNhan)
           )
         }
       ];
@@ -319,49 +484,54 @@ class DetailSalary extends Component {
           globalStyle.container,
           globalStyle.mainPaddingTop
         ]}
-        source={require('../../assets/backgrounds/main_bg.png')}
+        source={require("../../assets/backgrounds/main_bg.png")}
         resizeMode={Image.resizeMode.cover}
       >
         <Image
-                    source={{
-                      uri:
-                        this.state.user != null &&
-                        this.state.user.HinhAnh != null &&
-                        this.state.user.HinhAnh.length > 0
-                          ? this.state.user.HinhAnh + "?id="+Math.random()
-                          : 'http://www.limestone.edu/sites/default/files/user.png'
-                    }}
-                    resizeMode="cover"
-                    style={styles.logo}
+          source={{
+            uri:
+              this.state.user != null &&
+              this.state.user.HinhAnh != null &&
+              this.state.user.HinhAnh.length > 0
+                ? this.state.user.HinhAnh + "?id=" + Math.random()
+                : "http://www.limestone.edu/sites/default/files/user.png"
+          }}
+          resizeMode="cover"
+          style={styles.logo}
         />
         <View style={styles.picker_container}>
           <TouchableWithoutFeedback onPress={() => this._openDropDown()}>
             <View style={styles.picker}>
               <Text>
-                {this.state.month.split('-').reverse().join('-')}
+                {this.state.month
+                  .split("-")
+                  .reverse()
+                  .join("-")}
               </Text>
               <Icon name="calendar" size={15} color="#036380" />
             </View>
           </TouchableWithoutFeedback>
         </View>
-        {this.state.isLoading
-          ? <ActivityIndicator />
-          : this.props.detailSalaryInfo.get('data') != null
-            ? <ScrollView>
-                <FieldSet label={language.get('detail_salary')} data={data1} />
-                <FieldSet label={language.get('supply_title')} data={data2} />
-                <FieldSet
-                  label={language.get('supply_nagative_money')}
-                  data={data3}
-                />
-                {/* <FieldSet label="Phúc lợi" data={data4} /> */}
-                <FieldSet
-                  label={language.get('total_salary_receive')}
-                  data={data5}
-                  size="large"
-                />
-              </ScrollView>
-            : <NoData />}
+        {this.state.isLoading ? (
+          <ActivityIndicator />
+        ) : this.props.detailSalaryInfo.get("data") != null ? (
+          <ScrollView>
+            <FieldSet label={language.get("detail_salary")} data={data1} />
+            <FieldSet label={language.get("supply_title")} data={data2} />
+            <FieldSet
+              label={language.get("supply_nagative_money")}
+              data={data3}
+            />
+            {/* <FieldSet label="Phúc lợi" data={data4} /> */}
+            <FieldSet
+              label={language.get("total_salary_receive")}
+              data={data5}
+              size="large"
+            />
+          </ScrollView>
+        ) : (
+          <NoData />
+        )}
       </Image>
     );
   }
@@ -372,29 +542,29 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: undefined,
     height: undefined,
-    backgroundColor: 'transparent',
-    alignItems: 'center'
+    backgroundColor: "transparent",
+    alignItems: "center"
   },
   logo: {
     height: 100,
     width: 100,
     borderRadius: 50,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     marginBottom: 8
   },
   picker_container: {
     height: 40,
-    alignSelf: 'stretch',
-    backgroundColor: 'white',
+    alignSelf: "stretch",
+    backgroundColor: "white",
     borderRadius: 8,
     marginVertical: 4,
     marginHorizontal: 48
   },
   picker: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 40,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 8
   }
 });
