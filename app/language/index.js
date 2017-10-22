@@ -139,7 +139,9 @@ language.translations = {
     parking_fee: "Phí\n giữ xe",
     tncn_fee: "Thuế thu nhập\n cá nhân",
     negative_total: "Tổng khoản trừ",
-    static_supply: "Cố định"
+    static_supply: "Cố định",
+    bhxh_label: "Bảo hiểm xã hội",
+    cmnd: "Chứng minh nhân dân"
   },
   en: {
     user_profile: "Thông tin cá nhân",
@@ -276,7 +278,9 @@ language.translations = {
     parking_fee: "Phí\n giữ xe",
     tncn_fee: "Thuế thu nhập\n cá nhân",
     negative_total: "Tổng khoản trừ",
-    static_supply: "Cố định"
+    static_supply: "Cố định",
+    bhxh_label: "Bảo hiểm xã hội",
+    cmnd: "Chứng minh nhân dân"
   },
   zh: {
     user_profile: "個人資料",
@@ -405,7 +409,9 @@ language.translations = {
     parking_fee: "寄車費",
     tncn_fee: "個人收入稅",
     negative_total: "總被扣款",
-    static_supply: "固定補助"
+    static_supply: "固定補助",
+    bhxh_label: "社會保險",
+    cmnd: "身份證"
   }
 };
 
