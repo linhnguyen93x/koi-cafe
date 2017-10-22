@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
-// import Immutable, { fromJS } from "immutable";
 import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
 import { Colors, globalStyle } from "../style";
@@ -47,49 +46,8 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    // actions/checkInOut.js
-    // this.props.getAllOutlet().then(() => {
-    //   if (!this.props.allOutletInfo.get("isError")) {
-    //     this.props.allOutletInfo.get("data").forEach(item => {
-    //       pickerData.push(item.tencuahang);
-    //       mapOfPickerData.set(item.tencuahang, item.macuahang);
-    //     });
-    //   }
-    // });
     this._getEmployeeInfo();
     this._bindHomeIcon();
-//        AsyncStorage.getItem("user").then(resp => {
-//           let user = JSON.parse(resp);
-//           this.setState({
-//             user: user
-//           });
-//        if(this.state.user != null){
-//          this.props.getAvatar(this.state.user.MaNV).then(() => {
-//           if (!this.props.avatar.get("isError")) {
-//             console.log("TestAvt" + this.props.avatar.get("data"));
-//           this.setState(
-//             {
-//               user: {
-//                 ...this.state.user,
-//                 HinhAnh: this.props.avatar.get("data")
-//               }
-//             },
-//             () => {
-//               AsyncStorage.mergeItem(
-//                 "user",
-//                 JSON.stringify(this.state.user),
-//                 () => {
-//                   AsyncStorage.getItem("user", (err, result) => {
-//                     console.log(result);
-//                   });
-//                 }
-//               );
-//             }
-//           );
-//               }
-//       });
-//      }
-//      });
   }
 
   _getEmployeeInfo = async () => {
@@ -122,24 +80,8 @@ class Home extends Component {
         }
       });
     }
-  
-  };
 
-  componentDidMount() {
-    // fetch("https://ifcfg.me/ip")
-    //   .then(resp => {
-    //     return resp.text();
-    //   })
-    //   .then(textResponse => {
-    //     let ip = textResponse;
-    //     if (ip != null) {
-    //       Actions.refresh({ title: ip });
-    //     }
-    //   })
-    //   .catch(ex => {
-    //     console.log(ex);
-    //   });
-  }
+  };
 
   _bindHomeIcon = () => {
     Icon.getImageSource("calendar-check-o", 15, "white").then(source =>
@@ -202,13 +144,6 @@ class Home extends Component {
         image: this.state.listIcon,
         type: "listEmployee"
       },
-
-      // {
-      //   key: 3,
-      //   text: language.get("employee_info"),
-      //   image: require("../../assets/icons/view_list.png"),
-      //   type: "employeeInfo"
-      // }
     ];
     return functionByRole;
   };
@@ -229,16 +164,6 @@ class Home extends Component {
             Actions.employeeList({
               filter: mapOfPickerData.get(this.state.outlet.toString())
             });
-            // this.props
-            //   .filterEmployeeByCat(
-            //     this.state.employeeData,
-            //     mapOfPickerData.get(this.state.outlet.toString())
-            //   )
-            //   .then(() => {
-            //     this.setState({
-            //       isLoading: false
-            //     });
-            //   });
           }
         );
       },
@@ -257,10 +182,6 @@ class Home extends Component {
         break;
       case "checkInOut":
         Actions.checkInOut();
-        // this.props.changeLanguage('vi').then(() => {
-        //   RNRestart.Restart();
-        // });
-
         break;
       case "employeeInfo":
         Actions.employeeMenu({

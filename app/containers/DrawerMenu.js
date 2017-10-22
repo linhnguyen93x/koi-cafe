@@ -1,14 +1,22 @@
-import React from 'react';
+import React from "react";
 import { PropTypes } from "react";
-import { StyleSheet, Text, View, AsyncStorage, ScrollView, Image, ViewPropTypes  } from "react-native";
-import Button from 'react-native-button';
-import { connect } from 'react-redux'
-import { Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as language from '../language'
+import {
+  StyleSheet,
+  Text,
+  View,
+  AsyncStorage,
+  ScrollView,
+  Image,
+  ViewPropTypes
+} from "react-native";
+import Button from "react-native-button";
+import { connect } from "react-redux";
+import { Actions } from "react-native-router-flux";
+import Icon from "react-native-vector-icons/FontAwesome";
+import * as language from "../language";
 
 const contextTypes = {
-  drawer: React.PropTypes.object,
+  drawer: React.PropTypes.object
 };
 
 const propTypes = {
@@ -25,20 +33,17 @@ const DrawerMenu = (props, context) => {
       // clear app key for user
       let keys = ["id_token", "user"];
 
-      AsyncStorage.multiRemove(keys, (err) => {
+      AsyncStorage.multiRemove(keys, err => {
         if (!err) {
-
         }
       });
       // await AsyncStorage.clear();
       Actions.login({ type: "reset" });
-
     } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
+      console.log("AsyncStorage error: " + error.message);
     }
   }
   function openChooseOutlet() {
-
     // drawer.close();
     // Actions.detailOutletInfo({type: "reset"});
   }
@@ -47,7 +52,6 @@ const DrawerMenu = (props, context) => {
     props.logout().then(() => {
       clearData();
     });
-
   }
 
   function getImagePath(imgPath) {
@@ -59,70 +63,99 @@ const DrawerMenu = (props, context) => {
   }
 
   function isEmpty(str) {
-    return (str == null || !str || 0 === str.length);
+    return str == null || !str || 0 === str.length;
   }
-  
+
   return (
-    <Image source={require('../../assets/backgrounds/blue_burst.png')}
-      resizeMode="cover" style={[styles.container, props.sceneStyle, { width: null }]}>
-
-      {/*<View style={styles.imageContainer}>
-        <Image source={require('../img/shopper_menu_icon.png')}
-          style={styles.logoApp}
-          resizeMode="contain" />
-      </View>*/}
-
-
+    <Image
+      source={require("../../assets/backgrounds/blue_burst.png")}
+      resizeMode="cover"
+      style={[styles.container, props.sceneStyle, { width: null }]}
+    >
       <ScrollView
         style={styles.menuContainer}
         showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.wrapNav}>
           <Image
-                    source={{
-                      uri:  props.user != null && props.user.MaNV != null ? "http://checkin.koithe.vn/imageuser/" + props.user.MaNV + ".jpg?id="+Math.random() 
-                          : 'http://www.limestone.edu/sites/default/files/user.png', 
-                      cache: 'reload'
-                    }
-                    }
-                    resizeMode="cover"
-                    style={styles.image} />
-          <Text style={[styles.navText, { alignSelf: 'center', padding: 4, color: '#99FFCC', fontWeight: 'bold' }]}>
+            source={{
+              uri:
+                props.user != null && props.user.MaNV != null
+                  ? "http://checkin.koithe.vn/imageuser/" +
+                    props.user.MaNV +
+                    ".jpg?id=" +
+                    Math.random()
+                  : "http://www.limestone.edu/sites/default/files/user.png",
+              cache: "reload"
+            }}
+            resizeMode="cover"
+            style={styles.image}
+          />
+          <Text
+            style={[
+              styles.navText,
+              {
+                alignSelf: "center",
+                padding: 4,
+                color: "#99FFCC",
+                fontWeight: "bold"
+              }
+            ]}
+          >
             {props.user != null ? props.user.HoTen : ""}
           </Text>
         </View>
 
         <View style={styles.wrapNav}>
-
-          <Text style={styles.ttNav}>{ language.get('main_function') }</Text>
+          <Text style={styles.ttNav}>{language.get("main_function")}</Text>
           <View style={styles.lineNav}>
-            <Button style={styles.btn} onPress={() => { drawer.close(); }}>
-              <Icon style={styles.navIcon} name="user" size={18} color="white" />
-              <Text style={styles.navText}>{language.get('personal_page')}</Text>
+            <Button
+              style={styles.btn}
+              onPress={() => {
+                // Actions.employeeMenu({
+                //   title: props.user.HoTen,
+                //   item: Map(props.user)
+                // });
+                drawer.close();
+              }}
+            >
+              <Icon
+                style={styles.navIcon}
+                name="user"
+                size={18}
+                color="white"
+              />
+              <Text style={styles.navText}>
+                {language.get("personal_page")}
+              </Text>
             </Button>
           </View>
-
-
         </View>
 
         <View style={styles.wrapNav}>
-          <Text style={styles.ttNav}>{language.get('help')}</Text>
+          <Text style={styles.ttNav}>{language.get("help")}</Text>
           <View style={styles.lineNav}>
-            <Button style={styles.btn} onPress={() => { drawer.close(); logout(); }}>
-              <Icon style={[styles.navIcon, styles.opHide]} name="sign-out" size={24} color="#bdbdbd" />
-              <Text style={styles.navText}>{language.get('logout')}</Text>
+            <Button
+              style={styles.btn}
+              onPress={() => {
+                drawer.close();
+                logout();
+              }}
+            >
+              <Icon
+                style={[styles.navIcon, styles.opHide]}
+                name="sign-out"
+                size={24}
+                color="#bdbdbd"
+              />
+              <Text style={styles.navText}>{language.get("logout")}</Text>
             </Button>
           </View>
         </View>
-
-
       </ScrollView>
-
-
     </Image>
-    
   );
-
 };
 
 const styles = StyleSheet.create({
@@ -130,132 +163,126 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'flex-start',
     // alignItems: 'flex-start',
-    backgroundColor: 'rgba(14,94,95,0.6) 60%',
-    paddingHorizontal: 16,
+    backgroundColor: "rgba(14,94,95,0.6) 60%",
+    paddingHorizontal: 16
   },
-  menuContainer: {
-
-  },
+  menuContainer: {},
   headerMenu: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     padding: 12,
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 16,
+    textAlign: "center",
+    color: "white",
+    fontSize: 16
   },
   btn: {
-    color: '#00a4d3',
-
+    color: "#00a4d3"
   },
   ttNav: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    fontWeight: '500'
+    fontWeight: "500"
   },
   wrapNav: {
     marginTop: 20,
-    paddingVertical: 8,
+    paddingVertical: 8
   },
   navText: {
     flex: 1,
-    color: 'white',
-    fontSize: 14,
+    color: "white",
+    fontSize: 14
   },
   lineNav: {
-    paddingVertical: 6,
+    paddingVertical: 6
   },
   navIcon: {
     width: 45
   },
   opHide: {
-    opacity: 0,
+    opacity: 0
   },
   navUpdate: {
-    textAlign: 'center',
-    fontWeight: 'bold',
+    textAlign: "center",
+    fontWeight: "bold",
     fontSize: 14,
     marginBottom: 20
   },
   navCard: {
-    position: 'relative',
+    position: "relative"
   },
   imgCard: {
     minHeight: 180,
     flex: 1,
-    position: 'relative',
+    position: "relative",
     zIndex: 0
   },
   TextCrad: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 1,
     top: 0,
     left: 0,
     flex: 1,
-    padding: 20,
+    padding: 20
   },
   nameCard: {
     fontSize: 14,
     marginBottom: 5,
-    backgroundColor: 'transparent',
-    color: '#fff'
-
+    backgroundColor: "transparent",
+    color: "#fff"
   },
   nameStaff: {
     fontSize: 14,
     marginBottom: 5,
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold"
   },
   titleStaff: {
     fontSize: 14,
     marginBottom: 5,
-    color: '#fff'
+    color: "#fff"
   },
   wrapStaff: {
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   avatarCard: {
     width: 100,
     height: 100,
     marginRight: 10
   },
-  infoStaff: {
-
-  },
+  infoStaff: {},
   ttDate: {
     fontSize: 14,
     marginBottom: 5,
-    color: '#fff'
+    color: "#fff"
   },
   birthStaff: {
     fontSize: 14,
     marginBottom: 5,
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold"
   },
   bold: {
-    fontWeight: 'bold'
+    fontWeight: "bold"
   },
   imageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 8
   },
   logoApp: {
     width: 120,
-    height: 40,
+    height: 40
   },
   image: {
     width: 80,
     height: 80,
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: 'white',
-    alignSelf: 'center'
-  },
+    borderColor: "white",
+    alignSelf: "center"
+  }
 });
 
 DrawerMenu.contextTypes = contextTypes;
 DrawerMenu.propTypes = propTypes;
 
-export default connect()(DrawerMenu)
+export default connect()(DrawerMenu);
