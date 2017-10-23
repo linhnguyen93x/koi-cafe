@@ -356,7 +356,7 @@ class CheckInOut extends Component {
     /*Location*/
 
     this._runAnimation();
-  
+
     /* Get IP address */
     fetch("http://checkin.koithe.vn/api/ip") //http://ipecho.net/plain
       .then(resp => {
@@ -603,8 +603,8 @@ class CheckInOut extends Component {
                   style={{
                     backgroundColor: interpolatedColorAnimation,
                     opacity: this.state.fadeValue,
-                    width: this.state.heightMenu.width / 2 - 48,
-                    height: this.state.heightMenu.width / 2 - 48,
+                    width: this.state.heightMenu.width / 1.5 - 48,
+                    height: this.state.heightMenu.width / 1.5 - 48,
                     borderRadius: borderRadius,
                     justifyContent: "center",
                     alignItems: "center"
@@ -634,7 +634,7 @@ class CheckInOut extends Component {
           </View>
 
           {/* Check giữa giờ  */}
-          <View style={{ alignItems: "center" }}>
+          {/* <View style={{ alignItems: "center" }}>
             <View
               style={{
                 justifyContent: "center",
@@ -684,7 +684,7 @@ class CheckInOut extends Component {
             <Text style={{ color: "white", paddingTop: 8 }}>
               {language.get("middle_check_title")}
             </Text>
-          </View>
+          </View> */}
         </View>
       </Image>
     );
@@ -720,7 +720,8 @@ const styles = StyleSheet.create({
   menuContainer: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    // justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 48
   },
