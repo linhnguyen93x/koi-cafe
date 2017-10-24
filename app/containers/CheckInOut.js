@@ -629,7 +629,7 @@ class CheckInOut extends Component {
               </TouchableOpacity>
             </View>
             <Text style={{ color: "white", paddingTop: 8 }}>
-              {language.get("main_check_title")}
+              {/* {language.get("main_check_title")} */}
             </Text>
           </View>
 
